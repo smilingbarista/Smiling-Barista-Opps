@@ -1,0 +1,111 @@
+{
+  "common": {
+    "appName": "Veloprep",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "language": "Language",
+    "yes": "Yes",
+    "no": "No",
+    "back": "Back"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "calendar": "Calendar",
+    "adminChecklists": "Checklist templates",
+    "adminTeam": "Team",
+    "privacy": "Privacy",
+    "logout": "Log out"
+  },
+  "login": {
+    "title": "Sign in to Veloprep",
+    "email": "Email address",
+    "password": "Password",
+    "submit": "Sign in",
+    "error": "Sign in failed. Please check your details.",
+    "mfaTitle": "Verification code",
+    "mfaHint": "Enter the code from your authenticator app.",
+    "mfaCode": "6-digit code",
+    "mfaSubmit": "Confirm",
+    "mfaEnrollTitle": "Set up two-factor authentication",
+    "mfaEnrollHint": "Scan this QR code with your authenticator app and enter the code to confirm.",
+    "mfaEnrollSubmit": "Activate",
+    "mfaEnrollSkip": "Set up later"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "myEvents": "My events",
+    "allEvents": "All events",
+    "pendingChecklists": "Checklists to review",
+    "noEvents": "No events scheduled."
+  },
+  "calendar": {
+    "title": "Calendar",
+    "newEvent": "New event",
+    "availability": "Availability",
+    "available": "Available",
+    "unavailable": "Unavailable",
+    "note": "Note",
+    "assignedTo": "Assigned to"
+  },
+  "event": {
+    "briefingTitle": "Briefing",
+    "generateBriefing": "Generate briefing",
+    "print": "Print",
+    "date": "Date",
+    "timingSection": "Timing",
+    "departureTime": "Departure time",
+    "transportDuration": "Transport duration",
+    "arrival": "Arrival",
+    "serviceStart": "Service start",
+    "serviceEnd": "Service end",
+    "departureEnd": "Departure time (end)",
+    "endTime": "End time",
+    "eventSection": "Event",
+    "description": "Title",
+    "address": "Address",
+    "descriptionDetails": "Description",
+    "guestCount": "Number of guests",
+    "contactPerson": "Contact person",
+    "contactPhone": "Contact phone",
+    "offerSection": "Offer",
+    "setup": "Setup",
+    "menu": "Menu",
+    "pastry": "Pastry",
+    "breakfast": "Breakfast",
+    "personalizationSection": "Personalization",
+    "personalizationItems": "Tablecloth, cups, menu, ...",
+    "extra": "Extra",
+    "logisticsFlow": "Internal logistics flow",
+    "checklistsSection": "Checklists",
+    "attachChecklist": "Attach checklist",
+    "submitToAdmin": "Submit to admin",
+    "statusOpen": "Open",
+    "statusSubmitted": "Submitted",
+    "submittedBy": "Submitted by",
+    "noChecklists": "No checklists attached to this event yet."
+  },
+  "checklistTemplates": {
+    "veloprep_uitrusting": "Veloprep - standard equipment per assignment",
+    "velopresso_opbouw": "Velopresso setup",
+    "menu": "Menu checklist",
+    "bienvenue_sante_bonne_route": "Bienvenue, Santé & Bonne Route",
+    "teambuilding_latte_art": "Teambuilding Latte Art for 1 setup"
+  },
+  "admin": {
+    "checklistsTitle": "Manage checklist templates",
+    "teamTitle": "Manage team",
+    "role": "Role",
+    "roleAdmin": "Admin",
+    "roleMedewerker": "Employee",
+    "exportData": "Export data",
+    "deleteProfile": "Delete profile and data"
+  },
+  "privacy": {
+    "title": "Privacy notice",
+    "intro": "Veloprep only processes data needed to manage events, availability, and employee checklists.",
+    "dataCollected": "Data collected: name, email address, phone number, availability, and submitted checklists.",
+    "retention": "Retention: data is kept for the duration of your employment and can be deleted or exported on request.",
+    "rights": "You have the right to access, correct, and delete your data. Contact the admin to exercise these rights."
+  }
+}

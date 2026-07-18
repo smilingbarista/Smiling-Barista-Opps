@@ -1,0 +1,111 @@
+{
+  "common": {
+    "appName": "Veloprep",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "language": "Sprache",
+    "yes": "Ja",
+    "no": "Nein",
+    "back": "Zurück"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "calendar": "Kalender",
+    "adminChecklists": "Checklisten-Vorlagen",
+    "adminTeam": "Team",
+    "privacy": "Datenschutz",
+    "logout": "Abmelden"
+  },
+  "login": {
+    "title": "Bei Veloprep anmelden",
+    "email": "E-Mail-Adresse",
+    "password": "Passwort",
+    "submit": "Anmelden",
+    "error": "Anmeldung fehlgeschlagen. Bitte Angaben prüfen.",
+    "mfaTitle": "Bestätigungscode",
+    "mfaHint": "Geben Sie den Code aus Ihrer Authenticator-App ein.",
+    "mfaCode": "6-stelliger Code",
+    "mfaSubmit": "Bestätigen",
+    "mfaEnrollTitle": "Zwei-Faktor-Authentifizierung einrichten",
+    "mfaEnrollHint": "Scannen Sie diesen QR-Code mit Ihrer Authenticator-App und geben Sie den Code zur Bestätigung ein.",
+    "mfaEnrollSubmit": "Aktivieren",
+    "mfaEnrollSkip": "Später einrichten"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "myEvents": "Meine Events",
+    "allEvents": "Alle Events",
+    "pendingChecklists": "Zu prüfende Checklisten",
+    "noEvents": "Keine Events geplant."
+  },
+  "calendar": {
+    "title": "Kalender",
+    "newEvent": "Neues Event",
+    "availability": "Verfügbarkeit",
+    "available": "Verfügbar",
+    "unavailable": "Nicht verfügbar",
+    "note": "Notiz",
+    "assignedTo": "Zugewiesen an"
+  },
+  "event": {
+    "briefingTitle": "Briefing",
+    "generateBriefing": "Briefing erstellen",
+    "print": "Drucken",
+    "date": "Datum",
+    "timingSection": "Zeitplan",
+    "departureTime": "Abfahrtszeit",
+    "transportDuration": "Fahrzeit",
+    "arrival": "Ankunft",
+    "serviceStart": "Servicebeginn",
+    "serviceEnd": "Serviceende",
+    "departureEnd": "Abfahrtszeit (Ende)",
+    "endTime": "Endzeit",
+    "eventSection": "Event",
+    "description": "Titel",
+    "address": "Adresse",
+    "descriptionDetails": "Beschreibung",
+    "guestCount": "Anzahl Gäste",
+    "contactPerson": "Ansprechpartner",
+    "contactPhone": "Telefon Ansprechpartner",
+    "offerSection": "Angebot",
+    "setup": "Aufbau",
+    "menu": "Menü",
+    "pastry": "Gebäck",
+    "breakfast": "Frühstück",
+    "personalizationSection": "Personalisierung",
+    "personalizationItems": "Tischdecke, Becher, Menü, ...",
+    "extra": "Extra",
+    "logisticsFlow": "Interner Logistikablauf",
+    "checklistsSection": "Checklisten",
+    "attachChecklist": "Checkliste verknüpfen",
+    "submitToAdmin": "An Admin senden",
+    "statusOpen": "Offen",
+    "statusSubmitted": "Eingereicht",
+    "submittedBy": "Eingereicht von",
+    "noChecklists": "Diesem Event sind noch keine Checklisten zugeordnet."
+  },
+  "checklistTemplates": {
+    "veloprep_uitrusting": "Veloprep - Standardausrüstung pro Auftrag",
+    "velopresso_opbouw": "Velopresso-Aufbau",
+    "menu": "Menü-Checkliste",
+    "bienvenue_sante_bonne_route": "Bienvenue, Santé & Bonne Route",
+    "teambuilding_latte_art": "Teambuilding Latte Art für 1 Station"
+  },
+  "admin": {
+    "checklistsTitle": "Checklisten-Vorlagen verwalten",
+    "teamTitle": "Team verwalten",
+    "role": "Rolle",
+    "roleAdmin": "Admin",
+    "roleMedewerker": "Mitarbeiter",
+    "exportData": "Daten exportieren",
+    "deleteProfile": "Profil und Daten löschen"
+  },
+  "privacy": {
+    "title": "Datenschutzerklärung",
+    "intro": "Veloprep verarbeitet nur Daten, die zur Verwaltung von Events, Verfügbarkeiten und Mitarbeiter-Checklisten erforderlich sind.",
+    "dataCollected": "Erhobene Daten: Name, E-Mail-Adresse, Telefonnummer, Verfügbarkeit und eingereichte Checklisten.",
+    "retention": "Aufbewahrung: Daten werden für die Dauer Ihres Arbeitsverhältnisses gespeichert und können auf Anfrage gelöscht oder exportiert werden.",
+    "rights": "Sie haben das Recht auf Auskunft, Berichtigung und Löschung Ihrer Daten. Wenden Sie sich dazu an den Admin."
+  }
+}

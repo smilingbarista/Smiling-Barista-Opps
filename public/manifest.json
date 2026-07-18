@@ -1,0 +1,13 @@
+{
+  "name": "Veloprep",
+  "short_name": "Veloprep",
+  "description": "Bestel-, planning- en proceduretool voor Smiling Barista",
+  "start_url": "/nl/dashboard",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0366c5",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

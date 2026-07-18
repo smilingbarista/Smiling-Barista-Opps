@@ -1,0 +1,111 @@
+{
+  "common": {
+    "appName": "Veloprep",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "language": "Langue",
+    "yes": "Oui",
+    "no": "Non",
+    "back": "Retour"
+  },
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "calendar": "Calendrier",
+    "adminChecklists": "Modèles de checklists",
+    "adminTeam": "Équipe",
+    "privacy": "Confidentialité",
+    "logout": "Se déconnecter"
+  },
+  "login": {
+    "title": "Connexion à Veloprep",
+    "email": "Adresse e-mail",
+    "password": "Mot de passe",
+    "submit": "Se connecter",
+    "error": "Échec de la connexion. Vérifiez vos identifiants.",
+    "mfaTitle": "Code de vérification",
+    "mfaHint": "Entrez le code de votre application d'authentification.",
+    "mfaCode": "Code à 6 chiffres",
+    "mfaSubmit": "Confirmer",
+    "mfaEnrollTitle": "Configurer la vérification en deux étapes",
+    "mfaEnrollHint": "Scannez ce QR code avec votre application d'authentification et entrez le code pour confirmer.",
+    "mfaEnrollSubmit": "Activer",
+    "mfaEnrollSkip": "Configurer plus tard"
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "myEvents": "Mes événements",
+    "allEvents": "Tous les événements",
+    "pendingChecklists": "Checklists à vérifier",
+    "noEvents": "Aucun événement prévu."
+  },
+  "calendar": {
+    "title": "Calendrier",
+    "newEvent": "Nouvel événement",
+    "availability": "Disponibilité",
+    "available": "Disponible",
+    "unavailable": "Indisponible",
+    "note": "Note",
+    "assignedTo": "Assigné à"
+  },
+  "event": {
+    "briefingTitle": "Briefing",
+    "generateBriefing": "Générer le briefing",
+    "print": "Imprimer",
+    "date": "Date",
+    "timingSection": "Horaire",
+    "departureTime": "Heure de départ",
+    "transportDuration": "Durée du trajet",
+    "arrival": "Arrivée",
+    "serviceStart": "Début du service",
+    "serviceEnd": "Fin du service",
+    "departureEnd": "Heure de départ (fin)",
+    "endTime": "Heure de fin",
+    "eventSection": "Événement",
+    "description": "Titre",
+    "address": "Adresse",
+    "descriptionDetails": "Description",
+    "guestCount": "Nombre d'invités",
+    "contactPerson": "Personne de contact",
+    "contactPhone": "Téléphone du contact",
+    "offerSection": "Offre",
+    "setup": "Installation",
+    "menu": "Menu",
+    "pastry": "Pâtisserie",
+    "breakfast": "Petit-déjeuner",
+    "personalizationSection": "Personnalisation",
+    "personalizationItems": "Nappe, gobelets, menu, ...",
+    "extra": "Extra",
+    "logisticsFlow": "Flux logistique interne",
+    "checklistsSection": "Checklists",
+    "attachChecklist": "Associer une checklist",
+    "submitToAdmin": "Envoyer à l'admin",
+    "statusOpen": "Ouvert",
+    "statusSubmitted": "Envoyé",
+    "submittedBy": "Envoyé par",
+    "noChecklists": "Aucune checklist associée à cet événement pour le moment."
+  },
+  "checklistTemplates": {
+    "veloprep_uitrusting": "Veloprep - équipement standard par mission",
+    "velopresso_opbouw": "Montage Velopresso",
+    "menu": "Checklist du menu",
+    "bienvenue_sante_bonne_route": "Bienvenue, Santé & Bonne Route",
+    "teambuilding_latte_art": "Teambuilding Latte Art pour 1 poste"
+  },
+  "admin": {
+    "checklistsTitle": "Gérer les modèles de checklists",
+    "teamTitle": "Gérer l'équipe",
+    "role": "Rôle",
+    "roleAdmin": "Admin",
+    "roleMedewerker": "Employé",
+    "exportData": "Exporter les données",
+    "deleteProfile": "Supprimer le profil et les données"
+  },
+  "privacy": {
+    "title": "Déclaration de confidentialité",
+    "intro": "Veloprep ne traite que les données nécessaires à la gestion des événements, des disponibilités et des checklists des employés.",
+    "dataCollected": "Données collectées : nom, adresse e-mail, numéro de téléphone, disponibilités et checklists soumises.",
+    "retention": "Durée de conservation : les données sont conservées pendant la durée de votre emploi et peuvent être supprimées ou exportées sur demande.",
+    "rights": "Vous avez le droit d'accéder à vos données, de les corriger et de les supprimer. Contactez l'admin pour exercer ces droits."
+  }
+}

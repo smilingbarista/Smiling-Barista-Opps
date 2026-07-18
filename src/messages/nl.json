@@ -1,0 +1,111 @@
+{
+  "common": {
+    "appName": "Veloprep",
+    "save": "Opslaan",
+    "cancel": "Annuleren",
+    "delete": "Verwijderen",
+    "language": "Taal",
+    "yes": "Ja",
+    "no": "Nee",
+    "back": "Terug"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "calendar": "Kalender",
+    "adminChecklists": "Checklist-templates",
+    "adminTeam": "Team",
+    "privacy": "Privacy",
+    "logout": "Uitloggen"
+  },
+  "login": {
+    "title": "Inloggen bij Veloprep",
+    "email": "E-mailadres",
+    "password": "Wachtwoord",
+    "submit": "Inloggen",
+    "error": "Inloggen mislukt. Controleer je gegevens.",
+    "mfaTitle": "Verificatiecode",
+    "mfaHint": "Voer de code uit je authenticator-app in.",
+    "mfaCode": "6-cijferige code",
+    "mfaSubmit": "Bevestigen",
+    "mfaEnrollTitle": "Twee-staps verificatie instellen",
+    "mfaEnrollHint": "Scan deze QR-code met je authenticator-app en voer de code in om te bevestigen.",
+    "mfaEnrollSubmit": "Activeren",
+    "mfaEnrollSkip": "Later instellen"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "myEvents": "Mijn events",
+    "allEvents": "Alle events",
+    "pendingChecklists": "Checklists te controleren",
+    "noEvents": "Geen events gepland."
+  },
+  "calendar": {
+    "title": "Kalender",
+    "newEvent": "Nieuw event",
+    "availability": "Beschikbaarheid",
+    "available": "Beschikbaar",
+    "unavailable": "Niet beschikbaar",
+    "note": "Notitie",
+    "assignedTo": "Toegewezen aan"
+  },
+  "event": {
+    "briefingTitle": "Briefing",
+    "generateBriefing": "Briefing genereren",
+    "print": "Afdrukken",
+    "date": "Datum",
+    "timingSection": "Timing",
+    "departureTime": "Startuur (vertrek)",
+    "transportDuration": "Transportduur",
+    "arrival": "Aankomst",
+    "serviceStart": "Start service",
+    "serviceEnd": "Einde service",
+    "departureEnd": "Vertrektijd (einde)",
+    "endTime": "Einduur",
+    "eventSection": "Evenement",
+    "description": "Omschrijving",
+    "address": "Adres",
+    "descriptionDetails": "Beschrijving",
+    "guestCount": "Aantal gasten",
+    "contactPerson": "Contactpersoon",
+    "contactPhone": "Telefoon contactpersoon",
+    "offerSection": "Aanbod",
+    "setup": "Setup",
+    "menu": "Menu",
+    "pastry": "Gebak",
+    "breakfast": "Ontbijt",
+    "personalizationSection": "Personalisatie",
+    "personalizationItems": "Zeil, bekers, menu, ...",
+    "extra": "Extra",
+    "logisticsFlow": "Logistieke flow (intern)",
+    "checklistsSection": "Checklists",
+    "attachChecklist": "Checklist koppelen",
+    "submitToAdmin": "Versturen naar admin",
+    "statusOpen": "Open",
+    "statusSubmitted": "Ingediend",
+    "submittedBy": "Ingediend door",
+    "noChecklists": "Nog geen checklists gekoppeld aan dit event."
+  },
+  "checklistTemplates": {
+    "veloprep_uitrusting": "Veloprep - standaard uitrusting per opdracht",
+    "velopresso_opbouw": "Velopresso opbouw",
+    "menu": "Menu Checklist",
+    "bienvenue_sante_bonne_route": "Bienvenue, Santé & Bonne Route",
+    "teambuilding_latte_art": "Teambuilding Latte Art voor 1 setup"
+  },
+  "admin": {
+    "checklistsTitle": "Checklist-templates beheren",
+    "teamTitle": "Team beheren",
+    "role": "Rol",
+    "roleAdmin": "Admin",
+    "roleMedewerker": "Medewerker",
+    "exportData": "Gegevens exporteren",
+    "deleteProfile": "Profiel en gegevens verwijderen"
+  },
+  "privacy": {
+    "title": "Privacyverklaring",
+    "intro": "Veloprep verwerkt enkel gegevens die nodig zijn om events, beschikbaarheid en checklists van medewerkers te beheren.",
+    "dataCollected": "Verzamelde gegevens: naam, e-mailadres, telefoonnummer, beschikbaarheid en ingevulde checklists.",
+    "retention": "Bewaartermijn: gegevens worden bewaard zolang je in dienst bent, en kunnen op verzoek verwijderd of geëxporteerd worden.",
+    "rights": "Je hebt recht op inzage, correctie en verwijdering van je gegevens. Neem hiervoor contact op met de admin."
+  }
+}

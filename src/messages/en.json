@@ -125,6 +125,7 @@
     "quantity": "Quantity",
     "unit": "Unit",
     "addItem": "Add item",
+    "decrease": "Decrease",
     "noItems": "No items in inventory yet."
   },
   "privacy": {

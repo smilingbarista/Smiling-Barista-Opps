@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import {
   updateInventoryItem,
+  adjustInventoryQuantity,
   deleteInventoryItem,
 } from "@/app/[locale]/voorraad/actions";
 import type { InventoryItemRow } from "@/lib/types";
@@ -70,17 +71,6 @@ export function InventoryItemRowView({
             >
               {common("cancel")}
             </button>
-            <button
-              type="button"
-              onClick={() => {
-                if (confirm(`${common("delete")}: "${item.name}"?`)) {
-                  deleteInventoryItem(item.id);
-                }
-              }}
-              className="ml-auto rounded border border-red-600 px-3 py-1 text-sm text-red-600"
-            >
-              {common("delete")}
-            </button>
           </form>
         </td>
       </tr>
@@ -88,14 +78,46 @@ export function InventoryItemRowView({
   }
 
   return (
-    <tr
-      className={`border-b border-black/10 text-sm ${isAdmin ? "cursor-pointer hover:bg-black/5" : ""}`}
-      onClick={() => isAdmin && setEditing(true)}
-    >
-      <td className="py-2 pr-4">{item.name}</td>
+    <tr className="border-b border-black/10 text-sm">
+      <td
+        className={`py-2 pr-4 ${isAdmin ? "cursor-pointer hover:text-brand" : ""}`}
+        onClick={() => isAdmin && setEditing(true)}
+      >
+        {item.name}
+      </td>
       <td className="py-2 pr-4 text-black/60">{item.category || "—"}</td>
-      <td className="py-2 pr-4">{item.quantity}</td>
+      <td className="py-2 pr-4">
+        <div className="flex items-center gap-2">
+          {isAdmin && (
+            <button
+              type="button"
+              disabled={item.quantity <= 0}
+              onClick={() => adjustInventoryQuantity(item.id, -1)}
+              aria-label={inventory("decrease")}
+              className="flex h-6 w-6 items-center justify-center rounded border border-black/20 disabled:opacity-30"
+            >
+              −
+            </button>
+          )}
+          <span>{item.quantity}</span>
+        </div>
+      </td>
       <td className="py-2 pr-4 text-black/60">{item.unit || "—"}</td>
+      <td className="py-2">
+        {isAdmin && (
+          <button
+            type="button"
+            onClick={() => {
+              if (confirm(`${common("delete")}: "${item.name}"?`)) {
+                deleteInventoryItem(item.id);
+              }
+            }}
+            className="text-xs text-red-600"
+          >
+            {common("delete")}
+          </button>
+        )}
+      </td>
     </tr>
   );
 }

@@ -44,6 +44,28 @@ export async function updateInventoryItem(itemId: string, formData: FormData) {
   revalidatePath("/voorraad");
 }
 
+export async function adjustInventoryQuantity(itemId: string, delta: number) {
+  await requireAdmin();
+  const supabase = await createClient();
+
+  const { data: item, error: fetchError } = await supabase
+    .from("inventory_items")
+    .select("quantity")
+    .eq("id", itemId)
+    .single();
+  if (fetchError) throw fetchError;
+
+  const newQuantity = Math.max(0, Number(item.quantity) + delta);
+
+  const { error } = await supabase
+    .from("inventory_items")
+    .update({ quantity: newQuantity })
+    .eq("id", itemId);
+  if (error) throw error;
+
+  revalidatePath("/voorraad");
+}
+
 export async function deleteInventoryItem(itemId: string) {
   await requireAdmin();
   const supabase = await createClient();

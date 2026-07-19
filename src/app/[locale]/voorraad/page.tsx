@@ -29,6 +29,7 @@ export default async function VoorraadPage() {
             <th className="py-2 pr-4 font-medium">{t("category")}</th>
             <th className="py-2 pr-4 font-medium">{t("quantity")}</th>
             <th className="py-2 pr-4 font-medium">{t("unit")}</th>
+            <th className="py-2 font-medium"></th>
           </tr>
         </thead>
         <tbody>

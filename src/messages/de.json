@@ -125,6 +125,7 @@
     "quantity": "Menge",
     "unit": "Einheit",
     "addItem": "Artikel hinzufügen",
+    "decrease": "Verringern",
     "noItems": "Noch keine Artikel im Lagerbestand."
   },
   "privacy": {

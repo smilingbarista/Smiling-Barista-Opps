@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
+import { getCurrentProfile } from "@/lib/auth";
 import { checklistLabel } from "@/lib/checklist-label";
 import { ChecklistForm } from "@/components/checklist-form";
 import type { ChecklistItemView } from "@/lib/types";
@@ -13,6 +14,7 @@ export default async function EventChecklistPage({
   const { id: eventId, checklistId } = await params;
   const t = await getTranslations("event");
   const templatesT = await getTranslations("checklistTemplates");
+  const profile = await getCurrentProfile();
   const supabase = await createClient();
 
   const { data: checklist } = await supabase
@@ -71,6 +73,7 @@ export default async function EventChecklistPage({
         checklistId={checklistId}
         items={items}
         submitted={checklist.status === "ingediend"}
+        isAdmin={profile?.role === "admin"}
       />
     </div>
   );

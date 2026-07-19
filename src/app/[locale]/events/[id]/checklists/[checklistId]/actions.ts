@@ -56,3 +56,20 @@ export async function submitChecklist(
   revalidatePath(`/events/${eventId}`);
   revalidatePath(`/events/${eventId}/checklists/${checklistId}`);
 }
+
+export async function recallChecklist(eventId: string, checklistId: string) {
+  const profile = await getCurrentProfile();
+  if (profile?.role !== "admin") {
+    throw new Error("Only admins can recall a submitted checklist");
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("event_checklists")
+    .update({ status: "open", submitted_by: null, submitted_at: null })
+    .eq("id", checklistId);
+  if (error) throw error;
+
+  revalidatePath(`/events/${eventId}`);
+  revalidatePath(`/events/${eventId}/checklists/${checklistId}`);
+}

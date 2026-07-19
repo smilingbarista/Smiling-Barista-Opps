@@ -79,6 +79,18 @@ export async function setTemplateItemActive(itemId: string, active: boolean) {
   revalidatePath("/admin/checklists");
 }
 
+export async function deleteTemplateItem(itemId: string) {
+  await requireAdmin();
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("checklist_template_items")
+    .delete()
+    .eq("id", itemId);
+  if (error) throw error;
+
+  revalidatePath("/admin/checklists");
+}
+
 export async function deleteTemplate(templateId: string) {
   await requireAdmin();
   const supabase = await createClient();

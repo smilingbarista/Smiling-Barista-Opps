@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import {
   setTemplateItemActive,
   updateTemplateItem,
+  deleteTemplateItem,
 } from "@/app/[locale]/admin/checklists/actions";
 import type { ChecklistTemplateItemRow } from "@/lib/types";
 
@@ -57,6 +58,17 @@ export function TemplateItemRow({ item }: { item: ChecklistTemplateItemRow }) {
               className="rounded border border-black/20 px-3 py-1"
             >
               {common("cancel")}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                if (confirm(`${common("delete")}: "${item.label}"?`)) {
+                  deleteTemplateItem(item.id);
+                }
+              }}
+              className="ml-auto rounded border border-red-600 px-3 py-1 text-red-600"
+            >
+              {common("delete")}
             </button>
           </div>
         </form>

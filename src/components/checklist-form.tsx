@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import {
   saveChecklistItems,
   submitChecklist,
+  recallChecklist,
   type ChecklistItemSave,
 } from "@/app/[locale]/events/[id]/checklists/[checklistId]/actions";
 import { queueSave, flushQueue } from "@/lib/offline-queue";
@@ -17,11 +18,13 @@ export function ChecklistForm({
   checklistId,
   items,
   submitted,
+  isAdmin,
 }: {
   eventId: string;
   checklistId: string;
   items: ChecklistItemView[];
   submitted: boolean;
+  isAdmin: boolean;
 }) {
   const t = useTranslations("event");
   const [state, setState] = useState<Record<string, ItemState>>(
@@ -172,7 +175,22 @@ export function ChecklistForm({
         </div>
       )}
       {submitted && (
-        <p className="text-sm text-green-700">{t("statusSubmitted")}</p>
+        <div className="flex items-center gap-3">
+          <p className="text-sm text-green-700">{t("statusSubmitted")}</p>
+          {isAdmin && (
+            <button
+              disabled={isPending}
+              onClick={() =>
+                startTransition(async () => {
+                  await recallChecklist(eventId, checklistId);
+                })
+              }
+              className="rounded border border-black/20 px-3 py-1.5 text-sm disabled:opacity-50"
+            >
+              {t("recall")}
+            </button>
+          )}
+        </div>
       )}
     </div>
   );

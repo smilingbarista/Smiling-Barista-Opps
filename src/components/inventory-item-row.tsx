@@ -99,7 +99,17 @@ export function InventoryItemRowView({
               −
             </button>
           )}
-          <span>{item.quantity}</span>
+          <span className="w-10 text-center">{item.quantity}</span>
+          {isAdmin && (
+            <button
+              type="button"
+              onClick={() => adjustInventoryQuantity(item.id, 1)}
+              aria-label={inventory("increase")}
+              className="flex h-6 w-6 items-center justify-center rounded border border-black/20"
+            >
+              +
+            </button>
+          )}
         </div>
       </td>
       <td className="py-2 pr-4 text-black/60">{item.unit || "—"}</td>

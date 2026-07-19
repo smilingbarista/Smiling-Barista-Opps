@@ -126,6 +126,7 @@
     "unit": "Einheit",
     "addItem": "Artikel hinzufügen",
     "decrease": "Verringern",
+    "increase": "Erhöhen",
     "noItems": "Noch keine Artikel im Lagerbestand."
   },
   "privacy": {

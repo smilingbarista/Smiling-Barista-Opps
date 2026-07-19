@@ -126,6 +126,7 @@
     "unit": "Unit",
     "addItem": "Add item",
     "decrease": "Decrease",
+    "increase": "Increase",
     "noItems": "No items in inventory yet."
   },
   "privacy": {

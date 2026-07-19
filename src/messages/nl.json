@@ -126,6 +126,7 @@
     "unit": "Eenheid",
     "addItem": "Artikel toevoegen",
     "decrease": "Verminderen",
+    "increase": "Vermeerderen",
     "noItems": "Nog geen artikelen in de voorraad."
   },
   "privacy": {

@@ -49,6 +49,9 @@ export function SiteHeader({ profile }: { profile: Profile | null }) {
             <Link href="/checklists" className="hover:text-brand">
               {t("checklists")}
             </Link>
+            <Link href="/voorraad" className="hover:text-brand">
+              {t("inventory")}
+            </Link>
             {profile.role === "admin" && (
               <>
                 <Link href="/admin/checklists" className="hover:text-brand">

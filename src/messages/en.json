@@ -13,6 +13,7 @@
     "dashboard": "Dashboard",
     "calendar": "Calendar",
     "checklists": "Checklists",
+    "inventory": "Inventory",
     "adminChecklists": "Checklist templates",
     "adminTeam": "Team",
     "privacy": "Privacy",
@@ -116,6 +117,15 @@
     "roleMedewerker": "Employee",
     "exportData": "Export data",
     "deleteProfile": "Delete profile and data"
+  },
+  "inventory": {
+    "title": "Inventory — materials and supplies",
+    "name": "Name",
+    "category": "Category",
+    "quantity": "Quantity",
+    "unit": "Unit",
+    "addItem": "Add item",
+    "noItems": "No items in inventory yet."
   },
   "privacy": {
     "title": "Privacy notice",

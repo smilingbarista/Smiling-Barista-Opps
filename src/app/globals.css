@@ -64,6 +64,17 @@ a.border-brand:active {
   transform: scale(0.98);
 }
 
+.fc-daygrid-event:not(.fc-bg-event) {
+  cursor: pointer;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.fc-daygrid-event:not(.fc-bg-event):hover {
+  transform: scale(1.04);
+  box-shadow: 0 2px 8px rgb(3 102 197 / 0.35);
+  z-index: 5;
+}
+
 @media print {
   .no-print {
     display: none !important;

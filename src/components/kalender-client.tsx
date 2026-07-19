@@ -29,6 +29,7 @@ export function KalenderClient({
         events={events}
         availability={availability}
         onDateClick={isAdmin ? setNewEventDate : undefined}
+        isAdmin={isAdmin}
       />
     </div>
   );

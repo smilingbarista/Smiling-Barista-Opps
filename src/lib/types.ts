@@ -66,6 +66,15 @@ export type EventChecklistRow = {
   profiles: { full_name: string } | null;
 };
 
+export type InventoryItemRow = {
+  id: string;
+  name: string;
+  category: string | null;
+  quantity: number;
+  unit: string | null;
+  created_at: string;
+};
+
 // Live weergave van een checklist-item: berekend uit de actieve
 // template-items, met de afvinkstatus en extra-notitie (indien aanwezig)
 // erover gelegd.

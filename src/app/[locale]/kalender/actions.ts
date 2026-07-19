@@ -50,6 +50,23 @@ export async function createEvent(formData: FormData) {
   return data.id as string;
 }
 
+export async function rescheduleEvent(eventId: string, newDate: string) {
+  const profile = await getCurrentProfile();
+  if (profile?.role !== "admin") {
+    throw new Error("Only admins can reschedule events");
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("events")
+    .update({ event_date: newDate })
+    .eq("id", eventId);
+  if (error) throw error;
+
+  revalidatePath("/kalender");
+  revalidatePath(`/events/${eventId}`);
+}
+
 export async function setAvailability(formData: FormData) {
   const profile = await getCurrentProfile();
   if (!profile) throw new Error("Not authenticated");

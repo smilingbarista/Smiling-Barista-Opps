@@ -13,6 +13,7 @@
     "dashboard": "Tableau de bord",
     "calendar": "Calendrier",
     "checklists": "Checklists",
+    "inventory": "Stock",
     "adminChecklists": "Modèles de checklists",
     "adminTeam": "Équipe",
     "privacy": "Confidentialité",
@@ -116,6 +117,15 @@
     "roleMedewerker": "Employé",
     "exportData": "Exporter les données",
     "deleteProfile": "Supprimer le profil et les données"
+  },
+  "inventory": {
+    "title": "Stock — matériaux et matières premières",
+    "name": "Nom",
+    "category": "Catégorie",
+    "quantity": "Quantité",
+    "unit": "Unité",
+    "addItem": "Ajouter un article",
+    "noItems": "Aucun article en stock pour le moment."
   },
   "privacy": {
     "title": "Déclaration de confidentialité",

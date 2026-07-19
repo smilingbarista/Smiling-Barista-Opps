@@ -1,51 +1,65 @@
 import { openDB, DBSchema } from "idb";
+import type { ChecklistItemSave } from "@/app/[locale]/events/[id]/checklists/[checklistId]/actions";
 
 interface QueueDB extends DBSchema {
-  "pending-toggles": {
+  "pending-saves": {
     key: string;
-    value: { itemId: string; eventId: string; checked: boolean };
+    value: {
+      checklistId: string;
+      eventId: string;
+      items: ChecklistItemSave[];
+    };
   };
 }
 
 const dbPromise =
   typeof window !== "undefined"
-    ? openDB<QueueDB>("veloprep-offline", 1, {
+    ? openDB<QueueDB>("veloprep-offline", 2, {
         upgrade(db) {
-          db.createObjectStore("pending-toggles", { keyPath: "itemId" });
+          if (db.objectStoreNames.contains("pending-toggles" as never)) {
+            db.deleteObjectStore("pending-toggles" as never);
+          }
+          if (!db.objectStoreNames.contains("pending-saves")) {
+            db.createObjectStore("pending-saves", { keyPath: "checklistId" });
+          }
         },
       })
     : null;
 
-export async function queueToggle(
-  itemId: string,
+export async function queueSave(
+  checklistId: string,
   eventId: string,
-  checked: boolean,
+  items: ChecklistItemSave[],
 ) {
   const db = await dbPromise;
   if (!db) return;
-  await db.put("pending-toggles", { itemId, eventId, checked });
+  await db.put("pending-saves", { checklistId, eventId, items });
 }
 
-export async function getQueuedToggles() {
+export async function getQueuedSaves() {
   const db = await dbPromise;
   if (!db) return [];
-  return db.getAll("pending-toggles");
+  return db.getAll("pending-saves");
 }
 
-export async function clearQueuedToggle(itemId: string) {
+export async function clearQueuedSave(checklistId: string) {
   const db = await dbPromise;
   if (!db) return;
-  await db.delete("pending-toggles", itemId);
+  await db.delete("pending-saves", checklistId);
 }
 
 export async function flushQueue(
-  toggleFn: (eventId: string, itemId: string, checked: boolean) => Promise<void>,
+  saveFn: (
+    eventId: string,
+    checklistId: string,
+    items: ChecklistItemSave[],
+  ) => Promise<void>,
 ) {
-  const pending = await getQueuedToggles();
+  const pending = await getQueuedSaves();
   for (const entry of pending) {
     try {
-      await toggleFn(entry.eventId, entry.itemId, entry.checked);
-      await clearQueuedToggle(entry.itemId);
+      await saveFn(entry.eventId, entry.checklistId, entry.items);
+      await clearQueuedSave(entry.checklistId);
     } catch {
       // Still offline or server error — leave queued and retry on next flush.
     }

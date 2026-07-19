@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { PrintButton } from "@/components/print-button";
+import { BriefingShare } from "@/components/briefing-share";
 import type { EventRow } from "@/lib/types";
 
 function Row({ label, value }: { label: string; value: string | null }) {
@@ -36,6 +37,8 @@ export default async function EventBriefingPage({
         </h1>
         <PrintButton />
       </div>
+
+      <BriefingShare event={event} />
 
       <table className="w-full border-collapse text-sm">
         <tbody>

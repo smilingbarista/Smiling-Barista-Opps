@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/auth";
+import { veloprepChecklistName } from "@/lib/checklist-label";
 
 export async function createEvent(formData: FormData) {
   const profile = await getCurrentProfile();
@@ -30,6 +31,20 @@ export async function createEvent(formData: FormData) {
     .single();
 
   if (error) throw error;
+
+  const { data: veloprepTemplate } = await supabase
+    .from("checklist_templates")
+    .select("id")
+    .eq("code", "veloprep_uitrusting")
+    .maybeSingle();
+
+  if (veloprepTemplate) {
+    await supabase.from("event_checklists").insert({
+      event_id: data.id,
+      template_id: veloprepTemplate.id,
+      name: veloprepChecklistName(title, eventDate),
+    });
+  }
 
   revalidatePath("/kalender");
   return data.id as string;

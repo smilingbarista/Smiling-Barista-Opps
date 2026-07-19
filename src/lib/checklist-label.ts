@@ -8,3 +8,10 @@ export function checklistLabel(
     return code.replace(/_/g, " ");
   }
 }
+
+export function veloprepChecklistName(
+  eventTitle: string,
+  eventDate: string,
+): string {
+  return `Veloprep '${eventTitle} ${eventDate}'`;
+}

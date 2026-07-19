@@ -1,12 +1,9 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import {
-  addTemplateItem,
-  deleteTemplateItem,
-  deleteTemplate,
-} from "@/app/[locale]/admin/checklists/actions";
+import { addTemplateItem, deleteTemplate } from "@/app/[locale]/admin/checklists/actions";
 import { checklistLabel } from "@/lib/checklist-label";
+import { TemplateItemRow } from "@/components/template-item-row";
 import type { ChecklistTemplateItemRow } from "@/lib/types";
 
 export function TemplateManager({
@@ -37,21 +34,7 @@ export function TemplateManager({
         {items
           .sort((a, b) => a.sort_order - b.sort_order)
           .map((item) => (
-            <li
-              key={item.id}
-              className="flex items-center justify-between rounded bg-black/5 px-2 py-1 text-sm"
-            >
-              <span>
-                {item.section ? `${item.section} — ` : ""}
-                {item.label}
-              </span>
-              <button
-                onClick={() => deleteTemplateItem(item.id)}
-                className="text-xs text-red-600"
-              >
-                {common("delete")}
-              </button>
-            </li>
+            <TemplateItemRow key={item.id} item={item} />
           ))}
       </ul>
 

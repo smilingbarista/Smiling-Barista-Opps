@@ -3,7 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { checklistLabel } from "@/lib/checklist-label";
 import { ChecklistForm } from "@/components/checklist-form";
-import type { EventChecklistItemRow } from "@/lib/types";
+import type { ChecklistItemView } from "@/lib/types";
 
 export default async function EventChecklistPage({
   params,
@@ -17,41 +17,59 @@ export default async function EventChecklistPage({
 
   const { data: checklist } = await supabase
     .from("event_checklists")
-    .select("id, status, checklist_templates(id, code)")
+    .select("id, template_id, name, status, checklist_templates(id, code)")
     .eq("id", checklistId)
     .single();
 
   if (!checklist) notFound();
 
-  const { data: items } = await supabase
-    .from("event_checklist_items")
-    .select(
-      "id, checked, note, checklist_template_items(id, section, label, sort_order)",
-    )
-    .eq("event_checklist_id", checklistId)
-    .order("id");
+  const [{ data: templateItems }, { data: statuses }] = await Promise.all([
+    supabase
+      .from("checklist_template_items")
+      .select("id, section, label, sort_order, extra")
+      .eq("template_id", checklist.template_id)
+      .eq("active", true)
+      .order("sort_order"),
+    supabase
+      .from("event_checklist_items")
+      .select("template_item_id, checked, note")
+      .eq("event_checklist_id", checklistId),
+  ]);
 
-  const sorted = ((items ?? []) as unknown as EventChecklistItemRow[]).sort(
-    (a, b) =>
-      a.checklist_template_items.sort_order -
-      b.checklist_template_items.sort_order,
+  const statusByItemId = new Map(
+    (statuses ?? []).map((s) => [s.template_item_id, s]),
   );
+
+  const items: ChecklistItemView[] = (templateItems ?? []).map((item) => {
+    const status = statusByItemId.get(item.id);
+    return {
+      templateItemId: item.id,
+      section: item.section,
+      label: item.label,
+      sortOrder: item.sort_order,
+      templateExtra: item.extra,
+      checked: status?.checked ?? false,
+      note: status?.note ?? "",
+    };
+  });
 
   const templateCode = Array.isArray(checklist.checklist_templates)
     ? checklist.checklist_templates[0]?.code
     : (checklist.checklist_templates as { code: string } | null)?.code;
 
+  const title =
+    checklist.name ||
+    (templateCode
+      ? checklistLabel(templatesT, templateCode)
+      : t("checklistsSection"));
+
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-xl font-semibold">
-        {templateCode
-          ? checklistLabel(templatesT, templateCode)
-          : t("checklistsSection")}
-      </h1>
+      <h1 className="text-xl font-semibold">{title}</h1>
       <ChecklistForm
         eventId={eventId}
         checklistId={checklistId}
-        items={sorted}
+        items={items}
         submitted={checklist.status === "ingediend"}
       />
     </div>

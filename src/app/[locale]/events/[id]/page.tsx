@@ -7,6 +7,7 @@ import { checklistLabel } from "@/lib/checklist-label";
 import { EventDetailsForm } from "@/components/event-details-form";
 import { AssignStaff } from "@/components/assign-staff";
 import { AttachChecklistForm } from "@/components/attach-checklist-form";
+import { EventActions } from "@/components/event-actions";
 import type { EventRow, EventChecklistRow } from "@/lib/types";
 
 export default async function EventPage({
@@ -36,7 +37,7 @@ export default async function EventPage({
   const { data: eventChecklists } = await supabase
     .from("event_checklists")
     .select(
-      "id, event_id, template_id, status, submitted_by, submitted_at, checklist_templates(id, code), profiles(full_name)",
+      "id, event_id, template_id, name, status, submitted_by, submitted_at, checklist_templates(id, code), profiles(full_name)",
     )
     .eq("event_id", id);
 
@@ -62,13 +63,23 @@ export default async function EventPage({
   return (
     <div className="flex flex-col gap-8">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold">{(event as EventRow).title}</h1>
-        <Link
-          href={`/events/${id}/briefing`}
-          className="rounded border border-brand px-3 py-1.5 text-sm text-brand hover:bg-brand hover:text-brand-foreground"
-        >
-          {t("generateBriefing")}
-        </Link>
+        <h1 className="text-xl font-semibold">
+          {(event as EventRow).title}
+          {(event as EventRow).status === "gearchiveerd" && (
+            <span className="ml-2 rounded bg-black/10 px-2 py-0.5 text-xs font-normal text-black/60">
+              {t("archived")}
+            </span>
+          )}
+        </h1>
+        <div className="flex items-center gap-2">
+          <Link
+            href={`/events/${id}/briefing`}
+            className="rounded border border-brand px-3 py-1.5 text-sm text-brand hover:bg-brand hover:text-brand-foreground"
+          >
+            {t("generateBriefing")}
+          </Link>
+          {isAdmin && <EventActions eventId={id} />}
+        </div>
       </div>
 
       <EventDetailsForm event={event as EventRow} readOnly={!isAdmin} />
@@ -109,9 +120,10 @@ export default async function EventPage({
                   className="flex items-center justify-between rounded border border-black/10 px-4 py-2 hover:border-brand"
                 >
                   <span>
-                    {c.checklist_templates
-                      ? checklistLabel(templatesT, c.checklist_templates.code)
-                      : ""}
+                    {c.name ||
+                      (c.checklist_templates
+                        ? checklistLabel(templatesT, c.checklist_templates.code)
+                        : "")}
                   </span>
                   <span
                     className={

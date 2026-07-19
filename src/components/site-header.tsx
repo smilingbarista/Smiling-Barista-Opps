@@ -33,7 +33,9 @@ export function SiteHeader({ profile }: { profile: Profile | null }) {
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3">
         <Link href="/dashboard" className="flex items-center gap-2">
           <Image src="/logo.png" alt={common("appName")} width={36} height={36} />
-          <span className="font-semibold text-brand">{common("appName")}</span>
+          <span className="font-heading font-semibold text-brand">
+            {common("appName")}
+          </span>
         </Link>
 
         {profile && (
@@ -43,6 +45,9 @@ export function SiteHeader({ profile }: { profile: Profile | null }) {
             </Link>
             <Link href="/kalender" className="hover:text-brand">
               {t("calendar")}
+            </Link>
+            <Link href="/checklists" className="hover:text-brand">
+              {t("checklists")}
             </Link>
             {profile.role === "admin" && (
               <>

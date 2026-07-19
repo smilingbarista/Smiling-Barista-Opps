@@ -1,20 +1,21 @@
 import type { Metadata } from "next";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Raleway } from "next/font/google";
+import localFont from "next/font/local";
 import { routing } from "@/i18n/routing";
 import { getCurrentProfile } from "@/lib/auth";
 import { SiteHeader } from "@/components/site-header";
 import "../globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const raleway = Raleway({
+  variable: "--font-raleway",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const jellee = localFont({
+  src: "../fonts/Jellee-Roman.otf",
+  variable: "--font-jellee",
 });
 
 export const metadata: Metadata = {
@@ -38,7 +39,7 @@ export default async function LocaleLayout({
   const profile = await getCurrentProfile();
 
   return (
-    <html lang={locale} className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+    <html lang={locale} className={`${raleway.variable} ${jellee.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
         <NextIntlClientProvider>
           <SiteHeader profile={profile} />

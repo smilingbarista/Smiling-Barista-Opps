@@ -1,9 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/auth";
-import { CalendarView } from "@/components/calendar-view";
-import { AvailabilityForm } from "@/components/availability-form";
-import { NewEventForm } from "@/components/new-event-form";
+import { KalenderClient } from "@/components/kalender-client";
 import type { EventRow, AvailabilityRow } from "@/lib/types";
 
 export default async function KalenderPage() {
@@ -14,6 +12,7 @@ export default async function KalenderPage() {
   const { data: events } = await supabase
     .from("events")
     .select("*")
+    .neq("status", "gearchiveerd")
     .order("event_date", { ascending: true });
 
   const availabilityQuery =
@@ -29,15 +28,10 @@ export default async function KalenderPage() {
     <div className="flex flex-col gap-6">
       <h1 className="text-xl font-semibold">{t("title")}</h1>
 
-      {profile?.role === "admin" ? (
-        <NewEventForm />
-      ) : (
-        <AvailabilityForm />
-      )}
-
-      <CalendarView
+      <KalenderClient
         events={(events ?? []) as EventRow[]}
         availability={(availability ?? []) as AvailabilityRow[]}
+        isAdmin={profile?.role === "admin"}
       />
     </div>
   );

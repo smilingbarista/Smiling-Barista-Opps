@@ -50,12 +50,15 @@ export type ChecklistTemplateItemRow = {
   section: string | null;
   label: string;
   sort_order: number;
+  active: boolean;
+  extra: string | null;
 };
 
 export type EventChecklistRow = {
   id: string;
   event_id: string;
   template_id: string;
+  name: string | null;
   status: "open" | "ingediend";
   submitted_by: string | null;
   submitted_at: string | null;
@@ -63,11 +66,15 @@ export type EventChecklistRow = {
   profiles: { full_name: string } | null;
 };
 
-export type EventChecklistItemRow = {
-  id: string;
-  event_checklist_id: string;
-  template_item_id: string;
+// Live weergave van een checklist-item: berekend uit de actieve
+// template-items, met de afvinkstatus en extra-notitie (indien aanwezig)
+// erover gelegd.
+export type ChecklistItemView = {
+  templateItemId: string;
+  section: string | null;
+  label: string;
+  sortOrder: number;
+  templateExtra: string | null;
   checked: boolean;
-  note: string | null;
-  checklist_template_items: ChecklistTemplateItemRow;
+  note: string;
 };

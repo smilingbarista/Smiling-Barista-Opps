@@ -18,6 +18,7 @@ export default async function DashboardPage() {
       .from("events")
       .select("*")
       .gte("event_date", today)
+      .neq("status", "gearchiveerd")
       .order("event_date", { ascending: true });
     events = data ?? [];
 
@@ -34,7 +35,7 @@ export default async function DashboardPage() {
     events = ((data ?? []) as unknown as { events: EventRow | null }[])
       .map((row) => row.events)
       .filter((e): e is EventRow => !!e)
-      .filter((e) => e.event_date >= today)
+      .filter((e) => e.event_date >= today && e.status !== "gearchiveerd")
       .sort((a, b) => a.event_date.localeCompare(b.event_date));
   }
 

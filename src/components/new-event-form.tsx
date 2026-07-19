@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { createEvent } from "@/app/[locale]/kalender/actions";
 
-export function NewEventForm() {
+export function NewEventForm({ defaultDate }: { defaultDate?: string }) {
   const t = useTranslations("calendar");
   const event = useTranslations("event");
   const router = useRouter();
@@ -31,6 +31,7 @@ export function NewEventForm() {
           type="date"
           name="event_date"
           required
+          defaultValue={defaultDate}
           className="rounded border border-black/20 px-2 py-1"
         />
       </label>

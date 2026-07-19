@@ -1,8 +1,10 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/auth";
+import { veloprepChecklistName } from "@/lib/checklist-label";
 
 const EVENT_FIELDS = [
   "title",
@@ -93,30 +95,55 @@ export async function attachChecklist(eventId: string, formData: FormData) {
 
   const supabase = await createClient();
 
-  const { data: eventChecklist, error: insertError } = await supabase
+  const [{ data: template }, { data: event }] = await Promise.all([
+    supabase.from("checklist_templates").select("code").eq("id", templateId).single(),
+    supabase.from("events").select("title, event_date").eq("id", eventId).single(),
+  ]);
+
+  const name =
+    template?.code === "veloprep_uitrusting" && event
+      ? veloprepChecklistName(event.title, event.event_date)
+      : null;
+
+  // Items worden niet gekopieerd: de checklist toont voortaan live de
+  // actuele actieve items van de template.
+  const { error: insertError } = await supabase
     .from("event_checklists")
-    .insert({ event_id: eventId, template_id: templateId })
-    .select("id")
-    .single();
+    .insert({ event_id: eventId, template_id: templateId, name });
   if (insertError) throw insertError;
 
-  const { data: templateItems, error: itemsError } = await supabase
-    .from("checklist_template_items")
-    .select("id")
-    .eq("template_id", templateId);
-  if (itemsError) throw itemsError;
+  revalidatePath(`/events/${eventId}`);
+}
 
-  if (templateItems && templateItems.length > 0) {
-    const { error: bulkError } = await supabase
-      .from("event_checklist_items")
-      .insert(
-        templateItems.map((item) => ({
-          event_checklist_id: eventChecklist.id,
-          template_item_id: item.id,
-        })),
-      );
-    if (bulkError) throw bulkError;
+export async function archiveEvent(eventId: string) {
+  const profile = await getCurrentProfile();
+  if (profile?.role !== "admin") {
+    throw new Error("Only admins can archive events");
   }
 
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("events")
+    .update({ status: "gearchiveerd" })
+    .eq("id", eventId);
+  if (error) throw error;
+
   revalidatePath(`/events/${eventId}`);
+  revalidatePath("/kalender");
+  revalidatePath("/dashboard");
+}
+
+export async function deleteEvent(eventId: string) {
+  const profile = await getCurrentProfile();
+  if (profile?.role !== "admin") {
+    throw new Error("Only admins can delete events");
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.from("events").delete().eq("id", eventId);
+  if (error) throw error;
+
+  revalidatePath("/kalender");
+  revalidatePath("/dashboard");
+  redirect("/kalender");
 }

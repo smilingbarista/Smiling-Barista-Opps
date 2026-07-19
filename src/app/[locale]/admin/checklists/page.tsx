@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
-import { TemplateManager } from "@/components/template-manager";
+import { ChecklistTemplatePicker } from "@/components/checklist-template-picker";
 import { createTemplate } from "./actions";
 import type { ChecklistTemplateItemRow } from "@/lib/types";
 
@@ -14,24 +14,21 @@ export default async function AdminChecklistsPage() {
     .select("id, code");
   const { data: items } = await supabase
     .from("checklist_template_items")
-    .select("id, template_id, section, label, sort_order");
+    .select("id, template_id, section, label, sort_order, active, extra");
+
+  const itemsByTemplate: Record<string, ChecklistTemplateItemRow[]> = {};
+  for (const item of (items ?? []) as ChecklistTemplateItemRow[]) {
+    (itemsByTemplate[item.template_id] ??= []).push(item);
+  }
 
   return (
     <div className="flex flex-col gap-6">
       <h1 className="text-xl font-semibold">{t("checklistsTitle")}</h1>
 
-      <div className="flex flex-col gap-4">
-        {(templates ?? []).map((tpl) => (
-          <TemplateManager
-            key={tpl.id}
-            templateId={tpl.id}
-            code={tpl.code}
-            items={(items ?? []).filter(
-              (i) => i.template_id === tpl.id,
-            ) as ChecklistTemplateItemRow[]}
-          />
-        ))}
-      </div>
+      <ChecklistTemplatePicker
+        templates={templates ?? []}
+        itemsByTemplate={itemsByTemplate}
+      />
 
       <form action={createTemplate} className="flex items-end gap-2">
         <input

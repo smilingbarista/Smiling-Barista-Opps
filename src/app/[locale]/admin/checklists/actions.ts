@@ -50,12 +50,29 @@ export async function addTemplateItem(
   revalidatePath("/admin/checklists");
 }
 
-export async function deleteTemplateItem(itemId: string) {
+export async function updateTemplateItem(itemId: string, formData: FormData) {
+  await requireAdmin();
+  const label = String(formData.get("label") ?? "").trim();
+  if (!label) return;
+  const section = String(formData.get("section") ?? "").trim() || null;
+  const extra = String(formData.get("extra") ?? "").trim() || null;
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("checklist_template_items")
+    .update({ label, section, extra })
+    .eq("id", itemId);
+  if (error) throw error;
+
+  revalidatePath("/admin/checklists");
+}
+
+export async function setTemplateItemActive(itemId: string, active: boolean) {
   await requireAdmin();
   const supabase = await createClient();
   const { error } = await supabase
     .from("checklist_template_items")
-    .delete()
+    .update({ active })
     .eq("id", itemId);
   if (error) throw error;
 

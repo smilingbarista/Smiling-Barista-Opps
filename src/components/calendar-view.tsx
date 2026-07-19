@@ -9,9 +9,11 @@ import type { EventRow, AvailabilityRow } from "@/lib/types";
 export function CalendarView({
   events,
   availability,
+  onDateClick,
 }: {
   events: EventRow[];
   availability: AvailabilityRow[];
+  onDateClick?: (date: string) => void;
 }) {
   const router = useRouter();
 
@@ -40,6 +42,9 @@ export function CalendarView({
       height="auto"
       locale="nl"
       events={eventSources}
+      dateClick={
+        onDateClick ? (info) => onDateClick(info.dateStr) : undefined
+      }
       eventClick={(info) => {
         if (info.event.id.startsWith("avail-")) return;
         router.push(`/events/${info.event.id}`);

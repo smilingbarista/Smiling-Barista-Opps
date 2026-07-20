@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { updateEvent } from "@/app/[locale]/events/[id]/actions";
+import { AutosizeTextarea } from "@/components/autosize-textarea";
 import type { EventRow } from "@/lib/types";
 
 function Field({
@@ -22,6 +23,32 @@ function Field({
       {label}
       <input
         type={type}
+        name={name}
+        defaultValue={defaultValue ?? ""}
+        readOnly={readOnly}
+        className={`rounded border px-2 py-1 ${
+          readOnly ? "border-transparent bg-black/5" : "border-black/20"
+        }`}
+      />
+    </label>
+  );
+}
+
+function TextareaField({
+  label,
+  name,
+  defaultValue,
+  readOnly,
+}: {
+  label: string;
+  name: string;
+  defaultValue: string | null;
+  readOnly: boolean;
+}) {
+  return (
+    <label className="flex flex-col gap-1 text-sm">
+      {label}
+      <AutosizeTextarea
         name={name}
         defaultValue={defaultValue ?? ""}
         readOnly={readOnly}
@@ -89,9 +116,9 @@ export function EventDetailsForm({
         <legend className="font-medium">{t("personalizationSection")}</legend>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <Field label={t("personalizationItems")} name="personalization_items" defaultValue={event.personalization_items} readOnly={readOnly} />
-          <Field label={t("extra")} name="personalization_extra" defaultValue={event.personalization_extra} readOnly={readOnly} />
+          <TextareaField label={t("extra")} name="personalization_extra" defaultValue={event.personalization_extra} readOnly={readOnly} />
         </div>
-        <Field label={t("logisticsFlow")} name="logistics_flow" defaultValue={event.logistics_flow} readOnly={readOnly} />
+        <TextareaField label={t("logisticsFlow")} name="logistics_flow" defaultValue={event.logistics_flow} readOnly={readOnly} />
       </fieldset>
 
       {!readOnly && (

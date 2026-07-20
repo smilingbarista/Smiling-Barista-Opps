@@ -23,7 +23,7 @@ export async function createEvent(formData: FormData) {
   const title =
     rawTitle +
     (barista ? ` (${barista})` : "") +
-    (confirmed ? "" : " (?)");
+    (confirmed ? "" : " (pending)");
 
   const { data, error } = await supabase
     .from("events")

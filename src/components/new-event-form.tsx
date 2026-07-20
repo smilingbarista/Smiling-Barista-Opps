@@ -36,7 +36,7 @@ export function NewEventForm({ defaultDate }: { defaultDate?: string }) {
         />
       </label>
       <label className="flex flex-col gap-1 text-sm">
-        {event("address")}
+        {event("location")}
         <input
           type="text"
           name="address"

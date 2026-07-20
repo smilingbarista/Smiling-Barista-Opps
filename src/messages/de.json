@@ -16,6 +16,7 @@
     "inventory": "Lagerbestand",
     "adminChecklists": "Checklisten-Vorlagen",
     "adminTeam": "Team",
+    "adminBackup": "Backup",
     "privacy": "Datenschutz",
     "logout": "Abmelden"
   },
@@ -78,6 +79,7 @@
     "eventSection": "Event",
     "description": "Titel",
     "address": "Adresse",
+    "location": "Standort",
     "descriptionDetails": "Beschreibung",
     "guestCount": "Anzahl Gäste",
     "barista": "Barista?",
@@ -133,6 +135,17 @@
     "decrease": "Verringern",
     "increase": "Erhöhen",
     "noItems": "Noch keine Artikel im Lagerbestand."
+  },
+  "backup": {
+    "title": "Backup",
+    "intro": "Täglich wird automatisch ein PDF-Backup des Kalenders (Monatsübersichten) und aller Events erstellt. Du kannst jederzeit auch manuell ein Backup erstellen.",
+    "createBackup": "Backup erstellen",
+    "creating": "Wird erstellt...",
+    "created": "Backup erstellt.",
+    "noBackups": "Noch keine Backups verfügbar.",
+    "automatic": "automatisch",
+    "manualLabel": "manuell",
+    "download": "Herunterladen"
   },
   "privacy": {
     "title": "Datenschutzerklärung",

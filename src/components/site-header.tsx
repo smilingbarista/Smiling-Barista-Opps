@@ -60,6 +60,9 @@ export function SiteHeader({ profile }: { profile: Profile | null }) {
                 <Link href="/admin/team" className="hover:text-brand">
                   {t("adminTeam")}
                 </Link>
+                <Link href="/admin/backup" className="hover:text-brand">
+                  {t("adminBackup")}
+                </Link>
               </>
             )}
           </nav>

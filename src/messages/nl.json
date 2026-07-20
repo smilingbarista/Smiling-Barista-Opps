@@ -16,6 +16,7 @@
     "inventory": "Voorraad",
     "adminChecklists": "Checklist-templates",
     "adminTeam": "Team",
+    "adminBackup": "Backup",
     "privacy": "Privacy",
     "logout": "Uitloggen"
   },
@@ -78,6 +79,7 @@
     "eventSection": "Evenement",
     "description": "Omschrijving",
     "address": "Adres",
+    "location": "Locatie",
     "descriptionDetails": "Beschrijving",
     "guestCount": "Aantal gasten",
     "barista": "Barista?",
@@ -133,6 +135,17 @@
     "decrease": "Verminderen",
     "increase": "Vermeerderen",
     "noItems": "Nog geen artikelen in de voorraad."
+  },
+  "backup": {
+    "title": "Backup",
+    "intro": "Dagelijks wordt automatisch een PDF-backup gemaakt van de kalender (maandoverzichten) en alle events. Je kan ook op elk moment zelf een backup maken.",
+    "createBackup": "Backup maken",
+    "creating": "Bezig...",
+    "created": "Backup aangemaakt.",
+    "noBackups": "Nog geen backups beschikbaar.",
+    "automatic": "automatisch",
+    "manualLabel": "manueel",
+    "download": "Downloaden"
   },
   "privacy": {
     "title": "Privacyverklaring",

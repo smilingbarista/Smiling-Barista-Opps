@@ -16,6 +16,7 @@
     "inventory": "Stock",
     "adminChecklists": "Modèles de checklists",
     "adminTeam": "Équipe",
+    "adminBackup": "Sauvegarde",
     "privacy": "Confidentialité",
     "logout": "Se déconnecter"
   },
@@ -78,6 +79,7 @@
     "eventSection": "Événement",
     "description": "Titre",
     "address": "Adresse",
+    "location": "Emplacement",
     "descriptionDetails": "Description",
     "guestCount": "Nombre d'invités",
     "barista": "Barista ?",
@@ -133,6 +135,17 @@
     "decrease": "Diminuer",
     "increase": "Augmenter",
     "noItems": "Aucun article en stock pour le moment."
+  },
+  "backup": {
+    "title": "Sauvegarde",
+    "intro": "Une sauvegarde PDF du calendrier (vues mensuelles) et de tous les événements est créée automatiquement chaque jour. Vous pouvez aussi en créer une manuellement à tout moment.",
+    "createBackup": "Créer une sauvegarde",
+    "creating": "En cours...",
+    "created": "Sauvegarde créée.",
+    "noBackups": "Aucune sauvegarde disponible pour le moment.",
+    "automatic": "automatique",
+    "manualLabel": "manuelle",
+    "download": "Télécharger"
   },
   "privacy": {
     "title": "Déclaration de confidentialité",

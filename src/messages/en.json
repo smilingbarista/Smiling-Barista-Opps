@@ -16,6 +16,7 @@
     "inventory": "Inventory",
     "adminChecklists": "Checklist templates",
     "adminTeam": "Team",
+    "adminBackup": "Backup",
     "privacy": "Privacy",
     "logout": "Log out"
   },
@@ -78,6 +79,7 @@
     "eventSection": "Event",
     "description": "Title",
     "address": "Address",
+    "location": "Location",
     "descriptionDetails": "Description",
     "guestCount": "Number of guests",
     "barista": "Barista?",
@@ -133,6 +135,17 @@
     "decrease": "Decrease",
     "increase": "Increase",
     "noItems": "No items in inventory yet."
+  },
+  "backup": {
+    "title": "Backup",
+    "intro": "A PDF backup of the calendar (month overviews) and all events is created automatically every day. You can also create one manually at any time.",
+    "createBackup": "Create backup",
+    "creating": "Working...",
+    "created": "Backup created.",
+    "noBackups": "No backups available yet.",
+    "automatic": "automatic",
+    "manualLabel": "manual",
+    "download": "Download"
   },
   "privacy": {
     "title": "Privacy notice",

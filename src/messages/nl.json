@@ -108,7 +108,8 @@
     "submittedBy": "Ingediend door",
     "noChecklists": "Nog geen checklists gekoppeld aan dit event.",
     "images": "Afbeeldingen",
-    "noImages": "Nog geen afbeeldingen toegevoegd."
+    "noImages": "Nog geen afbeeldingen toegevoegd.",
+    "addImage": "Afbeelding toevoegen"
   },
   "checklistTemplates": {
     "veloprep_uitrusting": "Veloprep - standaard uitrusting per opdracht",

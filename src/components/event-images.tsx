@@ -34,55 +34,63 @@ export function EventImages({
       {images.length === 0 && readOnly === false && (
         <p className="text-sm text-black/50">{t("noImages")}</p>
       )}
-      {images.length > 0 && (
-        <div className="flex flex-wrap gap-3">
-          {images.map((img) => (
-            <div key={img.id} className="relative">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={publicUrl(img.path)}
-                alt=""
-                className="h-32 w-32 rounded border border-black/10 object-cover"
+      <div className="flex flex-wrap gap-3">
+        {images.map((img) => (
+          <div key={img.id} className="relative">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={publicUrl(img.path)}
+              alt=""
+              className="h-32 w-32 rounded border border-black/10 object-cover"
+            />
+            {!readOnly && (
+              <button
+                type="button"
+                disabled={isPending}
+                onClick={() =>
+                  startTransition(async () => {
+                    await deleteEventImage(eventId, img.id, img.path);
+                  })
+                }
+                className="no-print absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-red-600 text-xs text-white"
+                aria-label={common("delete")}
+              >
+                ×
+              </button>
+            )}
+          </div>
+        ))}
+
+        {!readOnly && (
+          <form
+            ref={formRef}
+            action={(formData) =>
+              startTransition(async () => {
+                await uploadEventImage(eventId, formData);
+                formRef.current?.reset();
+              })
+            }
+          >
+            <label
+              className="group flex h-32 w-32 cursor-pointer flex-col items-center justify-center gap-1 rounded border-2 border-dashed border-black/20 text-black/40 transition hover:scale-105 hover:border-brand hover:text-brand"
+              title={t("addImage")}
+            >
+              <span className="text-3xl leading-none opacity-40 transition group-hover:opacity-100">
+                +
+              </span>
+              <span className="text-xs">{t("addImage")}</span>
+              <input
+                type="file"
+                name="file"
+                accept="image/png,image/jpeg,image/webp,image/gif"
+                disabled={isPending}
+                onChange={() => formRef.current?.requestSubmit()}
+                className="sr-only"
               />
-              {!readOnly && (
-                <button
-                  type="button"
-                  disabled={isPending}
-                  onClick={() =>
-                    startTransition(async () => {
-                      await deleteEventImage(eventId, img.id, img.path);
-                    })
-                  }
-                  className="no-print absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-red-600 text-xs text-white"
-                  aria-label={common("delete")}
-                >
-                  ×
-                </button>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
-      {!readOnly && (
-        <form
-          ref={formRef}
-          action={(formData) =>
-            startTransition(async () => {
-              await uploadEventImage(eventId, formData);
-              formRef.current?.reset();
-            })
-          }
-        >
-          <input
-            type="file"
-            name="file"
-            accept="image/png,image/jpeg,image/webp,image/gif"
-            disabled={isPending}
-            onChange={() => formRef.current?.requestSubmit()}
-            className="text-sm"
-          />
-        </form>
-      )}
+            </label>
+          </form>
+        )}
+      </div>
     </div>
   );
 }

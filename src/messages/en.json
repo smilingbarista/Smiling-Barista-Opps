@@ -108,7 +108,8 @@
     "submittedBy": "Submitted by",
     "noChecklists": "No checklists attached to this event yet.",
     "images": "Images",
-    "noImages": "No images added yet."
+    "noImages": "No images added yet.",
+    "addImage": "Add image"
   },
   "checklistTemplates": {
     "veloprep_uitrusting": "Veloprep - standard equipment per assignment",

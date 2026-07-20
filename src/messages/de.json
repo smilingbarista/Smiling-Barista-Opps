@@ -108,7 +108,8 @@
     "submittedBy": "Eingereicht von",
     "noChecklists": "Diesem Event sind noch keine Checklisten zugeordnet.",
     "images": "Bilder",
-    "noImages": "Noch keine Bilder hinzugefügt."
+    "noImages": "Noch keine Bilder hinzugefügt.",
+    "addImage": "Bild hinzufügen"
   },
   "checklistTemplates": {
     "veloprep_uitrusting": "Veloprep - Standardausrüstung pro Auftrag",

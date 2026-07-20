@@ -108,7 +108,8 @@
     "submittedBy": "Envoyé par",
     "noChecklists": "Aucune checklist associée à cet événement pour le moment.",
     "images": "Images",
-    "noImages": "Pas encore d'images ajoutées."
+    "noImages": "Pas encore d'images ajoutées.",
+    "addImage": "Ajouter une image"
   },
   "checklistTemplates": {
     "veloprep_uitrusting": "Veloprep - équipement standard par mission",

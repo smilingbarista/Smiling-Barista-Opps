@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/auth";
 import { NewEventForm } from "@/components/new-event-form";
+import { formatTime } from "@/lib/event-display";
 import type { EventRow } from "@/lib/types";
 
 export default async function DashboardPage() {
@@ -60,19 +61,29 @@ export default async function DashboardPage() {
           <p className="text-sm text-black/50">{t("noEvents")}</p>
         )}
         <ul className="flex flex-col gap-2">
-          {events.map((event) => (
-            <li key={event.id}>
-              <Link
-                href={`/events/${event.id}`}
-                className="block rounded border border-black/10 px-4 py-3 hover:border-brand"
-              >
-                <span className="font-medium">{event.title}</span>
-                <span className="ml-2 text-sm text-black/50">
-                  {event.event_date}
-                </span>
-              </Link>
-            </li>
-          ))}
+          {events.map((event) => {
+            const start = formatTime(event.service_start);
+            const end = formatTime(event.service_end);
+            const hours = start && end ? `${start}–${end}` : start;
+            return (
+              <li key={event.id}>
+                <Link
+                  href={`/events/${event.id}`}
+                  className="flex items-center justify-between rounded border border-black/10 px-4 py-3 hover:border-brand"
+                >
+                  <span>
+                    <span className="font-medium">{event.title}</span>
+                    <span className="ml-2 text-sm text-black/50">
+                      {event.event_date}
+                    </span>
+                  </span>
+                  {hours && (
+                    <span className="text-sm text-black/50">{hours}</span>
+                  )}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </section>
     </div>

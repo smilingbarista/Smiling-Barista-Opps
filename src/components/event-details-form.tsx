@@ -123,6 +123,15 @@ export function EventDetailsForm({
       action={(formData) => updateEvent(event.id, formData)}
       className="flex flex-col gap-6"
     >
+      {!readOnly && (
+        <button
+          type="submit"
+          className="self-start rounded bg-brand px-4 py-2 text-brand-foreground"
+        >
+          {common("save")}
+        </button>
+      )}
+
       <Field label={t("date")} name="event_date" type="date" defaultValue={event.event_date} readOnly={readOnly} />
 
       {!readOnly && (

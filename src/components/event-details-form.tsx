@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { updateEvent } from "@/app/[locale]/events/[id]/actions";
 import { AutosizeTextarea } from "@/components/autosize-textarea";
 import { parseEventTitle } from "@/lib/event-title";
-import type { EventRow } from "@/lib/types";
+import type { EventDetailRow } from "@/lib/types";
 
 function Field({
   label,
@@ -111,11 +111,12 @@ export function EventDetailsForm({
   event,
   readOnly,
 }: {
-  event: EventRow;
+  event: EventDetailRow;
   readOnly: boolean;
 }) {
   const t = useTranslations("event");
   const common = useTranslations("common");
+  const locale = useLocale();
   const parsed = parseEventTitle(event.title);
 
   return (
@@ -210,6 +211,23 @@ export function EventDetailsForm({
           {common("save")}
         </button>
       )}
+
+      <div className="flex flex-col gap-0.5 text-xs text-black/40">
+        <span>
+          {t("createdBy", {
+            name: event.created_by_profile?.full_name ?? "",
+            date: new Date(event.created_at).toLocaleString(locale),
+          })}
+        </span>
+        {event.updated_at && (
+          <span>
+            {t("updatedBy", {
+              name: event.updated_by_profile?.full_name ?? "",
+              date: new Date(event.updated_at).toLocaleString(locale),
+            })}
+          </span>
+        )}
+      </div>
     </form>
   );
 }

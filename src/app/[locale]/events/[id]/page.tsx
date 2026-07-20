@@ -11,8 +11,7 @@ import { EventActions } from "@/components/event-actions";
 import { EventImages } from "@/components/event-images";
 import { eventTitleWithTime } from "@/lib/event-display";
 import type {
-  EventRow,
-  EventBriefingPrintedRow,
+  EventDetailRow,
   EventChecklistRow,
   EventImageRow,
 } from "@/lib/types";
@@ -29,12 +28,15 @@ export default async function EventPage({
   const profile = await getCurrentProfile();
   const supabase = await createClient();
 
-  const { data: event } = await supabase
+  const { data } = await supabase
     .from("events")
-    .select("*, briefing_printed_by_profile:profiles!briefing_printed_by(full_name)")
+    .select(
+      "*, briefing_printed_by_profile:profiles!briefing_printed_by(full_name), created_by_profile:profiles!created_by(full_name), updated_by_profile:profiles!updated_by(full_name)",
+    )
     .eq("id", id)
     .single();
-  if (!event) notFound();
+  if (!data) notFound();
+  const event = data as unknown as EventDetailRow;
 
   const { data: assignments } = await supabase
     .from("event_assignments")
@@ -77,8 +79,8 @@ export default async function EventPage({
     <div className="flex flex-col gap-8">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold">
-          {eventTitleWithTime(event as unknown as EventBriefingPrintedRow)}
-          {(event as unknown as EventBriefingPrintedRow).status === "gearchiveerd" && (
+          {eventTitleWithTime(event)}
+          {event.status === "gearchiveerd" && (
             <span className="ml-2 rounded bg-black/10 px-2 py-0.5 text-xs font-normal text-black/60">
               {t("archived")}
             </span>
@@ -95,20 +97,16 @@ export default async function EventPage({
         </div>
       </div>
 
-      {(event as unknown as EventBriefingPrintedRow).briefing_printed_at && (
+      {event.briefing_printed_at && (
         <p className="text-sm text-black/50">
           {t("briefingPrintedBy", {
-            name:
-              (event as unknown as EventBriefingPrintedRow)
-                .briefing_printed_by_profile?.full_name ?? "",
-            date: new Date(
-              (event as unknown as EventBriefingPrintedRow).briefing_printed_at!,
-            ).toLocaleString(locale),
+            name: event.briefing_printed_by_profile?.full_name ?? "",
+            date: new Date(event.briefing_printed_at).toLocaleString(locale),
           })}
         </p>
       )}
 
-      <EventDetailsForm event={event as EventRow} readOnly={!isAdmin} />
+      <EventDetailsForm event={event} readOnly={!isAdmin} />
 
       <EventImages
         eventId={id}

@@ -57,6 +57,8 @@
     "generateBriefing": "Briefing genereren",
     "print": "Briefing genereren als pdf",
     "briefingPrintedBy": "Briefing afgedrukt door {name} op {date}",
+    "createdBy": "Aangemaakt door {name} op {date}",
+    "updatedBy": "Laatst gewijzigd door {name} op {date}",
     "archive": "Archiveren",
     "archived": "Gearchiveerd",
     "confirmDelete": "Dit event definitief verwijderen? Dit kan niet ongedaan worden gemaakt.",

@@ -22,13 +22,21 @@ export type EventRow = {
   personalization_extra: string | null;
   logistics_flow: string | null;
   status: string;
+  created_at: string;
   created_by: string | null;
+  updated_at: string | null;
+  updated_by: string | null;
   briefing_printed_at: string | null;
   briefing_printed_by: string | null;
 };
 
 export type EventBriefingPrintedRow = EventRow & {
   briefing_printed_by_profile: { full_name: string } | null;
+};
+
+export type EventDetailRow = EventBriefingPrintedRow & {
+  created_by_profile: { full_name: string } | null;
+  updated_by_profile: { full_name: string } | null;
 };
 
 export type AssignmentRow = {

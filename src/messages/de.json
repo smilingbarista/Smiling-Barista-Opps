@@ -57,6 +57,8 @@
     "generateBriefing": "Briefing erstellen",
     "print": "Briefing als PDF erstellen",
     "briefingPrintedBy": "Briefing gedruckt von {name} am {date}",
+    "createdBy": "Erstellt von {name} am {date}",
+    "updatedBy": "Zuletzt geändert von {name} am {date}",
     "archive": "Archivieren",
     "archived": "Archiviert",
     "confirmDelete": "Dieses Event endgültig löschen? Dies kann nicht rückgängig gemacht werden.",

@@ -48,6 +48,8 @@ export async function updateEvent(eventId: string, formData: FormData) {
   const confirmed = formData.get("confirmed") === "on";
   const baristaConfirmed = formData.get("barista_confirmed") === "on";
   updates.title = buildEventTitle(base, baristas, !confirmed, baristaConfirmed);
+  updates.updated_at = new Date().toISOString();
+  updates.updated_by = profile.id;
 
   const { error } = await supabase
     .from("events")
@@ -180,7 +182,11 @@ export async function archiveEvent(eventId: string) {
   const supabase = await createClient();
   const { error } = await supabase
     .from("events")
-    .update({ status: "gearchiveerd" })
+    .update({
+      status: "gearchiveerd",
+      updated_at: new Date().toISOString(),
+      updated_by: profile.id,
+    })
     .eq("id", eventId);
   if (error) throw error;
 

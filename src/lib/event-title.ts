@@ -10,6 +10,10 @@ export type ParsedTitle = {
 // Herleidt de basistitel, barista-namen, pending-status en
 // barista-bevestiging uit een opgeslagen eventtitel zoals
 // "Woezi (Lynn?) (pending)".
+//
+// Zonder naam is er nog steeds een zichtbaar onderscheid:
+// "(?)" = bevestigd dat er nog geen barista is, "(??)" = nog niet
+// bevestigd (en geen naam).
 export function parseEventTitle(title: string): ParsedTitle {
   let t = title;
   let pending = false;
@@ -22,8 +26,11 @@ export function parseEventTitle(title: string): ParsedTitle {
   if (match) {
     const base = match[1].trim();
     let group = match[2];
-    if (group === "?") {
+    if (group === "??") {
       return { base, baristas: [], pending, baristaConfirmed: false };
+    }
+    if (group === "?") {
+      return { base, baristas: [], pending, baristaConfirmed: true };
     }
     let baristaConfirmed = true;
     if (group.endsWith("?")) {
@@ -44,7 +51,8 @@ export function parseEventTitle(title: string): ParsedTitle {
 // pending-status + barista-bevestiging. Enkel het resultaat hiervan wordt
 // in `events.title` bewaard, zodat we nooit op de ruwe tekst hoeven te
 // patchen.
-// - Geen barista-naam ingevuld -> "(?)" als placeholder.
+// - Geen naam, wel bevestigd -> "(?)".
+// - Geen naam, niet bevestigd -> "(??)".
 // - Wel een naam, maar niet bevestigd -> "(Naam?)".
 export function buildEventTitle(
   base: string,
@@ -56,7 +64,9 @@ export function buildEventTitle(
   const group =
     names.length > 0
       ? names.join(", ") + (baristaConfirmed ? "" : "?")
-      : "?";
+      : baristaConfirmed
+        ? "?"
+        : "??";
   let title = base.trim();
   title += ` (${group})`;
   if (pending) title += PENDING_SUFFIX;

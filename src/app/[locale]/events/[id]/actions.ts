@@ -46,7 +46,8 @@ export async function updateEvent(eventId: string, formData: FormData) {
   const base = String(formData.get("title") ?? "").trim();
   const baristas = formData.getAll("barista").map((v) => String(v));
   const confirmed = formData.get("confirmed") === "on";
-  updates.title = buildEventTitle(base, baristas, !confirmed);
+  const baristaConfirmed = formData.get("barista_confirmed") === "on";
+  updates.title = buildEventTitle(base, baristas, !confirmed, baristaConfirmed);
 
   const { error } = await supabase
     .from("events")

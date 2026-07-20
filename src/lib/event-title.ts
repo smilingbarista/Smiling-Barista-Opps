@@ -4,10 +4,12 @@ export type ParsedTitle = {
   base: string;
   baristas: string[];
   pending: boolean;
+  baristaConfirmed: boolean;
 };
 
-// Herleidt de basistitel, barista-namen en pending-status uit een
-// opgeslagen eventtitel zoals "Woezi (Lynn) (pending)".
+// Herleidt de basistitel, barista-namen, pending-status en
+// barista-bevestiging uit een opgeslagen eventtitel zoals
+// "Woezi (Lynn?) (pending)".
 export function parseEventTitle(title: string): ParsedTitle {
   let t = title;
   let pending = false;
@@ -16,32 +18,47 @@ export function parseEventTitle(title: string): ParsedTitle {
     t = t.slice(0, -PENDING_SUFFIX.length);
   }
 
-  const match = t.match(/^(.*)\s\(([^()]+)\)$/);
+  const match = t.match(/^(.*)\(([^()]+)\)$/);
   if (match) {
-    const baristas = match[2]
+    const base = match[1].trim();
+    let group = match[2];
+    if (group === "?") {
+      return { base, baristas: [], pending, baristaConfirmed: false };
+    }
+    let baristaConfirmed = true;
+    if (group.endsWith("?")) {
+      baristaConfirmed = false;
+      group = group.slice(0, -1);
+    }
+    const baristas = group
       .split(",")
       .map((s) => s.trim())
       .filter(Boolean);
-    return { base: match[1], baristas, pending };
+    return { base, baristas, pending, baristaConfirmed };
   }
 
-  return { base: t, baristas: [], pending };
+  return { base: t, baristas: [], pending, baristaConfirmed: false };
 }
 
 // Bouwt de opgeslagen eventtitel op uit de basistitel + barista-namen +
-// pending-status. Enkel het resultaat hiervan wordt in `events.title`
-// bewaard, zodat we nooit op de ruwe tekst hoeven te patchen.
-// Is er nog geen barista-naam ingevuld, dan komt er een "(?)" als
-// placeholder in de titel, zodat ontbrekende toewijzing zichtbaar blijft.
+// pending-status + barista-bevestiging. Enkel het resultaat hiervan wordt
+// in `events.title` bewaard, zodat we nooit op de ruwe tekst hoeven te
+// patchen.
+// - Geen barista-naam ingevuld -> "(?)" als placeholder.
+// - Wel een naam, maar niet bevestigd -> "(Naam?)".
 export function buildEventTitle(
   base: string,
   baristas: string[],
   pending: boolean,
+  baristaConfirmed: boolean = true,
 ): string {
   const names = baristas.map((s) => s.trim()).filter(Boolean);
-  const displayNames = names.length > 0 ? names : ["?"];
+  const group =
+    names.length > 0
+      ? names.join(", ") + (baristaConfirmed ? "" : "?")
+      : "?";
   let title = base.trim();
-  title += ` (${displayNames.join(", ")})`;
+  title += ` (${group})`;
   if (pending) title += PENDING_SUFFIX;
   return title;
 }

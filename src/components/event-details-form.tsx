@@ -125,8 +125,6 @@ export function EventDetailsForm({
     >
       <Field label={t("date")} name="event_date" type="date" defaultValue={event.event_date} readOnly={readOnly} />
 
-      <BaristaFields initial={parsed.baristas} readOnly={readOnly} />
-
       {!readOnly && (
         <label className="flex items-center gap-2 text-sm">
           <input
@@ -135,6 +133,19 @@ export function EventDetailsForm({
             defaultChecked={!parsed.pending}
           />
           {t("confirmed")}
+        </label>
+      )}
+
+      <BaristaFields initial={parsed.baristas} readOnly={readOnly} />
+
+      {!readOnly && (
+        <label className="flex items-center gap-2 text-sm">
+          <input
+            type="checkbox"
+            name="barista_confirmed"
+            defaultChecked={parsed.baristaConfirmed}
+          />
+          {t("baristaConfirmed")}
         </label>
       )}
 

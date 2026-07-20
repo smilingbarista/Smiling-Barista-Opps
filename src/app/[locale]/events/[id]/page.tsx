@@ -9,6 +9,7 @@ import { AssignStaff } from "@/components/assign-staff";
 import { AttachChecklistForm } from "@/components/attach-checklist-form";
 import { EventActions } from "@/components/event-actions";
 import { EventImages } from "@/components/event-images";
+import { eventTitleWithTime } from "@/lib/event-display";
 import type { EventRow, EventChecklistRow, EventImageRow } from "@/lib/types";
 
 export default async function EventPage({
@@ -71,7 +72,7 @@ export default async function EventPage({
     <div className="flex flex-col gap-8">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold">
-          {(event as EventRow).title}
+          {eventTitleWithTime(event as EventRow)}
           {(event as EventRow).status === "gearchiveerd" && (
             <span className="ml-2 rounded bg-black/10 px-2 py-0.5 text-xs font-normal text-black/60">
               {t("archived")}

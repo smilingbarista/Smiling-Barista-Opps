@@ -5,19 +5,8 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { useRouter } from "@/i18n/navigation";
 import { rescheduleEvent } from "@/app/[locale]/kalender/actions";
+import { eventTitleWithTime } from "@/lib/event-display";
 import type { EventRow, AvailabilityRow } from "@/lib/types";
-
-function formatTime(time: string | null): string | null {
-  return time ? time.slice(0, 5) : null;
-}
-
-function eventTitle(e: EventRow): string {
-  const start = formatTime(e.service_start);
-  const end = formatTime(e.service_end);
-  if (start && end) return `${start}–${end} ${e.title}`;
-  if (start) return `${start} ${e.title}`;
-  return e.title;
-}
 
 export function CalendarView({
   events,
@@ -35,7 +24,7 @@ export function CalendarView({
   const eventSources = [
     ...events.map((e) => ({
       id: e.id,
-      title: eventTitle(e),
+      title: eventTitleWithTime(e),
       start: e.event_date,
       allDay: true,
       color: "#0366c5",

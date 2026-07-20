@@ -11,20 +11,26 @@ async function requireAdmin() {
   if (profile?.role !== "admin") throw new Error("Admin only");
 }
 
-export async function inviteTeamMember(formData: FormData) {
+// Geeft de fout terug i.p.v. te throwen: Next.js verbergt in productie de
+// tekst van elke error die een Server Action throwt, dus enkel een
+// teruggegeven waarde komt leesbaar bij de admin terecht.
+export async function inviteTeamMember(
+  formData: FormData,
+): Promise<{ error?: string }> {
   await requireAdmin();
   const email = String(formData.get("email") ?? "").trim();
   const fullName = String(formData.get("full_name") ?? "").trim();
-  if (!email) return;
+  if (!email) return { error: "Email is required" };
 
   const adminClient = createAdminClient();
   const { error } = await adminClient.auth.admin.inviteUserByEmail(email, {
     data: fullName ? { full_name: fullName } : undefined,
     redirectTo: `${getSiteUrl()}/nl/auth/set-password`,
   });
-  if (error) throw error;
+  if (error) return { error: error.message };
 
   revalidatePath("/admin/team");
+  return {};
 }
 
 export async function updateRole(profileId: string, formData: FormData) {

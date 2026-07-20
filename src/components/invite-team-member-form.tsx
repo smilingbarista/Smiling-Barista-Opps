@@ -16,11 +16,11 @@ export function InviteTeamMemberForm() {
         setSent(false);
         setError(null);
         startTransition(async () => {
-          try {
-            await inviteTeamMember(formData);
+          const result = await inviteTeamMember(formData);
+          if (result.error) {
+            setError(result.error);
+          } else {
             setSent(true);
-          } catch (err) {
-            setError(err instanceof Error ? err.message : String(err));
           }
         });
       }}

@@ -19,7 +19,7 @@ export async function generateMetadata({
     .eq("id", id)
     .single();
 
-  return { title: data?.title ?? "Briefing" };
+  return { title: data?.title ? `Briefing ${data.title}` : "Briefing" };
 }
 
 function Row({ label, value }: { label: string; value: string | null }) {

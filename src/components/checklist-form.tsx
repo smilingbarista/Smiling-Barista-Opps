@@ -33,7 +33,6 @@ export function ChecklistForm({
       items.map((i) => [i.templateItemId, { checked: i.checked, note: i.note }]),
     ),
   );
-  const [expanded, setExpanded] = useState<Set<string>>(new Set());
   const [offline, setOffline] = useState(false);
   const [saved, setSaved] = useState(true);
   const [isPending, startTransition] = useTransition();
@@ -46,15 +45,6 @@ export function ChecklistForm({
     window.addEventListener("online", onOnline);
     return () => window.removeEventListener("online", onOnline);
   }, []);
-
-  function toggleExpanded(templateItemId: string) {
-    setExpanded((prev) => {
-      const next = new Set(prev);
-      if (next.has(templateItemId)) next.delete(templateItemId);
-      else next.add(templateItemId);
-      return next;
-    });
-  }
 
   function updateItem(templateItemId: string, patch: Partial<ItemState>) {
     setState((prev) => ({
@@ -107,7 +97,6 @@ export function ChecklistForm({
             .filter((i) => (i.section ?? "") === section)
             .map((item) => {
               const itemState = state[item.templateItemId];
-              const isExpanded = expanded.has(item.templateItemId);
               return (
                 <div
                   key={item.templateItemId}
@@ -126,25 +115,21 @@ export function ChecklistForm({
                     />
                     <span
                       className={
-                        "flex-1 cursor-pointer " +
-                        (itemState?.checked ? "line-through text-black/40" : "")
+                        itemState?.checked ? "line-through text-black/40" : ""
                       }
-                      onClick={() => toggleExpanded(item.templateItemId)}
                     >
                       {item.label}
                     </span>
                   </label>
-                  {isExpanded && (
-                    <AutosizeTextarea
-                      disabled={submitted}
-                      value={itemState?.note ?? ""}
-                      placeholder={item.templateExtra || t("extra")}
-                      onChange={(e) =>
-                        updateItem(item.templateItemId, { note: e.target.value })
-                      }
-                      className="mt-2 w-full rounded border border-black/20 px-2 py-1 text-xs"
-                    />
-                  )}
+                  <AutosizeTextarea
+                    disabled={submitted}
+                    value={itemState?.note ?? ""}
+                    placeholder={item.templateExtra || t("extra")}
+                    onChange={(e) =>
+                      updateItem(item.templateItemId, { note: e.target.value })
+                    }
+                    className="mt-2 w-full rounded border border-black/20 px-2 py-1 text-xs"
+                  />
                 </div>
               );
             })}

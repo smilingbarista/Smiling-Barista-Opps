@@ -36,17 +36,22 @@ export async function createEvent(formData: FormData) {
 
   if (error) throw error;
 
-  const { data: veloprepTemplate } = await supabase
+  const isTeambuilding = title.toLowerCase().includes("teambuilding");
+  const autoTemplateCode = isTeambuilding
+    ? "teambuilding_latte_art"
+    : "veloprep_uitrusting";
+
+  const { data: autoTemplate } = await supabase
     .from("checklist_templates")
     .select("id")
-    .eq("code", "veloprep_uitrusting")
+    .eq("code", autoTemplateCode)
     .maybeSingle();
 
-  if (veloprepTemplate) {
+  if (autoTemplate) {
     await supabase.from("event_checklists").insert({
       event_id: data.id,
-      template_id: veloprepTemplate.id,
-      name: veloprepChecklistName(title, eventDate),
+      template_id: autoTemplate.id,
+      name: isTeambuilding ? null : veloprepChecklistName(title, eventDate),
     });
   }
 

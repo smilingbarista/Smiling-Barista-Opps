@@ -10,7 +10,7 @@
     "back": "Retour"
   },
   "nav": {
-    "dashboard": "Tableau de bord",
+    "dashboard": "Événements",
     "calendar": "Calendrier",
     "checklists": "Checklists",
     "inventory": "Stock",
@@ -36,7 +36,7 @@
     "mfaEnrollSkip": "Configurer plus tard"
   },
   "dashboard": {
-    "title": "Tableau de bord",
+    "title": "Événements",
     "myEvents": "Mes événements",
     "allEvents": "Tous les événements",
     "pendingChecklists": "Checklists à vérifier",

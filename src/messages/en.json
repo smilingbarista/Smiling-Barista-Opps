@@ -10,7 +10,7 @@
     "back": "Back"
   },
   "nav": {
-    "dashboard": "Dashboard",
+    "dashboard": "Events",
     "calendar": "Calendar",
     "checklists": "Checklists",
     "inventory": "Inventory",
@@ -36,7 +36,7 @@
     "mfaEnrollSkip": "Set up later"
   },
   "dashboard": {
-    "title": "Dashboard",
+    "title": "Events",
     "myEvents": "My events",
     "allEvents": "All events",
     "pendingChecklists": "Checklists to review",

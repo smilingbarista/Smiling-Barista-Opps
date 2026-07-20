@@ -9,7 +9,9 @@ import { AssignStaff } from "@/components/assign-staff";
 import { AttachChecklistForm } from "@/components/attach-checklist-form";
 import { EventActions } from "@/components/event-actions";
 import { EventImages } from "@/components/event-images";
-import { eventTitleWithTime } from "@/lib/event-display";
+import { EditableEventTitle } from "@/components/editable-event-title";
+import { formatTime } from "@/lib/event-display";
+import { parseEventTitle, buildEventTitle } from "@/lib/event-title";
 import type {
   EventDetailRow,
   EventChecklistRow,
@@ -75,11 +77,29 @@ export default async function EventPage({
 
   const isAdmin = profile?.role === "admin";
 
+  const parsedTitle = parseEventTitle(event.title);
+  const start = formatTime(event.service_start);
+  const end = formatTime(event.service_end);
+  const timePrefix = start && end ? `${start}–${end} ` : start ? `${start} ` : "";
+  const titleSuffix = buildEventTitle(
+    "",
+    parsedTitle.baristas,
+    parsedTitle.pending,
+    parsedTitle.baristaConfirmed,
+  );
+
   return (
     <div className="flex flex-col gap-8">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold">
-          {eventTitleWithTime(event)}
+          {timePrefix}
+          <EditableEventTitle
+            key={event.title}
+            eventId={id}
+            base={parsedTitle.base}
+            readOnly={!isAdmin}
+          />
+          {titleSuffix}
           {event.status === "gearchiveerd" && (
             <span className="ml-2 rounded bg-black/10 px-2 py-0.5 text-xs font-normal text-black/60">
               {t("archived")}

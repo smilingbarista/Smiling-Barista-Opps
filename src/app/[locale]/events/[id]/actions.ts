@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/auth";
 import { veloprepChecklistName } from "@/lib/checklist-label";
-import { buildEventTitle } from "@/lib/event-title";
+import { buildEventTitle, parseEventTitle } from "@/lib/event-title";
 
 const EVENT_FIELDS = [
   "event_date",
@@ -58,6 +58,46 @@ export async function updateEvent(eventId: string, formData: FormData) {
   if (error) throw error;
 
   revalidatePath(`/events/${eventId}`);
+}
+
+// Aparte, kleinere update dan updateEvent() zodat klikken op de titel
+// bovenaan de eventpagina enkel het beschrijvende deel wijzigt, zonder de
+// rest van het formulier (dat de overige velden zou overschrijven).
+export async function updateEventTitle(eventId: string, newBase: string) {
+  const profile = await getCurrentProfile();
+  if (profile?.role !== "admin") {
+    throw new Error("Only admins can edit events");
+  }
+
+  const supabase = await createClient();
+  const { data: current, error: fetchError } = await supabase
+    .from("events")
+    .select("title")
+    .eq("id", eventId)
+    .single();
+  if (fetchError) throw fetchError;
+
+  const parsed = parseEventTitle(current.title);
+  const title = buildEventTitle(
+    newBase.trim(),
+    parsed.baristas,
+    parsed.pending,
+    parsed.baristaConfirmed,
+  );
+
+  const { error } = await supabase
+    .from("events")
+    .update({
+      title,
+      updated_at: new Date().toISOString(),
+      updated_by: profile.id,
+    })
+    .eq("id", eventId);
+  if (error) throw error;
+
+  revalidatePath(`/events/${eventId}`);
+  revalidatePath("/kalender");
+  revalidatePath("/dashboard");
 }
 
 export async function assignProfile(eventId: string, formData: FormData) {

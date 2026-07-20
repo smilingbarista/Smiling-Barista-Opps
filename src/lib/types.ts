@@ -66,6 +66,13 @@ export type EventChecklistRow = {
   profiles: { full_name: string } | null;
 };
 
+export type EventImageRow = {
+  id: string;
+  event_id: string;
+  path: string;
+  created_at: string;
+};
+
 export type InventoryItemRow = {
   id: string;
   name: string;

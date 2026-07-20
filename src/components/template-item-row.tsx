@@ -7,6 +7,7 @@ import {
   updateTemplateItem,
   deleteTemplateItem,
 } from "@/app/[locale]/admin/checklists/actions";
+import { AutosizeTextarea } from "@/components/autosize-textarea";
 import type { ChecklistTemplateItemRow } from "@/lib/types";
 
 export function TemplateItemRow({ item }: { item: ChecklistTemplateItemRow }) {
@@ -39,7 +40,7 @@ export function TemplateItemRow({ item }: { item: ChecklistTemplateItemRow }) {
               className="flex-1 rounded border border-black/20 px-2 py-1"
             />
           </div>
-          <input
+          <AutosizeTextarea
             name="extra"
             defaultValue={item.extra ?? ""}
             placeholder={t("extra")}

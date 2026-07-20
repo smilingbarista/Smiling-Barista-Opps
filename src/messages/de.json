@@ -48,7 +48,8 @@
     "available": "Verfügbar",
     "unavailable": "Nicht verfügbar",
     "note": "Notiz",
-    "assignedTo": "Zugewiesen an"
+    "assignedTo": "Zugewiesen an",
+    "downloadBackup": "PDF-Backup herunterladen"
   },
   "event": {
     "briefingTitle": "Briefing",
@@ -79,6 +80,8 @@
     "address": "Adresse",
     "descriptionDetails": "Beschreibung",
     "guestCount": "Anzahl Gäste",
+    "barista": "Barista?",
+    "confirmed": "Bestätigt?",
     "contactPerson": "Ansprechpartner",
     "contactPhone": "Telefon Ansprechpartner",
     "offerSection": "Angebot",
@@ -100,7 +103,9 @@
     "statusOpen": "Offen",
     "statusSubmitted": "Eingereicht",
     "submittedBy": "Eingereicht von",
-    "noChecklists": "Diesem Event sind noch keine Checklisten zugeordnet."
+    "noChecklists": "Diesem Event sind noch keine Checklisten zugeordnet.",
+    "images": "Bilder",
+    "noImages": "Noch keine Bilder hinzugefügt."
   },
   "checklistTemplates": {
     "veloprep_uitrusting": "Veloprep - Standardausrüstung pro Auftrag",

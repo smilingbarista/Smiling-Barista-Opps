@@ -12,11 +12,18 @@ export async function createEvent(formData: FormData) {
   }
 
   const supabase = await createClient();
-  const title = String(formData.get("title") ?? "");
+  const rawTitle = String(formData.get("title") ?? "");
   const eventDate = String(formData.get("event_date") ?? "");
-  if (!title || !eventDate) {
+  const barista = String(formData.get("barista") ?? "").trim();
+  const confirmed = formData.get("confirmed") === "on";
+  if (!rawTitle || !eventDate) {
     throw new Error("Titel en datum zijn verplicht");
   }
+
+  const title =
+    rawTitle +
+    (barista ? ` (${barista})` : "") +
+    (confirmed ? "" : " (?)");
 
   const { data, error } = await supabase
     .from("events")
@@ -24,7 +31,6 @@ export async function createEvent(formData: FormData) {
       title,
       event_date: eventDate,
       address: String(formData.get("address") ?? "") || null,
-      guest_count: String(formData.get("guest_count") ?? "") || null,
       created_by: profile.id,
     })
     .select("id")
@@ -47,6 +53,7 @@ export async function createEvent(formData: FormData) {
   }
 
   revalidatePath("/kalender");
+  revalidatePath("/dashboard");
   return data.id as string;
 }
 

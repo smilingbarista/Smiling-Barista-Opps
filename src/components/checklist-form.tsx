@@ -9,6 +9,7 @@ import {
   type ChecklistItemSave,
 } from "@/app/[locale]/events/[id]/checklists/[checklistId]/actions";
 import { queueSave, flushQueue } from "@/lib/offline-queue";
+import { AutosizeTextarea } from "@/components/autosize-textarea";
 import type { ChecklistItemView } from "@/lib/types";
 
 type ItemState = { checked: boolean; note: string };
@@ -134,8 +135,7 @@ export function ChecklistForm({
                     </span>
                   </label>
                   {isExpanded && (
-                    <input
-                      type="text"
+                    <AutosizeTextarea
                       disabled={submitted}
                       value={itemState?.note ?? ""}
                       placeholder={item.templateExtra || t("extra")}

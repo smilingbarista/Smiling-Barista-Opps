@@ -3,7 +3,8 @@ import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { PrintButton } from "@/components/print-button";
 import { BriefingShare } from "@/components/briefing-share";
-import type { EventRow } from "@/lib/types";
+import { EventImages } from "@/components/event-images";
+import type { EventRow, EventImageRow } from "@/lib/types";
 
 function Row({ label, value }: { label: string; value: string | null }) {
   return (
@@ -29,6 +30,12 @@ export default async function EventBriefingPage({
   if (!data) notFound();
   const event = data as EventRow;
 
+  const { data: images } = await supabase
+    .from("event_images")
+    .select("*")
+    .eq("event_id", id)
+    .order("created_at", { ascending: true });
+
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-6 print:max-w-full">
       <div className="flex items-center justify-between">
@@ -39,6 +46,12 @@ export default async function EventBriefingPage({
       </div>
 
       <BriefingShare event={event} />
+
+      <EventImages
+        eventId={id}
+        images={(images ?? []) as EventImageRow[]}
+        readOnly
+      />
 
       <table className="w-full border-collapse text-sm">
         <tbody>

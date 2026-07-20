@@ -44,12 +44,16 @@ export function NewEventForm({ defaultDate }: { defaultDate?: string }) {
         />
       </label>
       <label className="flex flex-col gap-1 text-sm">
-        {event("guestCount")}
+        {event("barista")}
         <input
           type="text"
-          name="guest_count"
+          name="barista"
           className="rounded border border-black/20 px-2 py-1"
         />
+      </label>
+      <label className="flex items-center gap-2 pb-2 text-sm">
+        <input type="checkbox" name="confirmed" defaultChecked />
+        {event("confirmed")}
       </label>
       <button
         type="submit"

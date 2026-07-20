@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/auth";
+import { NewEventForm } from "@/components/new-event-form";
 import type { EventRow } from "@/lib/types";
 
 export default async function DashboardPage() {
@@ -48,6 +49,8 @@ export default async function DashboardPage() {
           {t("pendingChecklists")}: {pendingChecklists}
         </p>
       )}
+
+      {profile?.role === "admin" && <NewEventForm />}
 
       <section className="flex flex-col gap-2">
         <h2 className="font-medium">

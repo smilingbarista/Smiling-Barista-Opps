@@ -48,7 +48,8 @@
     "available": "Available",
     "unavailable": "Unavailable",
     "note": "Note",
-    "assignedTo": "Assigned to"
+    "assignedTo": "Assigned to",
+    "downloadBackup": "Download PDF backup"
   },
   "event": {
     "briefingTitle": "Briefing",
@@ -79,6 +80,8 @@
     "address": "Address",
     "descriptionDetails": "Description",
     "guestCount": "Number of guests",
+    "barista": "Barista?",
+    "confirmed": "Confirmed?",
     "contactPerson": "Contact person",
     "contactPhone": "Contact phone",
     "offerSection": "Offer",
@@ -100,7 +103,9 @@
     "statusOpen": "Open",
     "statusSubmitted": "Submitted",
     "submittedBy": "Submitted by",
-    "noChecklists": "No checklists attached to this event yet."
+    "noChecklists": "No checklists attached to this event yet.",
+    "images": "Images",
+    "noImages": "No images added yet."
   },
   "checklistTemplates": {
     "veloprep_uitrusting": "Veloprep - standard equipment per assignment",

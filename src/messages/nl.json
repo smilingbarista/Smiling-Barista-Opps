@@ -48,7 +48,8 @@
     "available": "Beschikbaar",
     "unavailable": "Niet beschikbaar",
     "note": "Notitie",
-    "assignedTo": "Toegewezen aan"
+    "assignedTo": "Toegewezen aan",
+    "downloadBackup": "PDF-backup downloaden"
   },
   "event": {
     "briefingTitle": "Briefing",
@@ -79,6 +80,8 @@
     "address": "Adres",
     "descriptionDetails": "Beschrijving",
     "guestCount": "Aantal gasten",
+    "barista": "Barista?",
+    "confirmed": "Bevestigd?",
     "contactPerson": "Contactpersoon",
     "contactPhone": "Telefoon contactpersoon",
     "offerSection": "Aanbod",
@@ -100,7 +103,9 @@
     "statusOpen": "Open",
     "statusSubmitted": "Ingediend",
     "submittedBy": "Ingediend door",
-    "noChecklists": "Nog geen checklists gekoppeld aan dit event."
+    "noChecklists": "Nog geen checklists gekoppeld aan dit event.",
+    "images": "Afbeeldingen",
+    "noImages": "Nog geen afbeeldingen toegevoegd."
   },
   "checklistTemplates": {
     "veloprep_uitrusting": "Veloprep - standaard uitrusting per opdracht",

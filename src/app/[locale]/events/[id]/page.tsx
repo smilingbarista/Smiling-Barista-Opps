@@ -8,7 +8,8 @@ import { EventDetailsForm } from "@/components/event-details-form";
 import { AssignStaff } from "@/components/assign-staff";
 import { AttachChecklistForm } from "@/components/attach-checklist-form";
 import { EventActions } from "@/components/event-actions";
-import type { EventRow, EventChecklistRow } from "@/lib/types";
+import { EventImages } from "@/components/event-images";
+import type { EventRow, EventChecklistRow, EventImageRow } from "@/lib/types";
 
 export default async function EventPage({
   params,
@@ -44,6 +45,12 @@ export default async function EventPage({
   const { data: allTemplates } = await supabase
     .from("checklist_templates")
     .select("id, code");
+
+  const { data: images } = await supabase
+    .from("event_images")
+    .select("*")
+    .eq("event_id", id)
+    .order("created_at", { ascending: true });
 
   const attachedTemplateIds = new Set(
     (eventChecklists ?? []).map((c) => c.template_id),
@@ -83,6 +90,12 @@ export default async function EventPage({
       </div>
 
       <EventDetailsForm event={event as EventRow} readOnly={!isAdmin} />
+
+      <EventImages
+        eventId={id}
+        images={(images ?? []) as EventImageRow[]}
+        readOnly={!isAdmin}
+      />
 
       <section className="flex flex-col gap-2">
         <h2 className="font-medium">{calendarT("assignedTo")}</h2>

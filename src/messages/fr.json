@@ -48,7 +48,8 @@
     "available": "Disponible",
     "unavailable": "Indisponible",
     "note": "Note",
-    "assignedTo": "Assigné à"
+    "assignedTo": "Assigné à",
+    "downloadBackup": "Télécharger la sauvegarde PDF"
   },
   "event": {
     "briefingTitle": "Briefing",
@@ -79,6 +80,8 @@
     "address": "Adresse",
     "descriptionDetails": "Description",
     "guestCount": "Nombre d'invités",
+    "barista": "Barista ?",
+    "confirmed": "Confirmé ?",
     "contactPerson": "Personne de contact",
     "contactPhone": "Téléphone du contact",
     "offerSection": "Offre",
@@ -100,7 +103,9 @@
     "statusOpen": "Ouvert",
     "statusSubmitted": "Envoyé",
     "submittedBy": "Envoyé par",
-    "noChecklists": "Aucune checklist associée à cet événement pour le moment."
+    "noChecklists": "Aucune checklist associée à cet événement pour le moment.",
+    "images": "Images",
+    "noImages": "Pas encore d'images ajoutées."
   },
   "checklistTemplates": {
     "veloprep_uitrusting": "Veloprep - équipement standard par mission",

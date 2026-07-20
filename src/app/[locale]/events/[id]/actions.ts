@@ -115,6 +115,55 @@ export async function attachChecklist(eventId: string, formData: FormData) {
   revalidatePath(`/events/${eventId}`);
 }
 
+export async function uploadEventImage(eventId: string, formData: FormData) {
+  const profile = await getCurrentProfile();
+  if (profile?.role !== "admin") {
+    throw new Error("Only admins can add images");
+  }
+
+  const file = formData.get("file");
+  if (!(file instanceof File) || file.size === 0) return;
+
+  const supabase = await createClient();
+  const ext = file.name.split(".").pop() || "jpg";
+  const path = `${eventId}/${crypto.randomUUID()}.${ext}`;
+
+  const { error: uploadError } = await supabase.storage
+    .from("event-images")
+    .upload(path, file, { contentType: file.type });
+  if (uploadError) throw uploadError;
+
+  const { error: insertError } = await supabase
+    .from("event_images")
+    .insert({ event_id: eventId, path });
+  if (insertError) throw insertError;
+
+  revalidatePath(`/events/${eventId}`);
+  revalidatePath(`/events/${eventId}/briefing`);
+}
+
+export async function deleteEventImage(
+  eventId: string,
+  imageId: string,
+  path: string,
+) {
+  const profile = await getCurrentProfile();
+  if (profile?.role !== "admin") {
+    throw new Error("Only admins can remove images");
+  }
+
+  const supabase = await createClient();
+  await supabase.storage.from("event-images").remove([path]);
+  const { error } = await supabase
+    .from("event_images")
+    .delete()
+    .eq("id", imageId);
+  if (error) throw error;
+
+  revalidatePath(`/events/${eventId}`);
+  revalidatePath(`/events/${eventId}/briefing`);
+}
+
 export async function archiveEvent(eventId: string) {
   const profile = await getCurrentProfile();
   if (profile?.role !== "admin") {

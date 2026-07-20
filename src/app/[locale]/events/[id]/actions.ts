@@ -128,9 +128,10 @@ export async function uploadEventImage(eventId: string, formData: FormData) {
   const ext = file.name.split(".").pop() || "jpg";
   const path = `${eventId}/${crypto.randomUUID()}.${ext}`;
 
+  const bytes = Buffer.from(await file.arrayBuffer());
   const { error: uploadError } = await supabase.storage
     .from("event-images")
-    .upload(path, file, { contentType: file.type });
+    .upload(path, bytes, { contentType: file.type });
   if (uploadError) throw uploadError;
 
   const { error: insertError } = await supabase

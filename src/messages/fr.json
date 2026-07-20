@@ -56,6 +56,7 @@
     "briefingTitle": "Briefing",
     "generateBriefing": "Générer le briefing",
     "print": "Générer le briefing en PDF",
+    "briefingPrintedBy": "Briefing imprimé par {name} le {date}",
     "archive": "Archiver",
     "archived": "Archivé",
     "confirmDelete": "Supprimer définitivement cet événement ? Cette action est irréversible.",

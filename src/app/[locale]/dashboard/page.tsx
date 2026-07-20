@@ -4,25 +4,34 @@ import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/auth";
 import { NewEventForm } from "@/components/new-event-form";
 import { formatTime } from "@/lib/event-display";
-import type { EventRow } from "@/lib/types";
+import type { EventBriefingPrintedRow } from "@/lib/types";
 
-export default async function DashboardPage() {
+const EVENT_SELECT =
+  "*, briefing_printed_by_profile:profiles!briefing_printed_by(full_name)";
+
+export default async function DashboardPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
   const t = await getTranslations("dashboard");
+  const eventT = await getTranslations("event");
   const profile = await getCurrentProfile();
   const supabase = await createClient();
   const today = new Date().toISOString().slice(0, 10);
 
-  let events: EventRow[] = [];
+  let events: EventBriefingPrintedRow[] = [];
   let pendingChecklists = 0;
 
   if (profile?.role === "admin") {
     const { data } = await supabase
       .from("events")
-      .select("*")
+      .select(EVENT_SELECT)
       .gte("event_date", today)
       .neq("status", "gearchiveerd")
       .order("event_date", { ascending: true });
-    events = data ?? [];
+    events = (data ?? []) as unknown as EventBriefingPrintedRow[];
 
     const { count } = await supabase
       .from("event_checklists")
@@ -32,11 +41,15 @@ export default async function DashboardPage() {
   } else if (profile) {
     const { data } = await supabase
       .from("event_assignments")
-      .select("events(*)")
+      .select(`events(${EVENT_SELECT})`)
       .eq("profile_id", profile.id);
-    events = ((data ?? []) as unknown as { events: EventRow | null }[])
+    events = (
+      (data ?? []) as unknown as {
+        events: EventBriefingPrintedRow | null;
+      }[]
+    )
       .map((row) => row.events)
-      .filter((e): e is EventRow => !!e)
+      .filter((e): e is EventBriefingPrintedRow => !!e)
       .filter((e) => e.event_date >= today && e.status !== "gearchiveerd")
       .sort((a, b) => a.event_date.localeCompare(b.event_date));
   }
@@ -69,16 +82,28 @@ export default async function DashboardPage() {
               <li key={event.id}>
                 <Link
                   href={`/events/${event.id}`}
-                  className="flex items-center justify-between rounded border border-black/10 px-4 py-3 hover:border-brand"
+                  className="flex flex-col gap-1 rounded border border-black/10 px-4 py-3 hover:border-brand"
                 >
-                  <span>
-                    <span className="font-medium">{event.title}</span>
-                    <span className="ml-2 text-sm text-black/50">
-                      {event.event_date}
+                  <span className="flex items-center justify-between">
+                    <span>
+                      <span className="font-medium">{event.title}</span>
+                      <span className="ml-2 text-sm text-black/50">
+                        {event.event_date}
+                      </span>
                     </span>
+                    {hours && (
+                      <span className="text-sm text-black/50">{hours}</span>
+                    )}
                   </span>
-                  {hours && (
-                    <span className="text-sm text-black/50">{hours}</span>
+                  {event.briefing_printed_at && (
+                    <span className="text-xs text-black/40">
+                      {eventT("briefingPrintedBy", {
+                        name: event.briefing_printed_by_profile?.full_name ?? "",
+                        date: new Date(event.briefing_printed_at).toLocaleString(
+                          locale,
+                        ),
+                      })}
+                    </span>
                   )}
                 </Link>
               </li>

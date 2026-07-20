@@ -23,6 +23,12 @@ export type EventRow = {
   logistics_flow: string | null;
   status: string;
   created_by: string | null;
+  briefing_printed_at: string | null;
+  briefing_printed_by: string | null;
+};
+
+export type EventBriefingPrintedRow = EventRow & {
+  briefing_printed_by_profile: { full_name: string } | null;
 };
 
 export type AssignmentRow = {

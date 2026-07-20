@@ -10,14 +10,19 @@ import { AttachChecklistForm } from "@/components/attach-checklist-form";
 import { EventActions } from "@/components/event-actions";
 import { EventImages } from "@/components/event-images";
 import { eventTitleWithTime } from "@/lib/event-display";
-import type { EventRow, EventChecklistRow, EventImageRow } from "@/lib/types";
+import type {
+  EventRow,
+  EventBriefingPrintedRow,
+  EventChecklistRow,
+  EventImageRow,
+} from "@/lib/types";
 
 export default async function EventPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string; locale: string }>;
 }) {
-  const { id } = await params;
+  const { id, locale } = await params;
   const t = await getTranslations("event");
   const calendarT = await getTranslations("calendar");
   const templatesT = await getTranslations("checklistTemplates");
@@ -26,7 +31,7 @@ export default async function EventPage({
 
   const { data: event } = await supabase
     .from("events")
-    .select("*")
+    .select("*, briefing_printed_by_profile:profiles!briefing_printed_by(full_name)")
     .eq("id", id)
     .single();
   if (!event) notFound();
@@ -72,8 +77,8 @@ export default async function EventPage({
     <div className="flex flex-col gap-8">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold">
-          {eventTitleWithTime(event as EventRow)}
-          {(event as EventRow).status === "gearchiveerd" && (
+          {eventTitleWithTime(event as unknown as EventBriefingPrintedRow)}
+          {(event as unknown as EventBriefingPrintedRow).status === "gearchiveerd" && (
             <span className="ml-2 rounded bg-black/10 px-2 py-0.5 text-xs font-normal text-black/60">
               {t("archived")}
             </span>
@@ -89,6 +94,19 @@ export default async function EventPage({
           {isAdmin && <EventActions eventId={id} />}
         </div>
       </div>
+
+      {(event as unknown as EventBriefingPrintedRow).briefing_printed_at && (
+        <p className="text-sm text-black/50">
+          {t("briefingPrintedBy", {
+            name:
+              (event as unknown as EventBriefingPrintedRow)
+                .briefing_printed_by_profile?.full_name ?? "",
+            date: new Date(
+              (event as unknown as EventBriefingPrintedRow).briefing_printed_at!,
+            ).toLocaleString(locale),
+          })}
+        </p>
+      )}
 
       <EventDetailsForm event={event as EventRow} readOnly={!isAdmin} />
 

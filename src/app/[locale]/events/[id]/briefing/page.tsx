@@ -58,7 +58,7 @@ export default async function EventBriefingPage({
         <h1 className="text-xl font-semibold">
           {t("briefingTitle")}: {event.title}
         </h1>
-        <PrintButton />
+        <PrintButton eventId={id} />
       </div>
 
       <EventImages

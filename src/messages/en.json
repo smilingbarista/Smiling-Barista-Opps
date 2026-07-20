@@ -56,6 +56,7 @@
     "briefingTitle": "Briefing",
     "generateBriefing": "Generate briefing",
     "print": "Generate briefing as PDF",
+    "briefingPrintedBy": "Briefing printed by {name} on {date}",
     "archive": "Archive",
     "archived": "Archived",
     "confirmDelete": "Permanently delete this event? This cannot be undone.",

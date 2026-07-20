@@ -5,9 +5,9 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/auth";
 import { veloprepChecklistName } from "@/lib/checklist-label";
+import { buildEventTitle } from "@/lib/event-title";
 
 const EVENT_FIELDS = [
-  "title",
   "event_date",
   "departure_time",
   "transport_duration",
@@ -30,8 +30,6 @@ const EVENT_FIELDS = [
   "logistics_flow",
 ] as const;
 
-const PENDING_SUFFIX = " (pending)";
-
 export async function updateEvent(eventId: string, formData: FormData) {
   const profile = await getCurrentProfile();
   if (profile?.role !== "admin") {
@@ -45,14 +43,10 @@ export async function updateEvent(eventId: string, formData: FormData) {
     updates[field] = value === null ? null : String(value) || null;
   }
 
+  const base = String(formData.get("title") ?? "").trim();
+  const baristas = formData.getAll("barista").map((v) => String(v));
   const confirmed = formData.get("confirmed") === "on";
-  const currentTitle = updates.title ?? "";
-  const isPending = currentTitle.endsWith(PENDING_SUFFIX);
-  if (confirmed && isPending) {
-    updates.title = currentTitle.slice(0, -PENDING_SUFFIX.length);
-  } else if (!confirmed && !isPending) {
-    updates.title = currentTitle + PENDING_SUFFIX;
-  }
+  updates.title = buildEventTitle(base, baristas, !confirmed);
 
   const { error } = await supabase
     .from("events")

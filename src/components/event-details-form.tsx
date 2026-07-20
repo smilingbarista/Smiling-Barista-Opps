@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { updateEvent } from "@/app/[locale]/events/[id]/actions";
 import { AutosizeTextarea } from "@/components/autosize-textarea";
+import { parseEventTitle } from "@/lib/event-title";
 import type { EventRow } from "@/lib/types";
 
 function Field({
@@ -60,6 +62,51 @@ function TextareaField({
   );
 }
 
+function BaristaFields({
+  initial,
+  readOnly,
+}: {
+  initial: string[];
+  readOnly: boolean;
+}) {
+  const t = useTranslations("event");
+  const [names, setNames] = useState<string[]>(
+    initial.length > 0 ? initial : [""],
+  );
+
+  return (
+    <div className="flex flex-col gap-2">
+      <span className="text-sm">{t("barista")}</span>
+      {names.map((name, i) => (
+        <input
+          key={i}
+          type="text"
+          name="barista"
+          value={name}
+          readOnly={readOnly}
+          onChange={(e) =>
+            setNames((prev) =>
+              prev.map((n, idx) => (idx === i ? e.target.value : n)),
+            )
+          }
+          className={`rounded border px-2 py-1 text-sm ${
+            readOnly ? "border-transparent bg-black/5" : "border-black/20"
+          }`}
+        />
+      ))}
+      {!readOnly && (
+        <button
+          type="button"
+          onClick={() => setNames((prev) => [...prev, ""])}
+          className="self-start text-xs text-brand underline"
+        >
+          {t("addBarista")}
+        </button>
+      )}
+    </div>
+  );
+}
+
 export function EventDetailsForm({
   event,
   readOnly,
@@ -69,6 +116,7 @@ export function EventDetailsForm({
 }) {
   const t = useTranslations("event");
   const common = useTranslations("common");
+  const parsed = parseEventTitle(event.title);
 
   return (
     <form
@@ -77,12 +125,14 @@ export function EventDetailsForm({
     >
       <Field label={t("date")} name="event_date" type="date" defaultValue={event.event_date} readOnly={readOnly} />
 
+      <BaristaFields initial={parsed.baristas} readOnly={readOnly} />
+
       {!readOnly && (
         <label className="flex items-center gap-2 text-sm">
           <input
             type="checkbox"
             name="confirmed"
-            defaultChecked={!event.title.endsWith(" (pending)")}
+            defaultChecked={!parsed.pending}
           />
           {t("confirmed")}
         </label>
@@ -104,7 +154,7 @@ export function EventDetailsForm({
       <fieldset className="flex flex-col gap-3">
         <legend className="font-medium">{t("eventSection")}</legend>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <Field label={t("description")} name="title" defaultValue={event.title} readOnly={readOnly} />
+          <Field label={t("description")} name="title" defaultValue={parsed.base} readOnly={readOnly} />
           <Field label={t("address")} name="address" defaultValue={event.address} readOnly={readOnly} />
           <Field label={t("descriptionDetails")} name="description" defaultValue={event.description} readOnly={readOnly} />
           <Field label={t("guestCount")} name="guest_count" defaultValue={event.guest_count} readOnly={readOnly} />

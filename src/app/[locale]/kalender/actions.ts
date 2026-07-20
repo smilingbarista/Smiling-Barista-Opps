@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/auth";
 import { veloprepChecklistName } from "@/lib/checklist-label";
+import { buildEventTitle } from "@/lib/event-title";
 
 export async function createEvent(formData: FormData) {
   const profile = await getCurrentProfile();
@@ -20,10 +21,7 @@ export async function createEvent(formData: FormData) {
     throw new Error("Titel en datum zijn verplicht");
   }
 
-  const title =
-    rawTitle +
-    (barista ? ` (${barista})` : "") +
-    (confirmed ? "" : " (pending)");
+  const title = buildEventTitle(rawTitle, [barista], !confirmed);
 
   const { data, error } = await supabase
     .from("events")

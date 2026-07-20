@@ -31,14 +31,17 @@ export function parseEventTitle(title: string): ParsedTitle {
 // Bouwt de opgeslagen eventtitel op uit de basistitel + barista-namen +
 // pending-status. Enkel het resultaat hiervan wordt in `events.title`
 // bewaard, zodat we nooit op de ruwe tekst hoeven te patchen.
+// Is er nog geen barista-naam ingevuld, dan komt er een "(?)" als
+// placeholder in de titel, zodat ontbrekende toewijzing zichtbaar blijft.
 export function buildEventTitle(
   base: string,
   baristas: string[],
   pending: boolean,
 ): string {
   const names = baristas.map((s) => s.trim()).filter(Boolean);
+  const displayNames = names.length > 0 ? names : ["?"];
   let title = base.trim();
-  if (names.length > 0) title += ` (${names.join(", ")})`;
+  title += ` (${displayNames.join(", ")})`;
   if (pending) title += PENDING_SUFFIX;
   return title;
 }

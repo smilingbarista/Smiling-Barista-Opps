@@ -77,6 +77,17 @@ export function EventDetailsForm({
     >
       <Field label={t("date")} name="event_date" type="date" defaultValue={event.event_date} readOnly={readOnly} />
 
+      {!readOnly && (
+        <label className="flex items-center gap-2 text-sm">
+          <input
+            type="checkbox"
+            name="confirmed"
+            defaultChecked={!event.title.endsWith(" (pending)")}
+          />
+          {t("confirmed")}
+        </label>
+      )}
+
       <fieldset className="flex flex-col gap-3">
         <legend className="font-medium">{t("timingSection")}</legend>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">

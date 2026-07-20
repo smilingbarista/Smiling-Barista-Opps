@@ -30,6 +30,8 @@ const EVENT_FIELDS = [
   "logistics_flow",
 ] as const;
 
+const PENDING_SUFFIX = " (pending)";
+
 export async function updateEvent(eventId: string, formData: FormData) {
   const profile = await getCurrentProfile();
   if (profile?.role !== "admin") {
@@ -41,6 +43,15 @@ export async function updateEvent(eventId: string, formData: FormData) {
   for (const field of EVENT_FIELDS) {
     const value = formData.get(field);
     updates[field] = value === null ? null : String(value) || null;
+  }
+
+  const confirmed = formData.get("confirmed") === "on";
+  const currentTitle = updates.title ?? "";
+  const isPending = currentTitle.endsWith(PENDING_SUFFIX);
+  if (confirmed && isPending) {
+    updates.title = currentTitle.slice(0, -PENDING_SUFFIX.length);
+  } else if (!confirmed && !isPending) {
+    updates.title = currentTitle + PENDING_SUFFIX;
   }
 
   const { error } = await supabase

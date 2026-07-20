@@ -40,6 +40,7 @@ export function CalendarView({
       allDay: true,
       color: "#0366c5",
       editable: !!isAdmin,
+      extendedProps: { address: e.address },
     })),
     ...availability.map((a) => ({
       id: `avail-${a.id}`,
@@ -64,6 +65,13 @@ export function CalendarView({
       dateClick={
         onDateClick ? (info) => onDateClick(info.dateStr) : undefined
       }
+      eventDidMount={(info) => {
+        if (info.event.id.startsWith("avail-")) return;
+        const address = info.event.extendedProps.address as string | null;
+        info.el.title = address
+          ? `${info.event.title}\n${address}`
+          : info.event.title;
+      }}
       eventClick={(info) => {
         if (info.event.id.startsWith("avail-")) return;
         router.push(`/events/${info.event.id}`);

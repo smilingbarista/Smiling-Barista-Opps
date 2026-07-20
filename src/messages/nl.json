@@ -121,7 +121,12 @@
     "roleAdmin": "Admin",
     "roleMedewerker": "Medewerker",
     "exportData": "Gegevens exporteren",
-    "deleteProfile": "Profiel en gegevens verwijderen"
+    "deleteProfile": "Profiel en gegevens verwijderen",
+    "inviteName": "Naam",
+    "inviteEmail": "E-mailadres",
+    "inviteSubmit": "Uitnodigen",
+    "inviteSending": "Bezig...",
+    "inviteSent": "Uitnodiging verstuurd."
   },
   "inventory": {
     "title": "Voorraad — materialen en grondstoffen",
@@ -144,6 +149,16 @@
     "automatic": "automatisch",
     "manualLabel": "manueel",
     "download": "Downloaden"
+  },
+  "setPassword": {
+    "title": "Wachtwoord instellen",
+    "hint": "Kies een wachtwoord om je account bij Veloprep te activeren.",
+    "password": "Wachtwoord",
+    "confirmPassword": "Bevestig wachtwoord",
+    "submit": "Activeren",
+    "tooShort": "Wachtwoord moet minstens 8 tekens bevatten.",
+    "mismatch": "Wachtwoorden komen niet overeen.",
+    "invalidLink": "Deze link is ongeldig of verlopen. Vraag een nieuwe uitnodiging aan bij de admin."
   },
   "privacy": {
     "title": "Privacyverklaring",

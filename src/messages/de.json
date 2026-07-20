@@ -121,7 +121,12 @@
     "roleAdmin": "Admin",
     "roleMedewerker": "Mitarbeiter",
     "exportData": "Daten exportieren",
-    "deleteProfile": "Profil und Daten löschen"
+    "deleteProfile": "Profil und Daten löschen",
+    "inviteName": "Name",
+    "inviteEmail": "E-Mail-Adresse",
+    "inviteSubmit": "Einladen",
+    "inviteSending": "Wird gesendet...",
+    "inviteSent": "Einladung gesendet."
   },
   "inventory": {
     "title": "Lagerbestand — Materialien und Rohstoffe",
@@ -144,6 +149,16 @@
     "automatic": "automatisch",
     "manualLabel": "manuell",
     "download": "Herunterladen"
+  },
+  "setPassword": {
+    "title": "Passwort festlegen",
+    "hint": "Wähle ein Passwort, um dein Veloprep-Konto zu aktivieren.",
+    "password": "Passwort",
+    "confirmPassword": "Passwort bestätigen",
+    "submit": "Aktivieren",
+    "tooShort": "Das Passwort muss mindestens 8 Zeichen lang sein.",
+    "mismatch": "Die Passwörter stimmen nicht überein.",
+    "invalidLink": "Dieser Link ist ungültig oder abgelaufen. Bitte den Admin um eine neue Einladung."
   },
   "privacy": {
     "title": "Datenschutzerklärung",

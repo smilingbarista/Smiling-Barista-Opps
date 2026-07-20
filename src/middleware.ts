@@ -41,7 +41,9 @@ export async function middleware(request: NextRequest) {
     ? segments.slice(1)
     : segments;
   const isPublic =
-    withoutLocale.length === 0 || PUBLIC_SEGMENTS.includes(withoutLocale[0]);
+    withoutLocale.length === 0 ||
+    PUBLIC_SEGMENTS.includes(withoutLocale[0]) ||
+    withoutLocale.join("/") === "auth/set-password";
 
   if (!user && !isPublic) {
     const locale = routing.locales.includes(

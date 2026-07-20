@@ -121,7 +121,12 @@
     "roleAdmin": "Admin",
     "roleMedewerker": "Employee",
     "exportData": "Export data",
-    "deleteProfile": "Delete profile and data"
+    "deleteProfile": "Delete profile and data",
+    "inviteName": "Name",
+    "inviteEmail": "Email address",
+    "inviteSubmit": "Invite",
+    "inviteSending": "Working...",
+    "inviteSent": "Invitation sent."
   },
   "inventory": {
     "title": "Inventory — materials and supplies",
@@ -144,6 +149,16 @@
     "automatic": "automatic",
     "manualLabel": "manual",
     "download": "Download"
+  },
+  "setPassword": {
+    "title": "Set your password",
+    "hint": "Choose a password to activate your Veloprep account.",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "submit": "Activate",
+    "tooShort": "Password must be at least 8 characters.",
+    "mismatch": "Passwords do not match.",
+    "invalidLink": "This link is invalid or expired. Ask the admin for a new invitation."
   },
   "privacy": {
     "title": "Privacy notice",

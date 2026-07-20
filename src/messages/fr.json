@@ -121,7 +121,12 @@
     "roleAdmin": "Admin",
     "roleMedewerker": "Employé",
     "exportData": "Exporter les données",
-    "deleteProfile": "Supprimer le profil et les données"
+    "deleteProfile": "Supprimer le profil et les données",
+    "inviteName": "Nom",
+    "inviteEmail": "Adresse e-mail",
+    "inviteSubmit": "Inviter",
+    "inviteSending": "En cours...",
+    "inviteSent": "Invitation envoyée."
   },
   "inventory": {
     "title": "Stock — matériaux et matières premières",
@@ -144,6 +149,16 @@
     "automatic": "automatique",
     "manualLabel": "manuelle",
     "download": "Télécharger"
+  },
+  "setPassword": {
+    "title": "Définir votre mot de passe",
+    "hint": "Choisissez un mot de passe pour activer votre compte Veloprep.",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "submit": "Activer",
+    "tooShort": "Le mot de passe doit contenir au moins 8 caractères.",
+    "mismatch": "Les mots de passe ne correspondent pas.",
+    "invalidLink": "Ce lien est invalide ou expiré. Demandez une nouvelle invitation à l'admin."
   },
   "privacy": {
     "title": "Déclaration de confidentialité",

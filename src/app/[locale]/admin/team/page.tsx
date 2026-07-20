@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { TeamMemberRow } from "@/components/team-member-row";
+import { InviteTeamMemberForm } from "@/components/invite-team-member-form";
 
 export default async function AdminTeamPage() {
   const t = await getTranslations("admin");
@@ -14,6 +15,7 @@ export default async function AdminTeamPage() {
   return (
     <div className="flex flex-col gap-4">
       <h1 className="text-xl font-semibold">{t("teamTitle")}</h1>
+      <InviteTeamMemberForm />
       <table className="w-full text-left text-sm">
         <tbody>
           {(profiles ?? []).map((p) => (

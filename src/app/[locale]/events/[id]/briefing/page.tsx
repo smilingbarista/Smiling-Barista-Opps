@@ -1,10 +1,26 @@
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { PrintButton } from "@/components/print-button";
-import { BriefingShare } from "@/components/briefing-share";
 import { EventImages } from "@/components/event-images";
 import type { EventRow, EventImageRow } from "@/lib/types";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("events")
+    .select("title")
+    .eq("id", id)
+    .single();
+
+  return { title: data?.title ?? "Briefing" };
+}
 
 function Row({ label, value }: { label: string; value: string | null }) {
   return (
@@ -44,8 +60,6 @@ export default async function EventBriefingPage({
         </h1>
         <PrintButton />
       </div>
-
-      <BriefingShare event={event} />
 
       <EventImages
         eventId={id}

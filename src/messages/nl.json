@@ -7,7 +7,8 @@
     "language": "Taal",
     "yes": "Ja",
     "no": "Nee",
-    "back": "Terug"
+    "back": "Terug",
+    "week": "Week"
   },
   "nav": {
     "dashboard": "Events",
@@ -18,6 +19,7 @@
     "adminChecklists": "Checklist-templates",
     "adminTeam": "Team",
     "adminBackup": "Backup",
+    "adminArchive": "Archief",
     "privacy": "Privacy",
     "logout": "Uitloggen"
   },
@@ -161,6 +163,10 @@
     "tooShort": "Wachtwoord moet minstens 8 tekens bevatten.",
     "mismatch": "Wachtwoorden komen niet overeen.",
     "invalidLink": "Deze link is ongeldig of verlopen. Vraag een nieuwe uitnodiging aan bij de admin."
+  },
+  "archive": {
+    "title": "Archief",
+    "noEvents": "Nog geen voorbije events."
   },
   "privacy": {
     "title": "Privacyverklaring",

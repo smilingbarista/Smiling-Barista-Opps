@@ -66,6 +66,9 @@ export function SiteHeader({ profile }: { profile: Profile | null }) {
                 <Link href="/admin/backup" className="hover:text-brand">
                   {t("adminBackup")}
                 </Link>
+                <Link href="/admin/archive" className="hover:text-brand">
+                  {t("adminArchive")}
+                </Link>
               </>
             )}
           </nav>

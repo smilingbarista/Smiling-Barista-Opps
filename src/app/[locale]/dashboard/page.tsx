@@ -1,9 +1,8 @@
 import { getTranslations } from "next-intl/server";
-import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/auth";
 import { NewEventForm } from "@/components/new-event-form";
-import { formatTime } from "@/lib/event-display";
+import { GroupedEventList } from "@/components/grouped-event-list";
 import type { EventBriefingPrintedRow } from "@/lib/types";
 
 const EVENT_SELECT =
@@ -16,7 +15,6 @@ export default async function DashboardPage({
 }) {
   const { locale } = await params;
   const t = await getTranslations("dashboard");
-  const eventT = await getTranslations("event");
   const profile = await getCurrentProfile();
   const supabase = await createClient();
   const today = new Date().toISOString().slice(0, 10);
@@ -70,46 +68,12 @@ export default async function DashboardPage({
         <h2 className="font-medium">
           {profile?.role === "admin" ? t("allEvents") : t("myEvents")}
         </h2>
-        {events.length === 0 && (
-          <p className="text-sm text-black/50">{t("noEvents")}</p>
-        )}
-        <ul className="flex flex-col gap-2">
-          {events.map((event) => {
-            const start = formatTime(event.service_start);
-            const end = formatTime(event.service_end);
-            const hours = start && end ? `${start}–${end}` : start;
-            return (
-              <li key={event.id}>
-                <Link
-                  href={`/events/${event.id}`}
-                  className="flex flex-col gap-1 rounded border border-black/10 px-4 py-3 hover:border-brand"
-                >
-                  <span className="flex items-center justify-between">
-                    <span>
-                      <span className="font-medium">{event.title}</span>
-                      <span className="ml-2 text-sm text-black/50">
-                        {event.event_date}
-                      </span>
-                    </span>
-                    {hours && (
-                      <span className="text-sm text-black/50">{hours}</span>
-                    )}
-                  </span>
-                  {event.briefing_printed_at && (
-                    <span className="text-xs text-black/40">
-                      {eventT("briefingPrintedBy", {
-                        name: event.briefing_printed_by_profile?.full_name ?? "",
-                        date: new Date(event.briefing_printed_at).toLocaleString(
-                          locale,
-                        ),
-                      })}
-                    </span>
-                  )}
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+        <GroupedEventList
+          events={events}
+          locale={locale}
+          order="asc"
+          emptyMessage={t("noEvents")}
+        />
       </section>
     </div>
   );

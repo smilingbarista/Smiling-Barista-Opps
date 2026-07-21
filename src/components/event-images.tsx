@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
 import {
   uploadEventImage,
@@ -24,6 +24,7 @@ export function EventImages({
   const t = useTranslations("event");
   const common = useTranslations("common");
   const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
   if (readOnly && images.length === 0) return null;
@@ -66,7 +67,9 @@ export function EventImages({
             ref={formRef}
             action={(formData) =>
               startTransition(async () => {
-                await uploadEventImage(eventId, formData);
+                setError(null);
+                const result = await uploadEventImage(eventId, formData);
+                if (result.error) setError(result.error);
                 formRef.current?.reset();
               })
             }
@@ -82,7 +85,7 @@ export function EventImages({
               <input
                 type="file"
                 name="file"
-                accept="image/png,image/jpeg,image/webp,image/gif"
+                accept="image/png,image/jpeg,image/webp,image/gif,image/heic,image/heif"
                 disabled={isPending}
                 onChange={() => formRef.current?.requestSubmit()}
                 className="sr-only"
@@ -91,6 +94,7 @@ export function EventImages({
           </form>
         )}
       </div>
+      {error && <p className="text-sm text-red-600">{error}</p>}
     </div>
   );
 }

@@ -163,14 +163,20 @@ export async function attachChecklist(eventId: string, formData: FormData) {
   revalidatePath(`/events/${eventId}`);
 }
 
-export async function uploadEventImage(eventId: string, formData: FormData) {
+// Geeft de fout terug i.p.v. te throwen: Next.js verbergt in productie de
+// tekst van elke error die een Server Action throwt (bv. "bestand te groot"
+// of "bestandstype niet ondersteund" zouden anders onleesbaar worden).
+export async function uploadEventImage(
+  eventId: string,
+  formData: FormData,
+): Promise<{ error?: string }> {
   const profile = await getCurrentProfile();
   if (profile?.role !== "admin") {
-    throw new Error("Only admins can add images");
+    return { error: "Only admins can add images" };
   }
 
   const file = formData.get("file");
-  if (!(file instanceof File) || file.size === 0) return;
+  if (!(file instanceof File) || file.size === 0) return {};
 
   const supabase = await createClient();
   const ext = file.name.split(".").pop() || "jpg";
@@ -180,15 +186,16 @@ export async function uploadEventImage(eventId: string, formData: FormData) {
   const { error: uploadError } = await supabase.storage
     .from("event-images")
     .upload(path, bytes, { contentType: file.type });
-  if (uploadError) throw uploadError;
+  if (uploadError) return { error: uploadError.message };
 
   const { error: insertError } = await supabase
     .from("event_images")
     .insert({ event_id: eventId, path });
-  if (insertError) throw insertError;
+  if (insertError) return { error: insertError.message };
 
   revalidatePath(`/events/${eventId}`);
   revalidatePath(`/events/${eventId}/briefing`);
+  return {};
 }
 
 export async function deleteEventImage(

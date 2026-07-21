@@ -10,6 +10,7 @@ import {
 } from "@/app/[locale]/events/[id]/checklists/[checklistId]/actions";
 import { queueSave, flushQueue } from "@/lib/offline-queue";
 import { AutosizeTextarea } from "@/components/autosize-textarea";
+import { usesPerItemExtra } from "@/lib/checklist-label";
 import type { ChecklistItemView } from "@/lib/types";
 
 type ItemState = { checked: boolean; note: string };
@@ -17,30 +18,40 @@ type ItemState = { checked: boolean; note: string };
 export function ChecklistForm({
   eventId,
   checklistId,
+  templateCode,
   items,
+  initialRemarks,
   submitted,
   isAdmin,
 }: {
   eventId: string;
   checklistId: string;
+  templateCode: string | null;
   items: ChecklistItemView[];
+  initialRemarks: string;
   submitted: boolean;
   isAdmin: boolean;
 }) {
   const t = useTranslations("event");
+  const perItemExtra = usesPerItemExtra(templateCode);
   const [state, setState] = useState<Record<string, ItemState>>(
     Object.fromEntries(
       items.map((i) => [i.templateItemId, { checked: i.checked, note: i.note }]),
     ),
   );
+  const [remarks, setRemarks] = useState(initialRemarks);
   const [offline, setOffline] = useState(false);
   const [saved, setSaved] = useState(true);
   const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
-    flushQueue((eId, cId, saveItems) => saveChecklistItems(eId, cId, saveItems));
+    flushQueue((eId, cId, saveItems, saveRemarks) =>
+      saveChecklistItems(eId, cId, saveItems, saveRemarks),
+    );
     function onOnline() {
-      flushQueue((eId, cId, saveItems) => saveChecklistItems(eId, cId, saveItems));
+      flushQueue((eId, cId, saveItems, saveRemarks) =>
+      saveChecklistItems(eId, cId, saveItems, saveRemarks),
+    );
     }
     window.addEventListener("online", onOnline);
     return () => window.removeEventListener("online", onOnline);
@@ -65,11 +76,11 @@ export function ChecklistForm({
   async function handleSave() {
     const saveItems = collectItems();
     try {
-      await saveChecklistItems(eventId, checklistId, saveItems);
+      await saveChecklistItems(eventId, checklistId, saveItems, remarks);
       setOffline(false);
       setSaved(true);
     } catch {
-      await queueSave(checklistId, eventId, saveItems);
+      await queueSave(checklistId, eventId, saveItems, remarks);
       setOffline(true);
     }
   }
@@ -78,9 +89,9 @@ export function ChecklistForm({
     startTransition(async () => {
       const saveItems = collectItems();
       try {
-        await submitChecklist(eventId, checklistId, saveItems);
+        await submitChecklist(eventId, checklistId, saveItems, remarks);
       } catch {
-        await queueSave(checklistId, eventId, saveItems);
+        await queueSave(checklistId, eventId, saveItems, remarks);
         setOffline(true);
       }
     });
@@ -121,20 +132,37 @@ export function ChecklistForm({
                       {item.label}
                     </span>
                   </label>
-                  <AutosizeTextarea
-                    disabled={submitted}
-                    value={itemState?.note ?? ""}
-                    placeholder={item.templateExtra || t("extra")}
-                    onChange={(e) =>
-                      updateItem(item.templateItemId, { note: e.target.value })
-                    }
-                    className="mt-2 w-full rounded border border-black/20 px-2 py-1 text-xs"
-                  />
+                  {perItemExtra && (
+                    <AutosizeTextarea
+                      disabled={submitted}
+                      value={itemState?.note ?? ""}
+                      placeholder={item.templateExtra || t("extra")}
+                      onChange={(e) =>
+                        updateItem(item.templateItemId, { note: e.target.value })
+                      }
+                      className="mt-2 w-full rounded border border-black/20 px-2 py-1 text-xs"
+                    />
+                  )}
                 </div>
               );
             })}
         </div>
       ))}
+
+      {!perItemExtra && (
+        <label className="flex flex-col gap-1 text-sm">
+          {t("checklistRemarks")}
+          <AutosizeTextarea
+            disabled={submitted}
+            value={remarks}
+            onChange={(e) => {
+              setRemarks(e.target.value);
+              setSaved(false);
+            }}
+            className="w-full rounded border border-black/20 px-2 py-1 text-sm"
+          />
+        </label>
+      )}
 
       {!submitted && (
         <div className="flex items-center gap-3">

@@ -14,20 +14,30 @@ export async function saveChecklistItems(
   eventId: string,
   checklistId: string,
   items: ChecklistItemSave[],
+  remarks?: string,
 ) {
-  if (items.length === 0) return;
-
   const supabase = await createClient();
-  const { error } = await supabase.from("event_checklist_items").upsert(
-    items.map((item) => ({
-      event_checklist_id: checklistId,
-      template_item_id: item.templateItemId,
-      checked: item.checked,
-      note: item.note || null,
-    })),
-    { onConflict: "event_checklist_id,template_item_id" },
-  );
-  if (error) throw error;
+
+  if (items.length > 0) {
+    const { error } = await supabase.from("event_checklist_items").upsert(
+      items.map((item) => ({
+        event_checklist_id: checklistId,
+        template_item_id: item.templateItemId,
+        checked: item.checked,
+        note: item.note || null,
+      })),
+      { onConflict: "event_checklist_id,template_item_id" },
+    );
+    if (error) throw error;
+  }
+
+  if (remarks !== undefined) {
+    const { error } = await supabase
+      .from("event_checklists")
+      .update({ remarks: remarks || null })
+      .eq("id", checklistId);
+    if (error) throw error;
+  }
 
   revalidatePath(`/events/${eventId}/checklists/${checklistId}`);
 }
@@ -36,11 +46,12 @@ export async function submitChecklist(
   eventId: string,
   checklistId: string,
   items: ChecklistItemSave[],
+  remarks?: string,
 ) {
   const profile = await getCurrentProfile();
   if (!profile) throw new Error("Not authenticated");
 
-  await saveChecklistItems(eventId, checklistId, items);
+  await saveChecklistItems(eventId, checklistId, items, remarks);
 
   const supabase = await createClient();
   const { error } = await supabase

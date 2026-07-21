@@ -8,6 +8,7 @@ interface QueueDB extends DBSchema {
       checklistId: string;
       eventId: string;
       items: ChecklistItemSave[];
+      remarks?: string;
     };
   };
 }
@@ -30,10 +31,11 @@ export async function queueSave(
   checklistId: string,
   eventId: string,
   items: ChecklistItemSave[],
+  remarks?: string,
 ) {
   const db = await dbPromise;
   if (!db) return;
-  await db.put("pending-saves", { checklistId, eventId, items });
+  await db.put("pending-saves", { checklistId, eventId, items, remarks });
 }
 
 export async function getQueuedSaves() {
@@ -53,12 +55,13 @@ export async function flushQueue(
     eventId: string,
     checklistId: string,
     items: ChecklistItemSave[],
+    remarks?: string,
   ) => Promise<void>,
 ) {
   const pending = await getQueuedSaves();
   for (const entry of pending) {
     try {
-      await saveFn(entry.eventId, entry.checklistId, entry.items);
+      await saveFn(entry.eventId, entry.checklistId, entry.items, entry.remarks);
       await clearQueuedSave(entry.checklistId);
     } catch {
       // Still offline or server error — leave queued and retry on next flush.

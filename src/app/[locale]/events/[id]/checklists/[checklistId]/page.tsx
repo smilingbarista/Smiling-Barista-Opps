@@ -19,7 +19,7 @@ export default async function EventChecklistPage({
 
   const { data: checklist } = await supabase
     .from("event_checklists")
-    .select("id, template_id, name, status, checklist_templates(id, code)")
+    .select("id, template_id, name, status, remarks, checklist_templates(id, code)")
     .eq("id", checklistId)
     .single();
 
@@ -71,7 +71,9 @@ export default async function EventChecklistPage({
       <ChecklistForm
         eventId={eventId}
         checklistId={checklistId}
+        templateCode={templateCode ?? null}
         items={items}
+        initialRemarks={checklist.remarks ?? ""}
         submitted={checklist.status === "ingediend"}
         isAdmin={profile?.role === "admin"}
       />

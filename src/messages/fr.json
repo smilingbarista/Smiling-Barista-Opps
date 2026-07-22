@@ -29,6 +29,7 @@
     "password": "Mot de passe",
     "submit": "Se connecter",
     "error": "Échec de la connexion. Vérifiez vos identifiants.",
+    "forgotPassword": "Mot de passe oublié ?",
     "mfaTitle": "Code de vérification",
     "mfaHint": "Entrez le code de votre application d'authentification.",
     "mfaCode": "Code à 6 chiffres",
@@ -162,7 +163,14 @@
     "submit": "Activer",
     "tooShort": "Le mot de passe doit contenir au moins 8 caractères.",
     "mismatch": "Les mots de passe ne correspondent pas.",
-    "invalidLink": "Ce lien est invalide ou expiré. Demandez une nouvelle invitation à l'admin."
+    "invalidLink": "Ce lien est invalide ou expiré. Demandez-en un nouveau : une nouvelle invitation via l'admin, ou 'Mot de passe oublié ?' sur la page de connexion."
+  },
+  "forgotPassword": {
+    "title": "Mot de passe oublié",
+    "hint": "Entrez votre adresse e-mail. Si un compte existe, nous vous enverrons un lien pour définir un nouveau mot de passe.",
+    "email": "Adresse e-mail",
+    "submit": "Envoyer le lien",
+    "sentHint": "Si cette adresse e-mail a un compte, un e-mail est en route avec un lien pour définir un nouveau mot de passe."
   },
   "archive": {
     "title": "Archives",

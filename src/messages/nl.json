@@ -29,6 +29,7 @@
     "password": "Wachtwoord",
     "submit": "Inloggen",
     "error": "Inloggen mislukt. Controleer je gegevens.",
+    "forgotPassword": "Wachtwoord vergeten?",
     "mfaTitle": "Verificatiecode",
     "mfaHint": "Voer de code uit je authenticator-app in.",
     "mfaCode": "6-cijferige code",
@@ -162,7 +163,14 @@
     "submit": "Activeren",
     "tooShort": "Wachtwoord moet minstens 8 tekens bevatten.",
     "mismatch": "Wachtwoorden komen niet overeen.",
-    "invalidLink": "Deze link is ongeldig of verlopen. Vraag een nieuwe uitnodiging aan bij de admin."
+    "invalidLink": "Deze link is ongeldig of verlopen. Vraag een nieuwe link aan: een nieuwe uitnodiging via de admin, of 'Wachtwoord vergeten' op de inlogpagina."
+  },
+  "forgotPassword": {
+    "title": "Wachtwoord vergeten",
+    "hint": "Vul je e-mailadres in. Als er een account bestaat, sturen we een link om een nieuw wachtwoord in te stellen.",
+    "email": "E-mailadres",
+    "submit": "Verstuur link",
+    "sentHint": "Als dit e-mailadres een account heeft, is er een e-mail onderweg met een link om een nieuw wachtwoord in te stellen."
   },
   "archive": {
     "title": "Archief",

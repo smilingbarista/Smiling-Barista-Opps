@@ -2,7 +2,7 @@
 
 import { useState, FormEvent } from "react";
 import { useTranslations } from "next-intl";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter, Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
 
 type Step = "password" | "mfa";
@@ -125,6 +125,12 @@ export default function LoginPage() {
           >
             {t("submit")}
           </button>
+          <Link
+            href="/auth/forgot-password"
+            className="text-center text-sm text-brand underline"
+          >
+            {t("forgotPassword")}
+          </Link>
         </form>
       ) : (
         <form onSubmit={handleMfaSubmit} className="flex flex-col gap-3">

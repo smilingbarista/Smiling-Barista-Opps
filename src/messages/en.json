@@ -29,6 +29,7 @@
     "password": "Password",
     "submit": "Sign in",
     "error": "Sign in failed. Please check your details.",
+    "forgotPassword": "Forgot your password?",
     "mfaTitle": "Verification code",
     "mfaHint": "Enter the code from your authenticator app.",
     "mfaCode": "6-digit code",
@@ -162,7 +163,14 @@
     "submit": "Activate",
     "tooShort": "Password must be at least 8 characters.",
     "mismatch": "Passwords do not match.",
-    "invalidLink": "This link is invalid or expired. Ask the admin for a new invitation."
+    "invalidLink": "This link is invalid or expired. Request a new one: a new invitation from the admin, or 'Forgot your password?' on the login page."
+  },
+  "forgotPassword": {
+    "title": "Forgot password",
+    "hint": "Enter your email address. If an account exists, we'll send a link to set a new password.",
+    "email": "Email address",
+    "submit": "Send link",
+    "sentHint": "If this email address has an account, an email is on its way with a link to set a new password."
   },
   "archive": {
     "title": "Archive",

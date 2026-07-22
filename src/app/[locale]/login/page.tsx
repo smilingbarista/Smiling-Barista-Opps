@@ -50,7 +50,7 @@ export default function LoginPage() {
         const { data: challenge, error: challengeError } =
           await supabase.auth.mfa.challenge({ factorId: totp.id });
         if (challengeError) {
-          setError(t("error"));
+          setError(t("mfaError"));
           setLoading(false);
           return;
         }
@@ -80,7 +80,7 @@ export default function LoginPage() {
     });
 
     if (verifyError) {
-      setError(t("error"));
+      setError(t("mfaError"));
       setLoading(false);
       return;
     }

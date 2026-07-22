@@ -33,6 +33,7 @@
     "mfaTitle": "Verificatiecode",
     "mfaHint": "Voer de code uit je authenticator-app in.",
     "mfaCode": "6-cijferige code",
+    "mfaError": "Code onjuist of verlopen. Probeer de nieuwste code uit je authenticator-app opnieuw.",
     "mfaSubmit": "Bevestigen",
     "mfaEnrollTitle": "Twee-staps verificatie instellen",
     "mfaEnrollHint": "Scan deze QR-code met je authenticator-app en voer de code in om te bevestigen.",

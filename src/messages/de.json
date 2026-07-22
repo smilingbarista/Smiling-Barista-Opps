@@ -33,6 +33,7 @@
     "mfaTitle": "Bestätigungscode",
     "mfaHint": "Geben Sie den Code aus Ihrer Authenticator-App ein.",
     "mfaCode": "6-stelliger Code",
+    "mfaError": "Code falsch oder abgelaufen. Versuchen Sie es erneut mit dem neuesten Code aus Ihrer Authenticator-App.",
     "mfaSubmit": "Bestätigen",
     "mfaEnrollTitle": "Zwei-Faktor-Authentifizierung einrichten",
     "mfaEnrollHint": "Scannen Sie diesen QR-Code mit Ihrer Authenticator-App und geben Sie den Code zur Bestätigung ein.",

@@ -33,6 +33,7 @@
     "mfaTitle": "Verification code",
     "mfaHint": "Enter the code from your authenticator app.",
     "mfaCode": "6-digit code",
+    "mfaError": "Incorrect or expired code. Try the newest code from your authenticator app again.",
     "mfaSubmit": "Confirm",
     "mfaEnrollTitle": "Set up two-factor authentication",
     "mfaEnrollHint": "Scan this QR code with your authenticator app and enter the code to confirm.",

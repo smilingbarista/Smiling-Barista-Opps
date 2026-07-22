@@ -33,6 +33,7 @@
     "mfaTitle": "Code de vérification",
     "mfaHint": "Entrez le code de votre application d'authentification.",
     "mfaCode": "Code à 6 chiffres",
+    "mfaError": "Code incorrect ou expiré. Réessayez avec le code le plus récent de votre application d'authentification.",
     "mfaSubmit": "Confirmer",
     "mfaEnrollTitle": "Configurer la vérification en deux étapes",
     "mfaEnrollHint": "Scannez ce QR code avec votre application d'authentification et entrez le code pour confirmer.",

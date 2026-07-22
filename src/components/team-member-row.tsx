@@ -23,6 +23,7 @@ export function TeamMemberRow({
       <td className="py-2 pr-4">
         <form action={(formData) => updateRole(id, formData)}>
           <select
+            key={role}
             name="role"
             defaultValue={role}
             onChange={(e) => e.target.form?.requestSubmit()}

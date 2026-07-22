@@ -170,7 +170,8 @@
     "hint": "Vul je e-mailadres in. Als er een account bestaat, sturen we een link om een nieuw wachtwoord in te stellen.",
     "email": "E-mailadres",
     "submit": "Verstuur link",
-    "sentHint": "Als dit e-mailadres een account heeft, is er een e-mail onderweg met een link om een nieuw wachtwoord in te stellen."
+    "sentHint": "Als dit e-mailadres een account heeft, is er een e-mail onderweg met een link om een nieuw wachtwoord in te stellen.",
+    "rateLimited": "Er zijn net te veel e-mails verstuurd. Probeer het binnen het uur opnieuw, of vraag de admin om een nieuwe uitnodiging te sturen."
   },
   "archive": {
     "title": "Archief",

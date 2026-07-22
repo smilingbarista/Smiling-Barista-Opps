@@ -170,7 +170,8 @@
     "hint": "Entrez votre adresse e-mail. Si un compte existe, nous vous enverrons un lien pour définir un nouveau mot de passe.",
     "email": "Adresse e-mail",
     "submit": "Envoyer le lien",
-    "sentHint": "Si cette adresse e-mail a un compte, un e-mail est en route avec un lien pour définir un nouveau mot de passe."
+    "sentHint": "Si cette adresse e-mail a un compte, un e-mail est en route avec un lien pour définir un nouveau mot de passe.",
+    "rateLimited": "Trop d'e-mails viennent d'être envoyés. Réessayez dans l'heure, ou demandez à l'admin d'envoyer une nouvelle invitation."
   },
   "archive": {
     "title": "Archives",

@@ -170,7 +170,8 @@
     "hint": "Enter your email address. If an account exists, we'll send a link to set a new password.",
     "email": "Email address",
     "submit": "Send link",
-    "sentHint": "If this email address has an account, an email is on its way with a link to set a new password."
+    "sentHint": "If this email address has an account, an email is on its way with a link to set a new password.",
+    "rateLimited": "Too many emails were just sent. Try again within the hour, or ask the admin to send a new invitation."
   },
   "archive": {
     "title": "Archive",

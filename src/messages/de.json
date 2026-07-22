@@ -170,7 +170,8 @@
     "hint": "Gib deine E-Mail-Adresse ein. Falls ein Konto besteht, senden wir einen Link zum Festlegen eines neuen Passworts.",
     "email": "E-Mail-Adresse",
     "submit": "Link senden",
-    "sentHint": "Falls diese E-Mail-Adresse ein Konto hat, ist eine E-Mail mit einem Link zum Festlegen eines neuen Passworts unterwegs."
+    "sentHint": "Falls diese E-Mail-Adresse ein Konto hat, ist eine E-Mail mit einem Link zum Festlegen eines neuen Passworts unterwegs.",
+    "rateLimited": "Es wurden gerade zu viele E-Mails versendet. Versuche es innerhalb einer Stunde erneut, oder bitte den Admin um eine neue Einladung."
   },
   "archive": {
     "title": "Archiv",

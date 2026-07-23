@@ -164,7 +164,12 @@
     "submit": "Activate",
     "tooShort": "Password must be at least 8 characters.",
     "mismatch": "Passwords do not match.",
-    "invalidLink": "This link is invalid or expired. Request a new one: a new invitation from the admin, or 'Forgot your password?' on the login page."
+    "invalidLink": "This link is invalid or expired. Request a new one: a new invitation from the admin, or 'Forgot your password?' on the login page.",
+    "mfaTitle": "Verification code",
+    "mfaHint": "Your account has two-factor authentication enabled. Enter the code from your authenticator app to continue.",
+    "mfaCode": "6-digit code",
+    "mfaError": "Incorrect or expired code. Try the newest code from your authenticator app again.",
+    "mfaSubmit": "Confirm"
   },
   "forgotPassword": {
     "title": "Forgot password",

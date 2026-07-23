@@ -164,7 +164,12 @@
     "submit": "Activeren",
     "tooShort": "Wachtwoord moet minstens 8 tekens bevatten.",
     "mismatch": "Wachtwoorden komen niet overeen.",
-    "invalidLink": "Deze link is ongeldig of verlopen. Vraag een nieuwe link aan: een nieuwe uitnodiging via de admin, of 'Wachtwoord vergeten' op de inlogpagina."
+    "invalidLink": "Deze link is ongeldig of verlopen. Vraag een nieuwe link aan: een nieuwe uitnodiging via de admin, of 'Wachtwoord vergeten' op de inlogpagina.",
+    "mfaTitle": "Verificatiecode",
+    "mfaHint": "Je account heeft twee-staps verificatie ingeschakeld. Voer de code uit je authenticator-app in om verder te gaan.",
+    "mfaCode": "6-cijferige code",
+    "mfaError": "Code onjuist of verlopen. Probeer de nieuwste code uit je authenticator-app opnieuw.",
+    "mfaSubmit": "Bevestigen"
   },
   "forgotPassword": {
     "title": "Wachtwoord vergeten",

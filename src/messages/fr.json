@@ -164,7 +164,12 @@
     "submit": "Activer",
     "tooShort": "Le mot de passe doit contenir au moins 8 caractères.",
     "mismatch": "Les mots de passe ne correspondent pas.",
-    "invalidLink": "Ce lien est invalide ou expiré. Demandez-en un nouveau : une nouvelle invitation via l'admin, ou 'Mot de passe oublié ?' sur la page de connexion."
+    "invalidLink": "Ce lien est invalide ou expiré. Demandez-en un nouveau : une nouvelle invitation via l'admin, ou 'Mot de passe oublié ?' sur la page de connexion.",
+    "mfaTitle": "Code de vérification",
+    "mfaHint": "Votre compte a la vérification en deux étapes activée. Entrez le code de votre application d'authentification pour continuer.",
+    "mfaCode": "Code à 6 chiffres",
+    "mfaError": "Code incorrect ou expiré. Réessayez avec le code le plus récent de votre application d'authentification.",
+    "mfaSubmit": "Confirmer"
   },
   "forgotPassword": {
     "title": "Mot de passe oublié",

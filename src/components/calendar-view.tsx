@@ -3,6 +3,7 @@
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
+import nlLocale from "@fullcalendar/core/locales/nl";
 import { useRouter } from "@/i18n/navigation";
 import { rescheduleEvent } from "@/app/[locale]/kalender/actions";
 import { eventTitleWithTime } from "@/lib/event-display";
@@ -48,6 +49,8 @@ export function CalendarView({
       initialView="dayGridMonth"
       height="auto"
       locale="nl"
+      locales={[nlLocale]}
+      firstDay={1}
       events={eventSources}
       editable={!!isAdmin}
       eventStartEditable={!!isAdmin}

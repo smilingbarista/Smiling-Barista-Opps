@@ -109,6 +109,13 @@
     "statusSubmitted": "Ingediend",
     "submittedBy": "Ingediend door",
     "noChecklists": "Nog geen checklists gekoppeld aan dit event.",
+    "usageSection": "Verbruik",
+    "usageCoffeeKg": "Koffiebonen (kg)",
+    "usageCoffeeHoppers": "Of: aantal hoppers",
+    "usageMilkLiters": "Melk verbruikt (liter)",
+    "usagePopularDrinks": "Welke niet-koffiedranken werden opvallend veel genomen?",
+    "usageSubmit": "Opslaan",
+    "usageSubmittedBy": "Laatst ingevuld door {name}",
     "images": "Afbeeldingen",
     "noImages": "Nog geen afbeeldingen toegevoegd.",
     "addImage": "Afbeelding toevoegen"

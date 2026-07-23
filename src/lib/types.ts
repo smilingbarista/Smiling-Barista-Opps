@@ -87,6 +87,17 @@ export type EventImageRow = {
   created_at: string;
 };
 
+export type EventUsageReportRow = {
+  event_id: string;
+  coffee_kg: number | null;
+  coffee_hoppers: number | null;
+  milk_liters: number | null;
+  popular_non_coffee_drinks: string | null;
+  submitted_by: string | null;
+  submitted_at: string | null;
+  profiles: { full_name: string } | null;
+};
+
 export type InventoryItemRow = {
   id: string;
   name: string;

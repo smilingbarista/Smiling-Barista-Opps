@@ -109,6 +109,13 @@
     "statusSubmitted": "Submitted",
     "submittedBy": "Submitted by",
     "noChecklists": "No checklists attached to this event yet.",
+    "usageSection": "Usage",
+    "usageCoffeeKg": "Coffee beans (kg)",
+    "usageCoffeeHoppers": "Or: number of hoppers",
+    "usageMilkLiters": "Milk used (litres)",
+    "usagePopularDrinks": "Which non-coffee drinks were notably popular?",
+    "usageSubmit": "Save",
+    "usageSubmittedBy": "Last filled in by {name}",
     "images": "Images",
     "noImages": "No images added yet.",
     "addImage": "Add image"

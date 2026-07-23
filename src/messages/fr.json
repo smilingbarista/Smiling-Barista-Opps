@@ -109,6 +109,13 @@
     "statusSubmitted": "Envoyé",
     "submittedBy": "Envoyé par",
     "noChecklists": "Aucune checklist associée à cet événement pour le moment.",
+    "usageSection": "Consommation",
+    "usageCoffeeKg": "Grains de café (kg)",
+    "usageCoffeeHoppers": "Ou : nombre de trémies",
+    "usageMilkLiters": "Lait utilisé (litres)",
+    "usagePopularDrinks": "Quelles boissons hors café ont eu particulièrement de succès ?",
+    "usageSubmit": "Enregistrer",
+    "usageSubmittedBy": "Dernière saisie par {name}",
     "images": "Images",
     "noImages": "Pas encore d'images ajoutées.",
     "addImage": "Ajouter une image"

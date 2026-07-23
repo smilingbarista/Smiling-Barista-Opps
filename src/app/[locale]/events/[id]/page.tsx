@@ -10,12 +10,14 @@ import { AttachChecklistForm } from "@/components/attach-checklist-form";
 import { EventActions } from "@/components/event-actions";
 import { EventImages } from "@/components/event-images";
 import { EditableEventTitle } from "@/components/editable-event-title";
+import { UsageReportForm } from "@/components/usage-report-form";
 import { formatTime } from "@/lib/event-display";
 import { parseEventTitle, buildEventTitle } from "@/lib/event-title";
 import type {
   EventDetailRow,
   EventChecklistRow,
   EventImageRow,
+  EventUsageReportRow,
 } from "@/lib/types";
 
 export default async function EventPage({
@@ -61,6 +63,14 @@ export default async function EventPage({
     .select("*")
     .eq("event_id", id)
     .order("created_at", { ascending: true });
+
+  const { data: usageReport } = await supabase
+    .from("event_usage_reports")
+    .select(
+      "event_id, coffee_kg, coffee_hoppers, milk_liters, popular_non_coffee_drinks, submitted_by, submitted_at, profiles(full_name)",
+    )
+    .eq("event_id", id)
+    .maybeSingle();
 
   const attachedTemplateIds = new Set(
     (eventChecklists ?? []).map((c) => c.template_id),
@@ -197,6 +207,14 @@ export default async function EventPage({
             templates={availableTemplates}
           />
         )}
+      </section>
+
+      <section className="flex flex-col gap-3">
+        <h2 className="font-medium">{t("usageSection")}</h2>
+        <UsageReportForm
+          eventId={id}
+          report={(usageReport as unknown as EventUsageReportRow) ?? null}
+        />
       </section>
     </div>
   );

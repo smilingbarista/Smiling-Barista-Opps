@@ -220,6 +220,34 @@ export async function deleteEventImage(
   revalidatePath(`/events/${eventId}/briefing`);
 }
 
+export async function saveUsageReport(eventId: string, formData: FormData) {
+  const profile = await getCurrentProfile();
+  if (!profile) throw new Error("Not authenticated");
+
+  const toNumberOrNull = (value: FormDataEntryValue | null) => {
+    const str = String(value ?? "").trim();
+    if (!str) return null;
+    const n = Number(str.replace(",", "."));
+    return Number.isFinite(n) ? n : null;
+  };
+
+  const supabase = await createClient();
+  const { error } = await supabase.from("event_usage_reports").upsert({
+    event_id: eventId,
+    coffee_kg: toNumberOrNull(formData.get("coffee_kg")),
+    coffee_hoppers: toNumberOrNull(formData.get("coffee_hoppers")),
+    milk_liters: toNumberOrNull(formData.get("milk_liters")),
+    popular_non_coffee_drinks:
+      String(formData.get("popular_non_coffee_drinks") ?? "").trim() || null,
+    submitted_by: profile.id,
+    submitted_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  });
+  if (error) throw error;
+
+  revalidatePath(`/events/${eventId}`);
+}
+
 export async function archiveEvent(eventId: string) {
   const profile = await getCurrentProfile();
   if (profile?.role !== "admin") {

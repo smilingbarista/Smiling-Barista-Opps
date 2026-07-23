@@ -109,6 +109,13 @@
     "statusSubmitted": "Eingereicht",
     "submittedBy": "Eingereicht von",
     "noChecklists": "Diesem Event sind noch keine Checklisten zugeordnet.",
+    "usageSection": "Verbrauch",
+    "usageCoffeeKg": "Kaffeebohnen (kg)",
+    "usageCoffeeHoppers": "Oder: Anzahl Hopper",
+    "usageMilkLiters": "Verbrauchte Milch (Liter)",
+    "usagePopularDrinks": "Welche Nicht-Kaffee-Getränke waren auffallend beliebt?",
+    "usageSubmit": "Speichern",
+    "usageSubmittedBy": "Zuletzt ausgefüllt von {name}",
     "images": "Bilder",
     "noImages": "Noch keine Bilder hinzugefügt.",
     "addImage": "Bild hinzufügen"

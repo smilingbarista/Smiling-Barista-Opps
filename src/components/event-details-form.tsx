@@ -175,7 +175,6 @@ export function EventDetailsForm({
       <fieldset className="flex flex-col gap-3">
         <legend className="font-medium">{t("eventSection")}</legend>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <Field label={t("description")} name="title" defaultValue={parsed.base} readOnly={readOnly} />
           <Field label={t("address")} name="address" defaultValue={event.address} readOnly={readOnly} />
           <Field label={t("descriptionDetails")} name="description" defaultValue={event.description} readOnly={readOnly} />
           <Field label={t("guestCount")} name="guest_count" defaultValue={event.guest_count} readOnly={readOnly} />

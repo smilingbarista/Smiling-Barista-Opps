@@ -43,11 +43,24 @@ export async function updateEvent(eventId: string, formData: FormData) {
     updates[field] = value === null ? null : String(value) || null;
   }
 
-  const base = String(formData.get("title") ?? "").trim();
+  // De titel-basis wordt hier NIET uit het formulier gehaald: dit formulier
+  // toont geen titelveld meer (dat wijzig je bovenaan de eventpagina via
+  // EditableEventTitle/updateEventTitle) — enkel barista's/bevestiging.
+  // Altijd de actuele titel opnieuw ophalen i.p.v. een oude, in de browser
+  // gecachte basis te herbouwen, anders overschrijft dit formulier een
+  // ondertussen elders opgeslagen titelwijziging.
+  const { data: current, error: fetchError } = await supabase
+    .from("events")
+    .select("title")
+    .eq("id", eventId)
+    .single();
+  if (fetchError) throw fetchError;
+
+  const currentBase = parseEventTitle(current.title).base;
   const baristas = formData.getAll("barista").map((v) => String(v));
   const confirmed = formData.get("confirmed") === "on";
   const baristaConfirmed = formData.get("barista_confirmed") === "on";
-  updates.title = buildEventTitle(base, baristas, !confirmed, baristaConfirmed);
+  updates.title = buildEventTitle(currentBase, baristas, !confirmed, baristaConfirmed);
   updates.updated_at = new Date().toISOString();
   updates.updated_by = profile.id;
 

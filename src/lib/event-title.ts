@@ -23,7 +23,11 @@ export function parseEventTitle(title: string): ParsedTitle {
   }
 
   const match = t.match(/^(.*)\(([^()]+)\)$/);
-  if (match) {
+  // Een echte barista/bevestigingsgroep bevat nooit cijfers (namen, "?" of
+  // "??") — een basistitel die zelf op iets als "(18u-20u)" eindigt zou
+  // anders foutief als die groep worden gelezen en bij elke volgende save
+  // worden ingekapseld in een nieuwe groep (steeds geneste "(...)(...)").
+  if (match && !/\d/.test(match[2])) {
     const base = match[1].trim();
     let group = match[2];
     if (group === "??") {

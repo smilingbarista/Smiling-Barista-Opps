@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/auth";
 import { checklistLabel } from "@/lib/checklist-label";
+import { formatBaristaSuffix } from "@/lib/event-title";
 import type { EventRow } from "@/lib/types";
 
 type AssignmentJoined = {
@@ -88,7 +89,10 @@ export default async function BriefingsPage() {
                     className="flex flex-col gap-2 rounded border border-black/10 px-4 py-3"
                   >
                     <div className="flex items-center justify-between">
-                      <span className="font-medium">{event.title}</span>
+                      <span className="font-medium">
+                        {event.title}
+                        {formatBaristaSuffix(event)}
+                      </span>
                       <span className="text-sm text-black/50">
                         {event.event_date}
                       </span>

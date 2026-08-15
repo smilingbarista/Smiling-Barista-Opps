@@ -2,13 +2,16 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { checklistLabel } from "@/lib/checklist-label";
+import { formatBaristaSuffix, type BaristaStatus } from "@/lib/event-title";
 
 type ChecklistOverviewRow = {
   id: string;
   event_id: string;
   name: string | null;
   status: "open" | "ingediend";
-  events: { id: string; title: string; event_date: string; status: string } | null;
+  events:
+    | ({ id: string; title: string; event_date: string; status: string } & BaristaStatus)
+    | null;
   checklist_templates: { code: string } | null;
 };
 
@@ -21,7 +24,7 @@ export default async function ChecklistsOverviewPage() {
   const { data } = await supabase
     .from("event_checklists")
     .select(
-      "id, event_id, name, status, events(id, title, event_date, status), checklist_templates(code)",
+      "id, event_id, name, status, events(id, title, event_date, status, barista_names, barista_confirmed, barista_tentative_other_job, pending), checklist_templates(code)",
     );
 
   const rows = ((data ?? []) as unknown as ChecklistOverviewRow[])
@@ -51,7 +54,9 @@ export default async function ChecklistsOverviewPage() {
                       : "")}
                 </span>
                 <span className="text-xs text-black/50">
-                  {row.events?.title} — {row.events?.event_date}
+                  {row.events?.title}
+                  {row.events ? formatBaristaSuffix(row.events) : ""} —{" "}
+                  {row.events?.event_date}
                 </span>
               </span>
               <span

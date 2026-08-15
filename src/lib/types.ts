@@ -28,6 +28,10 @@ export type EventRow = {
   updated_by: string | null;
   briefing_printed_at: string | null;
   briefing_printed_by: string | null;
+  barista_names: string[];
+  barista_confirmed: boolean;
+  barista_tentative_other_job: boolean;
+  pending: boolean;
 };
 
 export type EventBriefingPrintedRow = EventRow & {

@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { updateEvent } from "@/app/[locale]/events/[id]/actions";
 import { AutosizeTextarea } from "@/components/autosize-textarea";
-import { parseEventTitle } from "@/lib/event-title";
 import type { EventDetailRow } from "@/lib/types";
 
 function Field({
@@ -117,7 +116,9 @@ export function EventDetailsForm({
   const t = useTranslations("event");
   const common = useTranslations("common");
   const locale = useLocale();
-  const parsed = parseEventTitle(event.title);
+  const [baristaConfirmed, setBaristaConfirmed] = useState(
+    event.barista_confirmed,
+  );
 
   return (
     <form
@@ -140,22 +141,37 @@ export function EventDetailsForm({
           <input
             type="checkbox"
             name="confirmed"
-            defaultChecked={!parsed.pending}
+            defaultChecked={!event.pending}
           />
           {t("confirmed")}
         </label>
       )}
 
-      <BaristaFields initial={parsed.baristas} readOnly={readOnly} />
+      <BaristaFields initial={event.barista_names} readOnly={readOnly} />
 
       {!readOnly && (
         <label className="flex items-center gap-2 text-sm">
           <input
             type="checkbox"
             name="barista_confirmed"
-            defaultChecked={parsed.baristaConfirmed}
+            checked={baristaConfirmed}
+            onChange={(e) => setBaristaConfirmed(e.target.checked)}
           />
           {t("baristaConfirmed")}
+        </label>
+      )}
+
+      {!readOnly && (
+        <label
+          className={`flex items-center gap-2 text-sm ${baristaConfirmed ? "opacity-40" : ""}`}
+        >
+          <input
+            type="checkbox"
+            name="barista_tentative_other_job"
+            defaultChecked={event.barista_tentative_other_job}
+            disabled={baristaConfirmed}
+          />
+          {t("tentativeOtherJob")}
         </label>
       )}
 

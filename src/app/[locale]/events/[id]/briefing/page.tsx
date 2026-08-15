@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { PrintButton } from "@/components/print-button";
 import { EventImages } from "@/components/event-images";
+import { formatBaristaSuffix } from "@/lib/event-title";
 import type { EventRow, EventImageRow } from "@/lib/types";
 
 export async function generateMetadata({
@@ -57,6 +58,7 @@ export default async function EventBriefingPage({
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold">
           {t("briefingTitle")}: {event.title}
+          {formatBaristaSuffix(event)}
         </h1>
         <PrintButton eventId={id} />
       </div>

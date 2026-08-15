@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/auth";
 import { BackupButton } from "@/components/backup-button";
+import { BackfillBaristaStatusButton } from "@/components/backfill-barista-status-button";
 
 export default async function AdminBackupPage({
   params,
@@ -28,6 +29,8 @@ export default async function AdminBackupPage({
       <p className="text-sm text-black/60">{t("intro")}</p>
 
       <BackupButton />
+
+      <BackfillBaristaStatusButton />
 
       {(!backups || backups.length === 0) && (
         <p className="text-sm text-black/50">{t("noBackups")}</p>

@@ -1,4 +1,5 @@
 import { jsPDF } from "jspdf";
+import { formatBaristaSuffix } from "@/lib/event-title";
 import type { EventRow } from "@/lib/types";
 
 const MARGIN = 12;
@@ -95,7 +96,11 @@ function drawEventList(doc: jsPDF, events: EventRow[]) {
     doc.text(e.event_date, MARGIN, y);
     doc.setFont("helvetica", "normal");
     doc.setTextColor(60, 60, 60);
-    const line = [e.title, e.address, e.status === "gearchiveerd" ? "(gearchiveerd)" : null]
+    const line = [
+      `${e.title}${formatBaristaSuffix(e)}`,
+      e.address,
+      e.status === "gearchiveerd" ? "(gearchiveerd)" : null,
+    ]
       .filter(Boolean)
       .join(" — ");
     const wrapped = doc.splitTextToSize(line, PAGE_WIDTH - MARGIN * 2 - 28);

@@ -4,7 +4,6 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/auth";
 import { veloprepChecklistName } from "@/lib/checklist-label";
-import { buildEventTitle } from "@/lib/event-title";
 
 export async function createEvent(formData: FormData) {
   const profile = await getCurrentProfile();
@@ -13,15 +12,13 @@ export async function createEvent(formData: FormData) {
   }
 
   const supabase = await createClient();
-  const rawTitle = String(formData.get("title") ?? "");
+  const title = String(formData.get("title") ?? "").trim();
   const eventDate = String(formData.get("event_date") ?? "");
   const barista = String(formData.get("barista") ?? "").trim();
   const confirmed = formData.get("confirmed") === "on";
-  if (!rawTitle || !eventDate) {
+  if (!title || !eventDate) {
     throw new Error("Titel en datum zijn verplicht");
   }
-
-  const title = buildEventTitle(rawTitle, [barista], !confirmed);
 
   const { data, error } = await supabase
     .from("events")
@@ -29,6 +26,8 @@ export async function createEvent(formData: FormData) {
       title,
       event_date: eventDate,
       address: String(formData.get("address") ?? "") || null,
+      barista_names: barista ? [barista] : [],
+      pending: !confirmed,
       created_by: profile.id,
     })
     .select("id")

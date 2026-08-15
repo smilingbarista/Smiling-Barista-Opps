@@ -1,3 +1,35 @@
+export type BaristaStatus = {
+  barista_names: string[];
+  barista_confirmed: boolean;
+  barista_tentative_other_job: boolean;
+  pending: boolean;
+};
+
+// Bouwt telkens opnieuw een leesbare status-suffix op voor weergave naast de
+// titel — nooit teruggelezen uit tekst (dat was de bron van de corruptie:
+// een basistitel die zelf haakjes bevatte, bv. een tijdstip, werd dan
+// foutief als barista-groep gelezen). Barista-naam en -status leven als
+// echte kolommen op `events`; dit is een pure formatteerfunctie.
+export function formatBaristaSuffix(event: BaristaStatus): string {
+  const names = event.barista_names.map((s) => s.trim()).filter(Boolean);
+
+  let group: string;
+  if (names.length === 0) {
+    group = "nog geen barista";
+  } else {
+    const status = event.barista_confirmed
+      ? "bevestigd"
+      : event.barista_tentative_other_job
+        ? "gevraagd, evt. ook elders"
+        : "gevraagd";
+    group = `${names.join(", ")} — ${status}`;
+  }
+
+  let suffix = ` (${group})`;
+  if (event.pending) suffix += " (nog te bevestigen)";
+  return suffix;
+}
+
 const PENDING_SUFFIX = " (pending)";
 
 export type ParsedTitle = {
@@ -7,13 +39,11 @@ export type ParsedTitle = {
   baristaConfirmed: boolean;
 };
 
-// Herleidt de basistitel, barista-namen, pending-status en
-// barista-bevestiging uit een opgeslagen eventtitel zoals
-// "Woezi (Lynn?) (pending)".
-//
-// Zonder naam is er nog steeds een zichtbaar onderscheid:
-// "(?)" = bevestigd dat er nog geen barista is, "(??)" = nog niet
-// bevestigd (en geen naam).
+// LEGACY — enkel nog gebruikt door de eenmalige backfill-actie
+// (src/app/[locale]/admin/backup/actions.ts) die de oude, in `title`
+// ingebakken barista-status naar de nieuwe kolommen migreert. Niet meer
+// gebruiken voor nieuwe code: eens de backfill gedraaid heeft en
+// gecontroleerd is, mag deze functie samen met de aanroep verwijderd worden.
 export function parseEventTitle(title: string): ParsedTitle {
   let t = title;
   let pending = false;
@@ -25,8 +55,7 @@ export function parseEventTitle(title: string): ParsedTitle {
   const match = t.match(/^(.*)\(([^()]+)\)$/);
   // Een echte barista/bevestigingsgroep bevat nooit cijfers (namen, "?" of
   // "??") — een basistitel die zelf op iets als "(18u-20u)" eindigt zou
-  // anders foutief als die groep worden gelezen en bij elke volgende save
-  // worden ingekapseld in een nieuwe groep (steeds geneste "(...)(...)").
+  // anders foutief als die groep worden gelezen.
   if (match && !/\d/.test(match[2])) {
     const base = match[1].trim();
     let group = match[2];
@@ -49,30 +78,4 @@ export function parseEventTitle(title: string): ParsedTitle {
   }
 
   return { base: t, baristas: [], pending, baristaConfirmed: false };
-}
-
-// Bouwt de opgeslagen eventtitel op uit de basistitel + barista-namen +
-// pending-status + barista-bevestiging. Enkel het resultaat hiervan wordt
-// in `events.title` bewaard, zodat we nooit op de ruwe tekst hoeven te
-// patchen.
-// - Geen naam, wel bevestigd -> "(?)".
-// - Geen naam, niet bevestigd -> "(??)".
-// - Wel een naam, maar niet bevestigd -> "(Naam?)".
-export function buildEventTitle(
-  base: string,
-  baristas: string[],
-  pending: boolean,
-  baristaConfirmed: boolean = true,
-): string {
-  const names = baristas.map((s) => s.trim()).filter(Boolean);
-  const group =
-    names.length > 0
-      ? names.join(", ") + (baristaConfirmed ? "" : "?")
-      : baristaConfirmed
-        ? "?"
-        : "??";
-  let title = base.trim();
-  title += ` (${group})`;
-  if (pending) title += PENDING_SUFFIX;
-  return title;
 }

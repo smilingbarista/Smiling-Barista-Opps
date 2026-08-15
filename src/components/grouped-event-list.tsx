@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { groupEventsByMonthAndWeek } from "@/lib/group-events";
 import { formatTime } from "@/lib/event-display";
+import { formatBaristaSuffix } from "@/lib/event-title";
 import type { EventBriefingPrintedRow } from "@/lib/types";
 
 export async function GroupedEventList({
@@ -56,7 +57,10 @@ export async function GroupedEventList({
                         >
                           <span className="flex items-center justify-between">
                             <span>
-                              <span className="font-medium">{event.title}</span>
+                              <span className="font-medium">
+                                {event.title}
+                                {formatBaristaSuffix(event)}
+                              </span>
                               <span className="ml-2 text-sm text-black/50">
                                 {event.event_date}
                               </span>

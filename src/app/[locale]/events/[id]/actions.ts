@@ -5,7 +5,6 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/auth";
 import { veloprepChecklistName } from "@/lib/checklist-label";
-import { buildEventTitle, parseEventTitle } from "@/lib/event-title";
 
 const EVENT_FIELDS = [
   "event_date",
@@ -37,30 +36,29 @@ export async function updateEvent(eventId: string, formData: FormData) {
   }
 
   const supabase = await createClient();
-  const updates: Record<string, string | null> = {};
+  const updates: Record<string, string | string[] | boolean | null> = {};
   for (const field of EVENT_FIELDS) {
     const value = formData.get(field);
     updates[field] = value === null ? null : String(value) || null;
   }
 
-  // De titel-basis wordt hier NIET uit het formulier gehaald: dit formulier
-  // toont geen titelveld meer (dat wijzig je bovenaan de eventpagina via
-  // EditableEventTitle/updateEventTitle) — enkel barista's/bevestiging.
-  // Altijd de actuele titel opnieuw ophalen i.p.v. een oude, in de browser
-  // gecachte basis te herbouwen, anders overschrijft dit formulier een
-  // ondertussen elders opgeslagen titelwijziging.
-  const { data: current, error: fetchError } = await supabase
-    .from("events")
-    .select("title")
-    .eq("id", eventId)
-    .single();
-  if (fetchError) throw fetchError;
-
-  const currentBase = parseEventTitle(current.title).base;
-  const baristas = formData.getAll("barista").map((v) => String(v));
+  const baristaNames = formData
+    .getAll("barista")
+    .map((v) => String(v).trim())
+    .filter(Boolean);
   const confirmed = formData.get("confirmed") === "on";
   const baristaConfirmed = formData.get("barista_confirmed") === "on";
-  updates.title = buildEventTitle(currentBase, baristas, !confirmed, baristaConfirmed);
+  // Kan niet allebei tegelijk waar zijn: eens de barista bevestigd is, is
+  // "ook aangevraagd voor een andere opdracht" niet meer van toepassing —
+  // hier serverseitig afgedwongen, niet enkel als UI-gedrag, zodat het niet
+  // via een andere weg weer uit sync kan raken.
+  const tentativeOtherJob =
+    !baristaConfirmed && formData.get("barista_tentative_other_job") === "on";
+
+  updates.barista_names = baristaNames;
+  updates.barista_confirmed = baristaConfirmed;
+  updates.barista_tentative_other_job = tentativeOtherJob;
+  updates.pending = !confirmed;
   updates.updated_at = new Date().toISOString();
   updates.updated_by = profile.id;
 
@@ -71,11 +69,18 @@ export async function updateEvent(eventId: string, formData: FormData) {
   if (error) throw error;
 
   revalidatePath(`/events/${eventId}`);
+  // Barista-naam/status uit dit formulier komen ook in de kalender- en
+  // dashboard-titel terecht (via formatBaristaSuffix), dus die moeten mee
+  // vernieuwen — anders blijft daar tijdelijk de oude status staan.
+  revalidatePath("/kalender");
+  revalidatePath("/dashboard");
 }
 
 // Aparte, kleinere update dan updateEvent() zodat klikken op de titel
 // bovenaan de eventpagina enkel het beschrijvende deel wijzigt, zonder de
-// rest van het formulier (dat de overige velden zou overschrijven).
+// rest van het formulier (dat de overige velden zou overschrijven). Bewerkt
+// enkel de kale basistitel — barista-naam/status zitten sinds de migratie
+// naar echte kolommen (zie updateEvent) niet meer in `title`.
 export async function updateEventTitle(eventId: string, newBase: string) {
   const profile = await getCurrentProfile();
   if (profile?.role !== "admin") {
@@ -83,25 +88,10 @@ export async function updateEventTitle(eventId: string, newBase: string) {
   }
 
   const supabase = await createClient();
-  const { data: current, error: fetchError } = await supabase
-    .from("events")
-    .select("title")
-    .eq("id", eventId)
-    .single();
-  if (fetchError) throw fetchError;
-
-  const parsed = parseEventTitle(current.title);
-  const title = buildEventTitle(
-    newBase.trim(),
-    parsed.baristas,
-    parsed.pending,
-    parsed.baristaConfirmed,
-  );
-
   const { error } = await supabase
     .from("events")
     .update({
-      title,
+      title: newBase.trim(),
       updated_at: new Date().toISOString(),
       updated_by: profile.id,
     })

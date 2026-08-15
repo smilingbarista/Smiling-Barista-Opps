@@ -12,7 +12,7 @@ import { EventImages } from "@/components/event-images";
 import { EditableEventTitle } from "@/components/editable-event-title";
 import { UsageReportForm } from "@/components/usage-report-form";
 import { formatTime } from "@/lib/event-display";
-import { parseEventTitle, buildEventTitle } from "@/lib/event-title";
+import { formatBaristaSuffix } from "@/lib/event-title";
 import type {
   EventDetailRow,
   EventChecklistRow,
@@ -87,16 +87,10 @@ export default async function EventPage({
 
   const isAdmin = profile?.role === "admin";
 
-  const parsedTitle = parseEventTitle(event.title);
   const start = formatTime(event.service_start);
   const end = formatTime(event.service_end);
   const timePrefix = start && end ? `${start}–${end} ` : start ? `${start} ` : "";
-  const titleSuffix = buildEventTitle(
-    "",
-    parsedTitle.baristas,
-    parsedTitle.pending,
-    parsedTitle.baristaConfirmed,
-  );
+  const titleSuffix = formatBaristaSuffix(event);
 
   return (
     <div className="flex flex-col gap-8">
@@ -106,7 +100,7 @@ export default async function EventPage({
           <EditableEventTitle
             key={event.title}
             eventId={id}
-            base={parsedTitle.base}
+            base={event.title}
             readOnly={!isAdmin}
           />
           {titleSuffix}

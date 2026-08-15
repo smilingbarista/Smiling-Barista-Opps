@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { updateEvent } from "@/app/[locale]/events/[id]/actions";
 import { AutosizeTextarea } from "@/components/autosize-textarea";
@@ -61,51 +60,6 @@ function TextareaField({
   );
 }
 
-function BaristaFields({
-  initial,
-  readOnly,
-}: {
-  initial: string[];
-  readOnly: boolean;
-}) {
-  const t = useTranslations("event");
-  const [names, setNames] = useState<string[]>(
-    initial.length > 0 ? initial : [""],
-  );
-
-  return (
-    <div className="flex flex-col gap-2">
-      <span className="text-sm">{t("barista")}</span>
-      {names.map((name, i) => (
-        <input
-          key={i}
-          type="text"
-          name="barista"
-          value={name}
-          readOnly={readOnly}
-          onChange={(e) =>
-            setNames((prev) =>
-              prev.map((n, idx) => (idx === i ? e.target.value : n)),
-            )
-          }
-          className={`rounded border px-2 py-1 text-sm ${
-            readOnly ? "border-transparent bg-black/5" : "border-black/20"
-          }`}
-        />
-      ))}
-      {!readOnly && (
-        <button
-          type="button"
-          onClick={() => setNames((prev) => [...prev, ""])}
-          className="self-start text-xs text-brand underline"
-        >
-          {t("addBarista")}
-        </button>
-      )}
-    </div>
-  );
-}
-
 export function EventDetailsForm({
   event,
   readOnly,
@@ -116,9 +70,6 @@ export function EventDetailsForm({
   const t = useTranslations("event");
   const common = useTranslations("common");
   const locale = useLocale();
-  const [baristaConfirmed, setBaristaConfirmed] = useState(
-    event.barista_confirmed,
-  );
 
   return (
     <form
@@ -144,34 +95,6 @@ export function EventDetailsForm({
             defaultChecked={!event.pending}
           />
           {t("confirmed")}
-        </label>
-      )}
-
-      <BaristaFields initial={event.barista_names} readOnly={readOnly} />
-
-      {!readOnly && (
-        <label className="flex items-center gap-2 text-sm">
-          <input
-            type="checkbox"
-            name="barista_confirmed"
-            checked={baristaConfirmed}
-            onChange={(e) => setBaristaConfirmed(e.target.checked)}
-          />
-          {t("baristaConfirmed")}
-        </label>
-      )}
-
-      {!readOnly && (
-        <label
-          className={`flex items-center gap-2 text-sm ${baristaConfirmed ? "opacity-40" : ""}`}
-        >
-          <input
-            type="checkbox"
-            name="barista_tentative_other_job"
-            defaultChecked={event.barista_tentative_other_job}
-            disabled={baristaConfirmed}
-          />
-          {t("tentativeOtherJob")}
         </label>
       )}
 

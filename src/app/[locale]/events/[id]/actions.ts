@@ -42,22 +42,7 @@ export async function updateEvent(eventId: string, formData: FormData) {
     updates[field] = value === null ? null : String(value) || null;
   }
 
-  const baristaNames = formData
-    .getAll("barista")
-    .map((v) => String(v).trim())
-    .filter(Boolean);
   const confirmed = formData.get("confirmed") === "on";
-  const baristaConfirmed = formData.get("barista_confirmed") === "on";
-  // Kan niet allebei tegelijk waar zijn: eens de barista bevestigd is, is
-  // "ook aangevraagd voor een andere opdracht" niet meer van toepassing —
-  // hier serverseitig afgedwongen, niet enkel als UI-gedrag, zodat het niet
-  // via een andere weg weer uit sync kan raken.
-  const tentativeOtherJob =
-    !baristaConfirmed && formData.get("barista_tentative_other_job") === "on";
-
-  updates.barista_names = baristaNames;
-  updates.barista_confirmed = baristaConfirmed;
-  updates.barista_tentative_other_job = tentativeOtherJob;
   updates.pending = !confirmed;
   updates.updated_at = new Date().toISOString();
   updates.updated_by = profile.id;
@@ -69,9 +54,45 @@ export async function updateEvent(eventId: string, formData: FormData) {
   if (error) throw error;
 
   revalidatePath(`/events/${eventId}`);
-  // Barista-naam/status uit dit formulier komen ook in de kalender- en
-  // dashboard-titel terecht (via formatBaristaSuffix), dus die moeten mee
-  // vernieuwen — anders blijft daar tijdelijk de oude status staan.
+}
+
+// Aparte, kleine update voor de barista('s) zonder account — los van
+// updateEvent() zodat dit niet meer verstrengeld raakt met de rest van het
+// formulier (dat was precies de bron van de vorige bug: een verouderd
+// formulierveld dat een elders opgeslagen wijziging overschreef).
+export async function updateBaristaNote(eventId: string, formData: FormData) {
+  const profile = await getCurrentProfile();
+  if (profile?.role !== "admin") {
+    throw new Error("Only admins can edit events");
+  }
+
+  const baristaNames = formData
+    .getAll("barista")
+    .map((v) => String(v).trim())
+    .filter(Boolean);
+  const baristaConfirmed = formData.get("barista_confirmed") === "on";
+  // Kan niet allebei tegelijk waar zijn: eens bevestigd, is "ook
+  // aangevraagd voor een andere opdracht" niet meer van toepassing — hier
+  // serverseitig afgedwongen, niet enkel als UI-gedrag.
+  const tentativeOtherJob =
+    !baristaConfirmed && formData.get("barista_tentative_other_job") === "on";
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("events")
+    .update({
+      barista_names: baristaNames,
+      barista_confirmed: baristaConfirmed,
+      barista_tentative_other_job: tentativeOtherJob,
+      updated_at: new Date().toISOString(),
+      updated_by: profile.id,
+    })
+    .eq("id", eventId);
+  if (error) throw error;
+
+  revalidatePath(`/events/${eventId}`);
+  // Komt ook in de kalender- en dashboard-titel terecht (via
+  // formatBaristaSuffix), dus die moeten mee vernieuwen.
   revalidatePath("/kalender");
   revalidatePath("/dashboard");
 }

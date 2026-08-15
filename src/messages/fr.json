@@ -85,6 +85,8 @@
     "barista": "Barista :",
     "addBarista": "Ajouter un barista supplémentaire",
     "confirmed": "Événement confirmé ?",
+    "whoSection": "Qui travaille sur cet événement",
+    "extraBaristaSection": "Barista supplémentaire (pas encore de compte)",
     "baristaConfirmed": "Barista confirmé ?",
     "tentativeOtherJob": "Également demandé pour une autre mission ?",
     "contactPerson": "Personne de contact",

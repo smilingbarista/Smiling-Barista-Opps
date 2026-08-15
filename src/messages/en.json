@@ -85,6 +85,8 @@
     "barista": "Barista:",
     "addBarista": "Add extra barista",
     "confirmed": "Event confirmed?",
+    "whoSection": "Who's working this event",
+    "extraBaristaSection": "Extra barista (no account yet)",
     "baristaConfirmed": "Barista confirmed?",
     "tentativeOtherJob": "Also requested for another job?",
     "contactPerson": "Contact person",

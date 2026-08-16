@@ -131,6 +131,14 @@ export default async function EventPage({
         </p>
       )}
 
+      <BaristaNoteForm
+        eventId={id}
+        baristaNames={event.barista_names}
+        baristaConfirmed={event.barista_confirmed}
+        baristaTentativeOtherJob={event.barista_tentative_other_job}
+        readOnly={!isAdmin}
+      />
+
       <EventDetailsForm event={event} readOnly={!isAdmin} />
 
       <EventImages
@@ -139,38 +147,26 @@ export default async function EventPage({
         readOnly={!isAdmin}
       />
 
-      <section className="flex flex-col gap-3">
-        <h2 className="font-medium">{t("whoSection")}</h2>
-
-        <div className="flex flex-col gap-2">
-          <span className="text-sm font-medium">{calendarT("assignedTo")}</span>
-          <ul className="flex flex-wrap gap-2">
-            {(assignments ?? []).map((a) => (
-              <li
-                key={a.profile_id}
-                className="rounded-full bg-black/5 px-3 py-1 text-sm"
-              >
-                {(a.profiles as unknown as { full_name: string } | null)
-                  ?.full_name ?? a.profile_id}
-              </li>
-            ))}
-          </ul>
-          {isAdmin && (
-            <AssignStaff
-              eventId={id}
-              profiles={allProfiles}
-              assignedIds={(assignments ?? []).map((a) => a.profile_id)}
-            />
-          )}
-        </div>
-
-        <BaristaNoteForm
-          eventId={id}
-          baristaNames={event.barista_names}
-          baristaConfirmed={event.barista_confirmed}
-          baristaTentativeOtherJob={event.barista_tentative_other_job}
-          readOnly={!isAdmin}
-        />
+      <section className="flex flex-col gap-2">
+        <h2 className="font-medium">{calendarT("assignedTo")}</h2>
+        <ul className="flex flex-wrap gap-2">
+          {(assignments ?? []).map((a) => (
+            <li
+              key={a.profile_id}
+              className="rounded-full bg-black/5 px-3 py-1 text-sm"
+            >
+              {(a.profiles as unknown as { full_name: string } | null)
+                ?.full_name ?? a.profile_id}
+            </li>
+          ))}
+        </ul>
+        {isAdmin && (
+          <AssignStaff
+            eventId={id}
+            profiles={allProfiles}
+            assignedIds={(assignments ?? []).map((a) => a.profile_id)}
+          />
+        )}
       </section>
 
       <section className="flex flex-col gap-3">

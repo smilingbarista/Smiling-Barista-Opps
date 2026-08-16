@@ -7,7 +7,6 @@ import { getCurrentProfile } from "@/lib/auth";
 import { veloprepChecklistName } from "@/lib/checklist-label";
 
 const EVENT_FIELDS = [
-  "event_date",
   "departure_time",
   "transport_duration",
   "arrival_time",
@@ -36,14 +35,11 @@ export async function updateEvent(eventId: string, formData: FormData) {
   }
 
   const supabase = await createClient();
-  const updates: Record<string, string | string[] | boolean | null> = {};
+  const updates: Record<string, string | null> = {};
   for (const field of EVENT_FIELDS) {
     const value = formData.get(field);
     updates[field] = value === null ? null : String(value) || null;
   }
-
-  const confirmed = formData.get("confirmed") === "on";
-  updates.pending = !confirmed;
   updates.updated_at = new Date().toISOString();
   updates.updated_by = profile.id;
 
@@ -54,6 +50,35 @@ export async function updateEvent(eventId: string, formData: FormData) {
   if (error) throw error;
 
   revalidatePath(`/events/${eventId}`);
+}
+
+// Aparte, kleine update voor datum + "Event bevestigd?" — los van
+// updateEvent() zodat elk formulier enkel de velden overschrijft die het
+// zelf toont (dezelfde reden als updateBaristaNote hieronder).
+export async function updateEventMeta(eventId: string, formData: FormData) {
+  const profile = await getCurrentProfile();
+  if (profile?.role !== "admin") {
+    throw new Error("Only admins can edit events");
+  }
+
+  const eventDate = String(formData.get("event_date") ?? "");
+  const confirmed = formData.get("confirmed") === "on";
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("events")
+    .update({
+      event_date: eventDate || null,
+      pending: !confirmed,
+      updated_at: new Date().toISOString(),
+      updated_by: profile.id,
+    })
+    .eq("id", eventId);
+  if (error) throw error;
+
+  revalidatePath(`/events/${eventId}`);
+  revalidatePath("/kalender");
+  revalidatePath("/dashboard");
 }
 
 // Aparte, kleine update voor de barista('s) zonder account — los van

@@ -1,7 +1,8 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { useTranslations, useLocale } from "next-intl";
-import { updateEvent } from "@/app/[locale]/events/[id]/actions";
+import { updateEvent, updateEventMeta } from "@/app/[locale]/events/[id]/actions";
 import { AutosizeTextarea } from "@/components/autosize-textarea";
 import type { EventDetailRow } from "@/lib/types";
 
@@ -63,41 +64,51 @@ function TextareaField({
 export function EventDetailsForm({
   event,
   readOnly,
+  children,
 }: {
   event: EventDetailRow;
   readOnly: boolean;
+  children?: ReactNode;
 }) {
   const t = useTranslations("event");
   const common = useTranslations("common");
   const locale = useLocale();
 
   return (
-    <form
-      action={(formData) => updateEvent(event.id, formData)}
-      className="flex flex-col gap-6"
-    >
-      {!readOnly && (
-        <button
-          type="submit"
-          className="self-start rounded bg-brand px-4 py-2 text-brand-foreground"
-        >
-          {common("save")}
-        </button>
-      )}
+    <>
+      <form
+        action={(formData) => updateEventMeta(event.id, formData)}
+        className="flex flex-col gap-6"
+      >
+        {!readOnly && (
+          <button
+            type="submit"
+            className="self-start rounded bg-brand px-4 py-2 text-brand-foreground"
+          >
+            {common("save")}
+          </button>
+        )}
 
-      <Field label={t("date")} name="event_date" type="date" defaultValue={event.event_date} readOnly={readOnly} />
+        <Field label={t("date")} name="event_date" type="date" defaultValue={event.event_date} readOnly={readOnly} />
 
-      {!readOnly && (
-        <label className="flex items-center gap-2 text-sm">
-          <input
-            type="checkbox"
-            name="confirmed"
-            defaultChecked={!event.pending}
-          />
-          {t("confirmed")}
-        </label>
-      )}
+        {!readOnly && (
+          <label className="flex items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              name="confirmed"
+              defaultChecked={!event.pending}
+            />
+            {t("confirmed")}
+          </label>
+        )}
+      </form>
 
+      {children}
+
+      <form
+        action={(formData) => updateEvent(event.id, formData)}
+        className="flex flex-col gap-6"
+      >
       <fieldset className="flex flex-col gap-3">
         <legend className="font-medium">{t("timingSection")}</legend>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
@@ -166,6 +177,7 @@ export function EventDetailsForm({
           </span>
         )}
       </div>
-    </form>
+      </form>
+    </>
   );
 }

@@ -131,15 +131,15 @@ export default async function EventPage({
         </p>
       )}
 
-      <BaristaNoteForm
-        eventId={id}
-        baristaNames={event.barista_names}
-        baristaConfirmed={event.barista_confirmed}
-        baristaTentativeOtherJob={event.barista_tentative_other_job}
-        readOnly={!isAdmin}
-      />
-
-      <EventDetailsForm event={event} readOnly={!isAdmin} />
+      <EventDetailsForm event={event} readOnly={!isAdmin}>
+        <BaristaNoteForm
+          eventId={id}
+          baristaNames={event.barista_names}
+          baristaConfirmed={event.barista_confirmed}
+          baristaTentativeOtherJob={event.barista_tentative_other_job}
+          readOnly={!isAdmin}
+        />
+      </EventDetailsForm>
 
       <EventImages
         eventId={id}

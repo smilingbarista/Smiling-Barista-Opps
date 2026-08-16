@@ -23,6 +23,28 @@ export async function generateMetadata({
   return { title: data?.title ? `Briefing ${data.title}` : "Briefing" };
 }
 
+const PASTRY_PICKUP_KEYWORDS = [
+  "afhaalpunt",
+  "bakkerij",
+  "nona",
+  "antoinette",
+  "cafe canele",
+  "café canelé",
+  "tsjoens",
+];
+
+// Waarschuwing bovenaan de briefing als er iets bij "Gebak" staat — en een
+// extra herinnering als die tekst naar een afhaalpunt/bakkerij verwijst,
+// zodat de barista het gebak niet vergeet mee te nemen of af te halen.
+function pastryWarning(pastry: string | null): string | null {
+  if (!pastry || !pastry.trim()) return null;
+  const lower = pastry.toLowerCase();
+  const isPickup = PASTRY_PICKUP_KEYWORDS.some((k) => lower.includes(k));
+  return isPickup
+    ? "Opgepast: Gebak meenemen. Vergeet het gebak niet af te halen!"
+    : "Opgepast: Gebak meenemen.";
+}
+
 function Row({ label, value }: { label: string; value: string | null }) {
   return (
     <tr className="border-b border-black/10">
@@ -53,6 +75,8 @@ export default async function EventBriefingPage({
     .eq("event_id", id)
     .order("created_at", { ascending: true });
 
+  const warning = pastryWarning(event.pastry);
+
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-6 print:max-w-full">
       <div className="flex items-center justify-between">
@@ -62,6 +86,12 @@ export default async function EventBriefingPage({
         </h1>
         <PrintButton eventId={id} />
       </div>
+
+      {warning && (
+        <p className="rounded border border-amber-400 bg-amber-50 px-3 py-2 text-sm font-semibold text-amber-900">
+          {warning}
+        </p>
+      )}
 
       <EventImages
         eventId={id}

@@ -1,7 +1,11 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { groupEventsByMonthAndWeek } from "@/lib/group-events";
-import { formatTime } from "@/lib/event-display";
+import {
+  formatTime,
+  isTeambuildingEvent,
+  TEAMBUILDING_COLOR,
+} from "@/lib/event-display";
 import { formatBaristaSuffix } from "@/lib/event-title";
 import type { EventBriefingPrintedRow } from "@/lib/types";
 
@@ -49,11 +53,19 @@ export async function GroupedEventList({
                     const start = formatTime(event.service_start);
                     const end = formatTime(event.service_end);
                     const hours = start && end ? `${start}–${end}` : start;
+                    const teambuilding = isTeambuildingEvent(event.title);
                     return (
                       <li key={event.id}>
                         <Link
                           href={`/events/${event.id}`}
-                          className="flex flex-col gap-1 rounded border border-black/10 px-4 py-3 hover:border-brand"
+                          className={`flex flex-col gap-1 rounded border border-black/10 px-4 py-3 hover:border-brand${
+                            teambuilding ? " border-l-4" : ""
+                          }`}
+                          style={
+                            teambuilding
+                              ? { borderLeftColor: TEAMBUILDING_COLOR }
+                              : undefined
+                          }
                         >
                           <span className="flex items-center justify-between">
                             <span>

@@ -6,7 +6,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import nlLocale from "@fullcalendar/core/locales/nl";
 import { useRouter } from "@/i18n/navigation";
 import { rescheduleEvent } from "@/app/[locale]/kalender/actions";
-import { eventTitleWithTime } from "@/lib/event-display";
+import { eventTitleWithTime, eventColor } from "@/lib/event-display";
 import type { WorkshopSession } from "@/lib/wix";
 import type { EventRow, AvailabilityRow } from "@/lib/types";
 
@@ -41,7 +41,7 @@ export function CalendarView({
       title: eventTitleWithTime(e),
       start: e.event_date,
       allDay: true,
-      color: "#0366c5",
+      color: eventColor(e.title),
       editable: !!isAdmin,
       extendedProps: { address: e.address },
     })),

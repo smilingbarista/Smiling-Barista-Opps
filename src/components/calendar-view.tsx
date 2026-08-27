@@ -10,6 +10,16 @@ import { eventTitleWithTime } from "@/lib/event-display";
 import type { WorkshopSession } from "@/lib/wix";
 import type { EventRow, AvailabilityRow } from "@/lib/types";
 
+// Korte code voor de kalenderweergave; volledige naam blijft in de tooltip.
+function shortWorkshopTitle(title: string): string {
+  const t = title.toLowerCase();
+  if (t.includes("latte art")) return "LA Workshop";
+  if (t.includes("barista")) return "BB Workshop";
+  if (t.includes("slow brew")) return "SB Workshop";
+  if (t.includes("cocktail")) return "CC Workshop";
+  return title;
+}
+
 export function CalendarView({
   events,
   availability,
@@ -36,7 +46,6 @@ export function CalendarView({
       extendedProps: { address: e.address },
     })),
     ...workshops.map((w) => {
-      const place = w.locationName?.replace(/^Smiling Barista\s+/i, "") ?? null;
       const tooltip = [
         w.title,
         w.startTime && w.endTime ? `${w.startTime}–${w.endTime}` : w.startTime,
@@ -52,7 +61,7 @@ export function CalendarView({
         .join("\n");
       return {
         id: `ws-${w.id}`,
-        title: place ? `${w.title} (${place})` : w.title,
+        title: shortWorkshopTitle(w.title),
         start: w.startUtc,
         end: w.endUtc ?? undefined,
         allDay: false,

@@ -57,7 +57,7 @@ export async function WorkshopList({ locale }: { locale: string }) {
                       className="flex flex-col gap-1 rounded border border-black/10 px-4 py-3 hover:border-brand"
                     >
                       <span className="flex flex-wrap items-center justify-between gap-x-2">
-                        <span className="font-semibold text-brand">
+                        <span className="font-bold text-brand">
                           {session.title}
                         </span>
                         <span className="text-sm text-black/50">

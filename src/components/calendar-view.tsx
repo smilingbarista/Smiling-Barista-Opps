@@ -56,7 +56,7 @@ export function CalendarView({
         start: w.startUtc,
         end: w.endUtc ?? undefined,
         allDay: false,
-        display: "block",
+        display: "list-item",
         color: "#0366c5",
         editable: false,
         classNames: ["ws-event"],

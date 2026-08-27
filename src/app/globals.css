@@ -75,10 +75,20 @@ a.border-brand:active {
   z-index: 5;
 }
 
-/* Workshops uit Wix: vet, in het blauw van de app. */
+/* Workshops uit Wix: geen achtergrondvlak, alleen vette blauwe tekst. */
+.ws-event {
+  background: transparent;
+  border-color: transparent;
+}
+
+.ws-event .fc-daygrid-event-dot {
+  display: none;
+}
+
 .ws-event .fc-event-time,
 .ws-event .fc-event-title {
   font-weight: 700;
+  color: var(--brand);
 }
 
 @media print {

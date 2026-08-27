@@ -7,16 +7,19 @@ import nlLocale from "@fullcalendar/core/locales/nl";
 import { useRouter } from "@/i18n/navigation";
 import { rescheduleEvent } from "@/app/[locale]/kalender/actions";
 import { eventTitleWithTime } from "@/lib/event-display";
+import type { WorkshopSession } from "@/lib/wix";
 import type { EventRow, AvailabilityRow } from "@/lib/types";
 
 export function CalendarView({
   events,
   availability,
+  workshops = [],
   onDateClick,
   isAdmin,
 }: {
   events: EventRow[];
   availability: AvailabilityRow[];
+  workshops?: WorkshopSession[];
   onDateClick?: (date: string) => void;
   isAdmin?: boolean;
 }) {
@@ -32,6 +35,34 @@ export function CalendarView({
       editable: !!isAdmin,
       extendedProps: { address: e.address },
     })),
+    ...workshops.map((w) => {
+      const place = w.locationName?.replace(/^Smiling Barista\s+/i, "") ?? null;
+      const tooltip = [
+        w.title,
+        w.startTime && w.endTime ? `${w.startTime}–${w.endTime}` : w.startTime,
+        w.openSpots != null
+          ? w.openSpots > 0
+            ? `${w.openSpots} plaatsen vrij`
+            : "volzet"
+          : null,
+        w.locationName,
+        w.instructors.join(", ") || null,
+      ]
+        .filter(Boolean)
+        .join("\n");
+      return {
+        id: `ws-${w.id}`,
+        title: place ? `${w.title} (${place})` : w.title,
+        start: w.startUtc,
+        end: w.endUtc ?? undefined,
+        allDay: false,
+        display: "block",
+        color: "#0366c5",
+        editable: false,
+        classNames: ["ws-event"],
+        extendedProps: { bookingUrl: w.bookingUrl, tooltip },
+      };
+    }),
     ...availability.map((a) => ({
       id: `avail-${a.id}`,
       title: a.status === "beschikbaar" ? "✓" : "✕",
@@ -54,11 +85,17 @@ export function CalendarView({
       events={eventSources}
       editable={!!isAdmin}
       eventStartEditable={!!isAdmin}
+      displayEventEnd={true}
+      eventTimeFormat={{ hour: "2-digit", minute: "2-digit", hour12: false }}
       dateClick={
         onDateClick ? (info) => onDateClick(info.dateStr) : undefined
       }
       eventDidMount={(info) => {
         if (info.event.id.startsWith("avail-")) return;
+        if (info.event.id.startsWith("ws-")) {
+          info.el.title = info.event.extendedProps.tooltip as string;
+          return;
+        }
         const address = info.event.extendedProps.address as string | null;
         info.el.title = address
           ? `${info.event.title}\n${address}`
@@ -66,10 +103,19 @@ export function CalendarView({
       }}
       eventClick={(info) => {
         if (info.event.id.startsWith("avail-")) return;
+        if (info.event.id.startsWith("ws-")) {
+          info.jsEvent.preventDefault();
+          const url = info.event.extendedProps.bookingUrl as string;
+          if (url) window.open(url, "_blank", "noopener");
+          return;
+        }
         router.push(`/events/${info.event.id}`);
       }}
       eventDrop={(info) => {
-        if (info.event.id.startsWith("avail-")) {
+        if (
+          info.event.id.startsWith("avail-") ||
+          info.event.id.startsWith("ws-")
+        ) {
           info.revert();
           return;
         }

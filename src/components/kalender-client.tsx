@@ -5,15 +5,19 @@ import { useTranslations } from "next-intl";
 import { CalendarView } from "@/components/calendar-view";
 import { AvailabilityForm } from "@/components/availability-form";
 import { NewEventForm } from "@/components/new-event-form";
+import { RefreshWorkshopsButton } from "@/components/refresh-workshops-button";
+import type { WorkshopSession } from "@/lib/wix";
 import type { EventRow, AvailabilityRow } from "@/lib/types";
 
 export function KalenderClient({
   events,
   availability,
+  workshops,
   isAdmin,
 }: {
   events: EventRow[];
   availability: AvailabilityRow[];
+  workshops: WorkshopSession[];
   isAdmin: boolean;
 }) {
   const t = useTranslations("calendar");
@@ -42,9 +46,14 @@ export function KalenderClient({
         <AvailabilityForm />
       )}
 
+      <div className="flex justify-end">
+        <RefreshWorkshopsButton />
+      </div>
+
       <CalendarView
         events={events}
         availability={availability}
+        workshops={workshops}
         onDateClick={isAdmin ? setNewEventDate : undefined}
         isAdmin={isAdmin}
       />

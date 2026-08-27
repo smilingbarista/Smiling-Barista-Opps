@@ -198,5 +198,13 @@
     "dataCollected": "Erhobene Daten: Name, E-Mail-Adresse, Telefonnummer, Verfügbarkeit und eingereichte Checklisten.",
     "retention": "Aufbewahrung: Daten werden für die Dauer Ihres Arbeitsverhältnisses gespeichert und können auf Anfrage gelöscht oder exportiert werden.",
     "rights": "Sie haben das Recht auf Auskunft, Berichtigung und Löschung Ihrer Daten. Wenden Sie sich dazu an den Admin."
+  },
+  "workshops": {
+    "title": "Workshops",
+    "spotsLeft": "{count, plural, one {# Platz frei} other {# Plätze frei}}",
+    "full": "Ausgebucht",
+    "refresh": "Workshops jetzt laden",
+    "refreshing": "Wird geladen…",
+    "refreshed": "Geladen ✓"
   }
 }

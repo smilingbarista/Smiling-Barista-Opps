@@ -33,6 +33,8 @@ beschikbaarheid, briefings per event, en digitale checklists voor medewerkers.
 
 - `src/app/[locale]/...` — pagina's (NL/EN/FR/DE via `next-intl`)
 - `src/lib/supabase/` — Supabase-clients (browser, server, admin/service-role)
+- `src/lib/wix.ts` — workshopkalender van de website (Wix Bookings, alleen-lezen);
+  vereist `WIX_API_KEY` (zie `.env.local.example`), zonder key verdwijnt de sectie
 - `supabase/migrations/` — databaseschema + Row Level Security
 - `supabase/seed.sql` — de 5 checklist-templates (Veloprep-uitrusting,
   Velopresso-opbouw, Menu, Bienvenue Santé & Bonne Route, Teambuilding Latte Art)

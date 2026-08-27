@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/auth";
 import { NewEventForm } from "@/components/new-event-form";
 import { GroupedEventList } from "@/components/grouped-event-list";
+import { WorkshopList } from "@/components/workshop-list";
 import type { EventBriefingPrintedRow } from "@/lib/types";
 
 const EVENT_SELECT =
@@ -75,6 +76,8 @@ export default async function DashboardPage({
           emptyMessage={t("noEvents")}
         />
       </section>
+
+      <WorkshopList locale={locale} />
     </div>
   );
 }

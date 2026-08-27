@@ -1,9 +1,19 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/auth";
 import { veloprepChecklistName } from "@/lib/checklist-label";
+import { WIX_WORKSHOPS_TAG } from "@/lib/wix";
+
+// Ververst de gecachte workshopdata uit Wix. Wordt aangeroepen door de
+// "Workshops nu inlezen"-knop; verder leest de app Wix maar 1x per week.
+export async function refreshWorkshops() {
+  const profile = await getCurrentProfile();
+  if (!profile) throw new Error("Not authenticated");
+
+  updateTag(WIX_WORKSHOPS_TAG);
+}
 
 export async function createEvent(formData: FormData) {
   const profile = await getCurrentProfile();

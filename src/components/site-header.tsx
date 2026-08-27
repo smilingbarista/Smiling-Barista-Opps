@@ -14,6 +14,21 @@ const LOCALE_LABELS: Record<string, string> = {
   de: "DE",
 };
 
+const MAIN_LINKS = [
+  { href: "/dashboard", key: "dashboard" },
+  { href: "/kalender", key: "calendar" },
+  { href: "/checklists", key: "checklists" },
+  { href: "/briefings", key: "briefings" },
+  { href: "/voorraad", key: "inventory" },
+] as const;
+
+const ADMIN_LINKS = [
+  { href: "/admin/checklists", key: "adminChecklists" },
+  { href: "/admin/team", key: "adminTeam" },
+  { href: "/admin/backup", key: "adminBackup" },
+  { href: "/admin/archive", key: "adminArchive" },
+] as const;
+
 export function SiteHeader({ profile }: { profile: Profile | null }) {
   const t = useTranslations("nav");
   const common = useTranslations("common");
@@ -28,53 +43,19 @@ export function SiteHeader({ profile }: { profile: Profile | null }) {
     router.refresh();
   }
 
+  const links = profile?.role === "admin" ? [...MAIN_LINKS, ...ADMIN_LINKS] : MAIN_LINKS;
+
   return (
     <header className="no-print border-b border-black/10 bg-white">
-      <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3">
-        <Link href="/dashboard" className="flex items-center gap-2">
+      <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-3">
+        <Link href="/dashboard" className="order-1 flex items-center gap-2">
           <Image src="/logo.png" alt={common("appName")} width={36} height={36} />
           <span className="font-heading font-semibold text-brand">
             {common("appName")}
           </span>
         </Link>
 
-        {profile && (
-          <nav className="flex items-center gap-4 text-sm">
-            <Link href="/dashboard" className="hover:text-brand">
-              {t("dashboard")}
-            </Link>
-            <Link href="/kalender" className="hover:text-brand">
-              {t("calendar")}
-            </Link>
-            <Link href="/checklists" className="hover:text-brand">
-              {t("checklists")}
-            </Link>
-            <Link href="/briefings" className="hover:text-brand">
-              {t("briefings")}
-            </Link>
-            <Link href="/voorraad" className="hover:text-brand">
-              {t("inventory")}
-            </Link>
-            {profile.role === "admin" && (
-              <>
-                <Link href="/admin/checklists" className="hover:text-brand">
-                  {t("adminChecklists")}
-                </Link>
-                <Link href="/admin/team" className="hover:text-brand">
-                  {t("adminTeam")}
-                </Link>
-                <Link href="/admin/backup" className="hover:text-brand">
-                  {t("adminBackup")}
-                </Link>
-                <Link href="/admin/archive" className="hover:text-brand">
-                  {t("adminArchive")}
-                </Link>
-              </>
-            )}
-          </nav>
-        )}
-
-        <div className="flex items-center gap-3">
+        <div className="order-2 flex items-center gap-3 lg:order-3">
           <select
             aria-label={common("language")}
             value={locale}
@@ -96,6 +77,20 @@ export function SiteHeader({ profile }: { profile: Profile | null }) {
             </button>
           )}
         </div>
+
+        {profile && (
+          <nav className="order-3 flex w-full flex-wrap items-center gap-x-4 gap-y-1 text-sm lg:order-2 lg:w-auto">
+            {links.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="whitespace-nowrap hover:text-brand"
+              >
+                {t(link.key)}
+              </Link>
+            ))}
+          </nav>
+        )}
       </div>
     </header>
   );

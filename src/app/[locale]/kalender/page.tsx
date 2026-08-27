@@ -2,12 +2,15 @@ import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/auth";
 import { KalenderClient } from "@/components/kalender-client";
+import { getWorkshopSessions } from "@/lib/wix";
 import type { EventRow, AvailabilityRow } from "@/lib/types";
 
 export default async function KalenderPage() {
   const t = await getTranslations("calendar");
   const profile = await getCurrentProfile();
   const supabase = await createClient();
+
+  const workshops = await getWorkshopSessions();
 
   const { data: events } = await supabase
     .from("events")
@@ -31,6 +34,7 @@ export default async function KalenderPage() {
       <KalenderClient
         events={(events ?? []) as EventRow[]}
         availability={(availability ?? []) as AvailabilityRow[]}
+        workshops={workshops}
         isAdmin={profile?.role === "admin"}
       />
     </div>

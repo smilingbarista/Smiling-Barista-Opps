@@ -198,5 +198,13 @@
     "dataCollected": "Verzamelde gegevens: naam, e-mailadres, telefoonnummer, beschikbaarheid en ingevulde checklists.",
     "retention": "Bewaartermijn: gegevens worden bewaard zolang je in dienst bent, en kunnen op verzoek verwijderd of geëxporteerd worden.",
     "rights": "Je hebt recht op inzage, correctie en verwijdering van je gegevens. Neem hiervoor contact op met de admin."
+  },
+  "workshops": {
+    "title": "Workshops",
+    "spotsLeft": "{count, plural, one {# plaats vrij} other {# plaatsen vrij}}",
+    "full": "Volzet",
+    "refresh": "Workshops nu inlezen",
+    "refreshing": "Bezig met inlezen…",
+    "refreshed": "Ingelezen ✓"
   }
 }

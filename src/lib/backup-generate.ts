@@ -30,5 +30,16 @@ export async function generateAndStoreBackup(
     .insert({ path, triggered_by: triggeredBy });
   if (insertError) throw insertError;
 
+  // De automatische (cron) back-up wordt ook per e-mail verstuurd. Een fout
+  // in het mailen mag de back-up zelf niet doen falen.
+  if (triggeredBy === "cron") {
+    try {
+      const { sendBackupEmail } = await import("@/lib/backup-email");
+      await sendBackupEmail(Buffer.from(bytes), path);
+    } catch (error) {
+      console.error("sendBackupEmail mislukt", error);
+    }
+  }
+
   return path;
 }

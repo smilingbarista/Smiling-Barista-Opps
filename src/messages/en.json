@@ -198,5 +198,13 @@
     "dataCollected": "Data collected: name, email address, phone number, availability, and submitted checklists.",
     "retention": "Retention: data is kept for the duration of your employment and can be deleted or exported on request.",
     "rights": "You have the right to access, correct, and delete your data. Contact the admin to exercise these rights."
+  },
+  "workshops": {
+    "title": "Workshops",
+    "spotsLeft": "{count, plural, one {# spot left} other {# spots left}}",
+    "full": "Full",
+    "refresh": "Refresh workshops now",
+    "refreshing": "Refreshing…",
+    "refreshed": "Refreshed ✓"
   }
 }

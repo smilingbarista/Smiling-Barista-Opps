@@ -25,7 +25,7 @@ export async function generateMetadata({
 
   return {
     title: data
-      ? formatBriefingTitle(data as BriefingTitleEvent, false)
+      ? formatBriefingTitle(data as BriefingTitleEvent)
       : "Briefing",
   };
 }
@@ -75,21 +75,12 @@ type BriefingTitleEvent = Pick<
 
 function formatBriefingTitle(
   event: BriefingTitleEvent,
-  includeDropStatus = true,
 ): string {
   const names = event.barista_names.map((name) => name.trim()).filter(Boolean);
   const barista = names.length > 0 ? names.join(", ") : "barista";
-  const dropStatus = event.barista_confirmed
-    ? "drop bevestigd"
-    : event.barista_tentative_other_job
-      ? "drop gevraagd, evt. ook elders"
-      : names.length > 0
-        ? "drop gevraagd"
-        : "drop nog niet toegewezen";
   const departureTime = formatTime(event.departure_time) ?? "—";
-  const title = `Briefing ${event.event_date} | vertrek ${departureTime} | ${event.title} | ${barista}`;
 
-  return includeDropStatus ? `${title} (${dropStatus})` : title;
+  return `Briefing ${event.event_date} | vertrek ${departureTime} | ${event.title} | ${barista}`;
 }
 
 export default async function EventBriefingPage({

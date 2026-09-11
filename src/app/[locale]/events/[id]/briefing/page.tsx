@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { PrintButton } from "@/components/print-button";
 import { EventImages } from "@/components/event-images";
 import { EventVideos } from "@/components/event-videos";
-import { formatBaristaSuffix } from "@/lib/event-title";
+import { formatTime } from "@/lib/event-display";
 import type { EventRow, EventImageRow } from "@/lib/types";
 
 export async function generateMetadata({
@@ -57,6 +57,21 @@ function Row({ label, value }: { label: string; value: string | null }) {
   );
 }
 
+function formatBriefingTitle(event: EventRow): string {
+  const names = event.barista_names.map((name) => name.trim()).filter(Boolean);
+  const barista = names.length > 0 ? names.join(", ") : "barista";
+  const dropStatus = event.barista_confirmed
+    ? "drop bevestigd"
+    : event.barista_tentative_other_job
+      ? "drop gevraagd, evt. ook elders"
+      : names.length > 0
+        ? "drop gevraagd"
+        : "drop nog niet toegewezen";
+  const departureTime = formatTime(event.departure_time) ?? "—";
+
+  return `Briefing ${event.event_date} | vertrek ${departureTime} | ${event.title} | ${barista} (${dropStatus})`;
+}
+
 export default async function EventBriefingPage({
   params,
 }: {
@@ -82,8 +97,7 @@ export default async function EventBriefingPage({
     <div className="mx-auto flex max-w-2xl flex-col gap-6 print:max-w-full">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold">
-          {t("briefingTitle")}: {event.title}
-          {formatBaristaSuffix(event)}
+          {formatBriefingTitle(event)}
         </h1>
         <PrintButton eventId={id} />
       </div>

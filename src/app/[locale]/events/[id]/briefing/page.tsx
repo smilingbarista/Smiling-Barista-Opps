@@ -73,6 +73,11 @@ type BriefingTitleEvent = Pick<
   | "barista_tentative_other_job"
 >;
 
+function formatBriefingDate(date: string): string {
+  const [year, month, day] = date.split("-");
+  return year && month && day ? `${day}/${month}/${year}` : date;
+}
+
 function formatBriefingTitle(
   event: BriefingTitleEvent,
 ): string {
@@ -80,7 +85,7 @@ function formatBriefingTitle(
   const barista = names.length > 0 ? names.join(", ") : "barista";
   const departureTime = formatTime(event.departure_time) ?? "—";
 
-  return `Briefing ${event.event_date} | vertrek ${departureTime} | ${event.title} | ${barista}`;
+  return `Briefing ${formatBriefingDate(event.event_date)} | vertrek ${departureTime} | ${event.title} | ${barista}`;
 }
 
 export default async function EventBriefingPage({

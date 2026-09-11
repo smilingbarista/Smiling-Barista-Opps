@@ -2,18 +2,22 @@ const EVENT_VIDEOS = [
   {
     title: "Elektrisch laden",
     href: "https://youtube.com/shorts/hj-eZ6vmbAo?feature=share",
+    icon: "💙",
   },
   {
     title: "Velopresso Vastsnoeren",
     href: "https://youtube.com/shorts/lnBcVNuieME?feature=share",
+    icon: "🚴‍♂️",
   },
   {
     title: "Manueel laden in gehuurde camionette",
     href: "https://youtube.com/shorts/a2NxGLjI6Lc",
+    icon: "💙",
   },
   {
     title: "Water bijpompen",
     href: "https://youtube.com/shorts/Jst2C5wjsXk?feature=share",
+    icon: "🚴‍♂️",
   },
 ] as const;
 
@@ -32,6 +36,7 @@ export function EventVideos() {
               rel="noreferrer"
               className="font-sans text-[20px] font-bold text-black hover:underline"
             >
+              <span aria-hidden="true">{video.icon} </span>
               {video.title}
             </a>
           </li>

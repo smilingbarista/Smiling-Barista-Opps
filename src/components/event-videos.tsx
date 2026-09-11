@@ -30,7 +30,7 @@ export function EventVideos() {
               href={video.href}
               target="_blank"
               rel="noreferrer"
-              className="font-heading text-[20px] font-bold text-[#0366c5] hover:underline"
+              className="font-sans text-[20px] font-bold text-black hover:underline"
             >
               {video.title}
             </a>

@@ -75,6 +75,16 @@ a.border-brand:active {
   z-index: 5;
 }
 
+.pending-event {
+  color: var(--brand) !important;
+  border-color: #c6e2ff !important;
+}
+
+.pending-event .fc-event-title,
+.pending-event .fc-event-time {
+  color: var(--brand);
+}
+
 /* Workshops uit Wix: geen achtergrondvlak, alleen vette blauwe tekst. */
 .ws-event {
   background: transparent;

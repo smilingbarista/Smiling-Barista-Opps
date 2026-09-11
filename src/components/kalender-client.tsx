@@ -7,7 +7,7 @@ import { AvailabilityForm } from "@/components/availability-form";
 import { NewEventForm } from "@/components/new-event-form";
 import { RefreshWorkshopsButton } from "@/components/refresh-workshops-button";
 import type { WorkshopSession } from "@/lib/wix";
-import type { EventRow, AvailabilityRow } from "@/lib/types";
+import type { EventDateRow, EventRow, AvailabilityRow } from "@/lib/types";
 
 export function KalenderClient({
   events,
@@ -15,7 +15,7 @@ export function KalenderClient({
   workshops,
   isAdmin,
 }: {
-  events: EventRow[];
+  events: (EventRow & { event_dates?: EventDateRow[] })[];
   availability: AvailabilityRow[];
   workshops: WorkshopSession[];
   isAdmin: boolean;

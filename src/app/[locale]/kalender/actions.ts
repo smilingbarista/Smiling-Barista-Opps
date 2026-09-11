@@ -23,10 +23,16 @@ export async function createEvent(formData: FormData) {
 
   const supabase = await createClient();
   const title = String(formData.get("title") ?? "").trim();
-  const eventDate = String(formData.get("event_date") ?? "");
+  const eventDates = formData
+    .getAll("event_date")
+    .map((value) => String(value).trim())
+    .filter(Boolean);
+  const serviceStarts = formData.getAll("service_start").map((value) => String(value) || null);
+  const serviceEnds = formData.getAll("service_end").map((value) => String(value) || null);
+  const eventDate = eventDates[0] ?? "";
   const barista = String(formData.get("barista") ?? "").trim();
   const confirmed = formData.get("confirmed") === "on";
-  if (!title || !eventDate) {
+  if (!title || eventDates.length === 0) {
     throw new Error("Titel en datum zijn verplicht");
   }
 
@@ -35,6 +41,8 @@ export async function createEvent(formData: FormData) {
     .insert({
       title,
       event_date: eventDate,
+      service_start: serviceStarts[0],
+      service_end: serviceEnds[0],
       address: String(formData.get("address") ?? "") || null,
       barista_names: barista ? [barista] : [],
       pending: !confirmed,
@@ -44,6 +52,16 @@ export async function createEvent(formData: FormData) {
     .single();
 
   if (error) throw error;
+
+  const { error: datesError } = await supabase.from("event_dates").insert(
+    eventDates.map((date, index) => ({
+      event_id: data.id,
+      event_date: date,
+      service_start: serviceStarts[index] ?? null,
+      service_end: serviceEnds[index] ?? null,
+    })),
+  );
+  if (datesError) throw datesError;
 
   const isTeambuilding = title.toLowerCase().includes("teambuilding");
   const autoTemplateCode = isTeambuilding
@@ -69,17 +87,27 @@ export async function createEvent(formData: FormData) {
   return data.id as string;
 }
 
-export async function rescheduleEvent(eventId: string, newDate: string) {
+export async function rescheduleEvent(
+  eventId: string,
+  newDate: string,
+  occurrenceId?: string,
+) {
   const profile = await getCurrentProfile();
   if (profile?.role !== "admin") {
     throw new Error("Only admins can reschedule events");
   }
 
   const supabase = await createClient();
-  const { error } = await supabase
-    .from("events")
-    .update({ event_date: newDate })
-    .eq("id", eventId);
+  const { error } = occurrenceId
+    ? await supabase
+        .from("event_dates")
+        .update({ event_date: newDate })
+        .eq("id", occurrenceId)
+        .eq("event_id", eventId)
+    : await supabase
+        .from("events")
+        .update({ event_date: newDate })
+        .eq("id", eventId);
   if (error) throw error;
 
   revalidatePath("/kalender");

@@ -6,9 +6,13 @@ import interactionPlugin from "@fullcalendar/interaction";
 import nlLocale from "@fullcalendar/core/locales/nl";
 import { useRouter } from "@/i18n/navigation";
 import { rescheduleEvent } from "@/app/[locale]/kalender/actions";
-import { eventTitleWithTime, eventColor } from "@/lib/event-display";
+import {
+  eventTitleWithTime,
+  eventColor,
+  PENDING_EVENT_BORDER_COLOR,
+} from "@/lib/event-display";
 import type { WorkshopSession } from "@/lib/wix";
-import type { EventRow, AvailabilityRow } from "@/lib/types";
+import type { EventDateRow, EventRow, AvailabilityRow } from "@/lib/types";
 
 // Korte code voor de kalenderweergave; volledige naam blijft in de tooltip.
 function shortWorkshopTitle(title: string): string {
@@ -27,7 +31,7 @@ export function CalendarView({
   onDateClick,
   isAdmin,
 }: {
-  events: EventRow[];
+  events: (EventRow & { event_dates?: EventDateRow[] })[];
   availability: AvailabilityRow[];
   workshops?: WorkshopSession[];
   onDateClick?: (date: string) => void;
@@ -36,15 +40,35 @@ export function CalendarView({
   const router = useRouter();
 
   const eventSources = [
-    ...events.map((e) => ({
-      id: e.id,
-      title: eventTitleWithTime(e),
-      start: e.event_date,
-      allDay: true,
-      color: eventColor(e.title),
-      editable: !!isAdmin,
-      extendedProps: { address: e.address },
-    })),
+    ...events.flatMap((e) => {
+      const dates = e.event_dates?.length
+        ? e.event_dates
+        : [{ id: e.id, event_id: e.id, event_date: e.event_date, service_start: e.service_start, service_end: e.service_end }];
+      return dates.map((date) => {
+        const calendarEvent = {
+          ...e,
+          event_date: date.event_date,
+          service_start: date.service_start,
+          service_end: date.service_end,
+        };
+        return {
+          id: date.id,
+          title: `${e.pending ? "?? " : ""}${eventTitleWithTime(calendarEvent)}`,
+          start: date.event_date,
+          allDay: true,
+          color: e.pending ? PENDING_EVENT_BORDER_COLOR : eventColor(e.title),
+          borderColor: e.pending ? PENDING_EVENT_BORDER_COLOR : undefined,
+          classNames: e.pending ? ["pending-event"] : [],
+          editable: !!isAdmin,
+          extendedProps: {
+            address: e.address,
+            pending: e.pending,
+            eventId: e.id,
+            occurrenceId: date.id === e.id ? undefined : date.id,
+          },
+        };
+      });
+    }),
     ...workshops.map((w) => {
       const tooltip = [
         w.title,
@@ -105,6 +129,9 @@ export function CalendarView({
           info.el.title = info.event.extendedProps.tooltip as string;
           return;
         }
+        if (info.event.extendedProps.pending) {
+          info.el.classList.add("pending-event");
+        }
         const address = info.event.extendedProps.address as string | null;
         info.el.title = address
           ? `${info.event.title}\n${address}`
@@ -118,7 +145,8 @@ export function CalendarView({
           if (url) window.open(url, "_blank", "noopener");
           return;
         }
-        router.push(`/events/${info.event.id}`);
+        const eventId = info.event.extendedProps.eventId as string | undefined;
+        router.push(`/events/${eventId ?? info.event.id}`);
       }}
       eventDrop={(info) => {
         if (
@@ -129,7 +157,11 @@ export function CalendarView({
           return;
         }
         const newDate = info.event.startStr.slice(0, 10);
-        rescheduleEvent(info.event.id, newDate).catch(() => info.revert());
+        const eventId = info.event.extendedProps.eventId as string | undefined;
+        const occurrenceId = info.event.extendedProps.occurrenceId as string | undefined;
+        rescheduleEvent(eventId ?? info.event.id, newDate, occurrenceId).catch(() =>
+          info.revert(),
+        );
       }}
     />
   );

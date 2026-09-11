@@ -78,6 +78,7 @@ export async function updateEventMeta(eventId: string, formData: FormData) {
 
   revalidatePath(`/events/${eventId}`);
   revalidatePath("/kalender");
+  revalidatePath("/[locale]/kalender", "page");
   revalidatePath("/dashboard");
 }
 

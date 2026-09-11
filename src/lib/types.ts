@@ -34,6 +34,14 @@ export type EventRow = {
   pending: boolean;
 };
 
+export type EventDateRow = {
+  id: string;
+  event_id: string;
+  event_date: string;
+  service_start: string | null;
+  service_end: string | null;
+};
+
 export type EventBriefingPrintedRow = EventRow & {
   briefing_printed_by_profile: { full_name: string } | null;
 };

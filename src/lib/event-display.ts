@@ -8,6 +8,7 @@ export function formatTime(time: string | null): string | null {
 // Standaardblauw voor events, en een lichter blauw voor teambuildings.
 export const EVENT_COLOR = "#0366c5";
 export const TEAMBUILDING_COLOR = "#5b9bd5";
+export const PENDING_EVENT_BORDER_COLOR = "#c6e2ff";
 
 export function isTeambuildingEvent(title: string): boolean {
   return title.toLowerCase().includes("teambuilding");

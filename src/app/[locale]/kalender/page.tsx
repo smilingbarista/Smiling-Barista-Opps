@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/auth";
 import { KalenderClient } from "@/components/kalender-client";
 import { getWorkshopSessions } from "@/lib/wix";
-import type { EventRow, AvailabilityRow } from "@/lib/types";
+import type { EventDateRow, EventRow, AvailabilityRow } from "@/lib/types";
 
 export default async function KalenderPage() {
   const t = await getTranslations("calendar");
@@ -12,11 +12,18 @@ export default async function KalenderPage() {
 
   const workshops = await getWorkshopSessions();
 
-  const { data: events } = await supabase
+  const eventQuery = await supabase
     .from("events")
-    .select("*")
+    .select("*, event_dates(id, event_id, event_date, service_start, service_end)")
     .neq("status", "gearchiveerd")
     .order("event_date", { ascending: true });
+  const { data: events } = eventQuery.error
+    ? await supabase
+        .from("events")
+        .select("*")
+        .neq("status", "gearchiveerd")
+        .order("event_date", { ascending: true })
+    : eventQuery;
 
   const availabilityQuery =
     profile?.role === "admin"
@@ -32,7 +39,9 @@ export default async function KalenderPage() {
       <h1 className="text-xl font-semibold">{t("title")}</h1>
 
       <KalenderClient
-        events={(events ?? []) as EventRow[]}
+        events={
+          (events ?? []) as (EventRow & { event_dates?: EventDateRow[] })[]
+        }
         availability={(availability ?? []) as AvailabilityRow[]}
         workshops={workshops}
         isAdmin={profile?.role === "admin"}

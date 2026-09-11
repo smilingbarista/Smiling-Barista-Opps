@@ -17,11 +17,17 @@ export async function generateMetadata({
   const supabase = await createClient();
   const { data } = await supabase
     .from("events")
-    .select("title")
+    .select(
+      "title, event_date, departure_time, barista_names, barista_confirmed, barista_tentative_other_job",
+    )
     .eq("id", id)
     .single();
 
-  return { title: data?.title ? `Briefing ${data.title}` : "Briefing" };
+  return {
+    title: data
+      ? formatBriefingTitle(data as BriefingTitleEvent, false)
+      : "Briefing",
+  };
 }
 
 const PASTRY_PICKUP_KEYWORDS = [
@@ -57,7 +63,20 @@ function Row({ label, value }: { label: string; value: string | null }) {
   );
 }
 
-function formatBriefingTitle(event: EventRow): string {
+type BriefingTitleEvent = Pick<
+  EventRow,
+  | "title"
+  | "event_date"
+  | "departure_time"
+  | "barista_names"
+  | "barista_confirmed"
+  | "barista_tentative_other_job"
+>;
+
+function formatBriefingTitle(
+  event: BriefingTitleEvent,
+  includeDropStatus = true,
+): string {
   const names = event.barista_names.map((name) => name.trim()).filter(Boolean);
   const barista = names.length > 0 ? names.join(", ") : "barista";
   const dropStatus = event.barista_confirmed
@@ -68,8 +87,9 @@ function formatBriefingTitle(event: EventRow): string {
         ? "drop gevraagd"
         : "drop nog niet toegewezen";
   const departureTime = formatTime(event.departure_time) ?? "—";
+  const title = `Briefing ${event.event_date} | vertrek ${departureTime} | ${event.title} | ${barista}`;
 
-  return `Briefing ${event.event_date} | vertrek ${departureTime} | ${event.title} | ${barista} (${dropStatus})`;
+  return includeDropStatus ? `${title} (${dropStatus})` : title;
 }
 
 export default async function EventBriefingPage({

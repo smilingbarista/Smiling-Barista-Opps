@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { PrintButton } from "@/components/print-button";
 import { EventImages } from "@/components/event-images";
+import { EventVideos } from "@/components/event-videos";
 import { formatBaristaSuffix } from "@/lib/event-title";
 import type { EventRow, EventImageRow } from "@/lib/types";
 
@@ -92,6 +93,8 @@ export default async function EventBriefingPage({
           {warning}
         </p>
       )}
+
+      <EventVideos />
 
       <EventImages
         eventId={id}

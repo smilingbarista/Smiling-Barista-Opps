@@ -12,6 +12,7 @@ import { EventActions } from "@/components/event-actions";
 import { EventImages } from "@/components/event-images";
 import { EditableEventTitle } from "@/components/editable-event-title";
 import { UsageReportForm } from "@/components/usage-report-form";
+import { EventVideos } from "@/components/event-videos";
 import { formatTime } from "@/lib/event-display";
 import { formatBaristaSuffix } from "@/lib/event-title";
 import type {
@@ -140,6 +141,8 @@ export default async function EventPage({
           readOnly={!isAdmin}
         />
       </EventDetailsForm>
+
+      <EventVideos />
 
       <EventImages
         eventId={id}

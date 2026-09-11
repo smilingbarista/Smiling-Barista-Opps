@@ -94,7 +94,7 @@ export default async function EventBriefingPage({
         </p>
       )}
 
-      <EventVideos />
+      <EventVideos showLinkInstruction />
 
       <EventImages
         eventId={id}

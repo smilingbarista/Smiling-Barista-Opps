@@ -21,12 +21,21 @@ const EVENT_VIDEOS = [
   },
 ] as const;
 
-export function EventVideos() {
+export function EventVideos({
+  showLinkInstruction = false,
+}: {
+  showLinkInstruction?: boolean;
+}) {
   return (
     <section className="flex flex-col gap-2">
       <h2 className="font-heading text-[24px] font-bold text-[#0366c5]">
         Bekijk deze video&apos;s nog eens voor je deze acties gaat uitvoeren.
       </h2>
+      {showLinkInstruction && (
+        <p className="font-heading text-[20px] font-bold text-black">
+          [klik op de titels om de link te bekijken]
+        </p>
+      )}
       <ul className="flex flex-col gap-1">
         {EVENT_VIDEOS.map((video) => (
           <li key={video.href}>

@@ -100,7 +100,7 @@ export function ChecklistForm({
   const sections = Array.from(new Set(items.map((i) => i.section ?? "")));
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="checklist-form flex flex-col gap-6">
       {sections.map((section) => (
         <div key={section} className="flex flex-col gap-2">
           {section && <h2 className="font-medium">{section}</h2>}
@@ -134,13 +134,13 @@ export function ChecklistForm({
                   </label>
                   {perItemExtra && (
                     <AutosizeTextarea
+                      className="checklist-extra mt-2 w-full rounded border border-black/20 px-2 py-1 text-xs"
                       disabled={submitted}
                       value={itemState?.note ?? ""}
                       placeholder={item.templateExtra || t("extra")}
                       onChange={(e) =>
                         updateItem(item.templateItemId, { note: e.target.value })
                       }
-                      className="mt-2 w-full rounded border border-black/20 px-2 py-1 text-xs"
                     />
                   )}
                 </div>
@@ -165,7 +165,7 @@ export function ChecklistForm({
       )}
 
       {!submitted && (
-        <div className="flex items-center gap-3">
+        <div className="no-print flex items-center gap-3">
           <button
             onClick={handleSave}
             className="rounded border border-brand px-4 py-2 text-brand hover:bg-brand hover:text-brand-foreground"
@@ -188,7 +188,7 @@ export function ChecklistForm({
         </div>
       )}
       {submitted && (
-        <div className="flex items-center gap-3">
+        <div className="no-print flex items-center gap-3">
           <p className="text-sm text-green-700">{t("statusSubmitted")}</p>
           {isAdmin && (
             <button

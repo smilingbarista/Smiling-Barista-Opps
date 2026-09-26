@@ -61,6 +61,7 @@
     "briefingTitle": "Briefing",
     "generateBriefing": "Briefing genereren",
     "print": "Briefing genereren als pdf",
+    "printChecklist": "Checklist opslaan als pdf",
     "briefingPrintedBy": "Briefing afgedrukt door {name} op {date}",
     "createdBy": "Aangemaakt door {name} op {date}",
     "updatedBy": "Laatst gewijzigd door {name} op {date}",

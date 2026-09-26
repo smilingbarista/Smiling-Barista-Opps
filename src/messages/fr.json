@@ -61,6 +61,7 @@
     "briefingTitle": "Briefing",
     "generateBriefing": "Générer le briefing",
     "print": "Générer le briefing en PDF",
+    "printChecklist": "Enregistrer la checklist en PDF",
     "briefingPrintedBy": "Briefing imprimé par {name} le {date}",
     "createdBy": "Créé par {name} le {date}",
     "updatedBy": "Dernière modification par {name} le {date}",

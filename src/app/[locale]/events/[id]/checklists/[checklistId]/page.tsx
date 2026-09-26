@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/auth";
 import { checklistLabel } from "@/lib/checklist-label";
 import { ChecklistForm } from "@/components/checklist-form";
+import { PrintChecklistButton } from "@/components/print-checklist-button";
 import type { ChecklistItemView } from "@/lib/types";
 
 export default async function EventChecklistPage({
@@ -66,8 +67,11 @@ export default async function EventChecklistPage({
       : t("checklistsSection"));
 
   return (
-    <div className="flex flex-col gap-4">
-      <h1 className="text-xl font-semibold">{title}</h1>
+    <div className="event-checklist-page flex flex-col gap-4">
+      <div className="flex items-center justify-between gap-4">
+        <h1 className="text-xl font-semibold">{title}</h1>
+        <PrintChecklistButton />
+      </div>
       <ChecklistForm
         eventId={eventId}
         checklistId={checklistId}

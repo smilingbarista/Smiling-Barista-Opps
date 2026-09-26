@@ -105,4 +105,34 @@ a.border-brand:active {
   .no-print {
     display: none !important;
   }
+
+  .event-checklist-page {
+    gap: 1rem;
+    color: #000;
+  }
+
+  .event-checklist-page h1,
+  .checklist-form h2 {
+    color: #000;
+  }
+
+  .checklist-form {
+    gap: 1rem;
+  }
+
+  .checklist-form > div > div {
+    break-inside: avoid;
+  }
+
+  .checklist-form input[type="checkbox"] {
+    appearance: auto;
+    width: 1rem;
+    height: 1rem;
+    flex: 0 0 1rem;
+    print-color-adjust: exact;
+  }
+
+  .checklist-extra {
+    display: none !important;
+  }
 }

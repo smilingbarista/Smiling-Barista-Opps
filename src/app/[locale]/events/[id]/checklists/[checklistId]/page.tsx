@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/auth";
@@ -6,6 +7,47 @@ import { checklistLabel } from "@/lib/checklist-label";
 import { ChecklistForm } from "@/components/checklist-form";
 import { PrintChecklistButton } from "@/components/print-checklist-button";
 import type { ChecklistItemView } from "@/lib/types";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string; checklistId: string }>;
+}): Promise<Metadata> {
+  const { id: eventId, checklistId } = await params;
+  const templatesT = await getTranslations("checklistTemplates");
+  const eventT = await getTranslations("event");
+  const supabase = await createClient();
+
+  const [{ data: checklist }, { data: event }] = await Promise.all([
+    supabase
+      .from("event_checklists")
+      .select("name, checklist_templates(code)")
+      .eq("id", checklistId)
+      .maybeSingle(),
+    supabase.from("events").select("title").eq("id", eventId).maybeSingle(),
+  ]);
+
+  if (!checklist) return {};
+
+  const templateRelation = checklist.checklist_templates as unknown as
+    | { code: string }
+    | { code: string }[]
+    | null;
+  const templateCode = Array.isArray(templateRelation)
+    ? templateRelation[0]?.code
+    : templateRelation?.code;
+  const checklistTitle =
+    checklist.name ||
+    (templateCode
+      ? checklistLabel(templatesT, templateCode)
+      : eventT("checklistsSection"));
+
+  return {
+    title: event?.title
+      ? `${checklistTitle} - ${event.title}`
+      : checklistTitle,
+  };
+}
 
 export default async function EventChecklistPage({
   params,

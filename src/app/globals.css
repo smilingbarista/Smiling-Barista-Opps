@@ -140,8 +140,8 @@ a.border-brand:active {
     visibility: hidden !important;
   }
 
-  .template-print-area,
-  .template-print-area * {
+  body:has(.template-print-area) .template-print-area,
+  body:has(.template-print-area) .template-print-area * {
     visibility: visible !important;
   }
 
@@ -183,10 +183,16 @@ a.border-brand:active {
   }
 
   .template-print-item input[type="checkbox"] {
-    appearance: auto;
+    appearance: none !important;
+    -webkit-appearance: none;
     width: 1rem;
     height: 1rem;
     flex: 0 0 1rem;
+    margin: 0;
+    border: 1px solid #000;
+    border-radius: 0;
+    background: #fff;
+    opacity: 1;
     print-color-adjust: exact;
   }
 }

@@ -135,6 +135,8 @@
   },
   "admin": {
     "checklistsTitle": "Checklisten-Vorlagen verwalten",
+    "exportTemplatePdf": "Vorlage als PDF speichern",
+    "dragTemplateItem": "Ziehen, um die Reihenfolge zu ändern",
     "teamTitle": "Team verwalten",
     "role": "Rolle",
     "roleAdmin": "Admin",

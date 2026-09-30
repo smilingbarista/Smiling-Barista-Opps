@@ -39,6 +39,18 @@ beschikbaarheid, briefings per event, en digitale checklists voor medewerkers.
 - `supabase/seed.sql` — de 5 checklist-templates (Veloprep-uitrusting,
   Velopresso-opbouw, Menu, Bienvenue Santé & Bonne Route, Teambuilding Latte Art)
 
+## Vercel deploy (publieke URL)
+
+Deze app is voorbereid voor Vercel-deploy:
+
+1. Kies een GitHub-repo en link deze aan Vercel.
+2. Selecteer het project in Vercel en zet de volgende environment variables:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `SUPABASE_SERVICE_ROLE_KEY`
+3. Laat Vercel de Next.js-app builden met de standaardinstellingen.
+4. Na deploy is de app publiek beschikbaar via de gegenereerde Vercel-URL.
+
 ## Fase 2 (later)
 
 Voorraad-/historiekbeheer van handels- en hulpgoederen, Odoo Online-koppeling

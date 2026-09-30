@@ -135,6 +135,8 @@
   },
   "admin": {
     "checklistsTitle": "Manage checklist templates",
+    "exportTemplatePdf": "Save template as PDF",
+    "dragTemplateItem": "Drag to change the order",
     "teamTitle": "Manage team",
     "role": "Role",
     "roleAdmin": "Admin",

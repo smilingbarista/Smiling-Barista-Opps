@@ -63,7 +63,7 @@ export async function createEvent(formData: FormData) {
   );
   if (datesError) throw datesError;
 
-  const isTeambuilding = title.toLowerCase().includes("teambuilding");
+  const isTeambuilding = /\b(?:teambuildings?|workshops?)\b/i.test(title);
   const autoTemplateCode = isTeambuilding
     ? "teambuilding_latte_art"
     : "veloprep_uitrusting";

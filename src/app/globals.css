@@ -135,4 +135,62 @@ a.border-brand:active {
   .checklist-extra {
     display: none !important;
   }
+
+  body:has(.template-print-area) * {
+    visibility: hidden !important;
+  }
+
+  .template-print-area,
+  .template-print-area * {
+    visibility: visible !important;
+  }
+
+  .template-print-area {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block !important;
+    width: 100%;
+    padding: 0;
+    color: #000;
+    background: #fff;
+  }
+
+  .template-print-area h1,
+  .template-print-area h2 {
+    color: #000;
+  }
+
+  .template-print-area h1 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
+
+  .template-print-area h2 {
+    margin: 0.8rem 0 0.3rem;
+    font-size: 1rem;
+  }
+
+  .template-print-item {
+    break-inside: avoid;
+  }
+
+  .template-print-item label {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.3rem 0;
+  }
+
+  .template-print-item input[type="checkbox"] {
+    appearance: auto;
+    width: 1rem;
+    height: 1rem;
+    flex: 0 0 1rem;
+    print-color-adjust: exact;
+  }
+}
+
+.template-print-area {
+  display: none;
 }

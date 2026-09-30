@@ -50,6 +50,44 @@ export async function addTemplateItem(
   revalidatePath("/admin/checklists");
 }
 
+export async function reorderTemplateItems(
+  templateId: string,
+  itemIds: string[],
+) {
+  await requireAdmin();
+  if (new Set(itemIds).size !== itemIds.length) {
+    throw new Error("Duplicate checklist template item");
+  }
+
+  const supabase = await createClient();
+  const { data: templateItems, error: queryError } = await supabase
+    .from("checklist_template_items")
+    .select("id")
+    .eq("template_id", templateId);
+  if (queryError) throw queryError;
+  if (
+    !templateItems ||
+    templateItems.length !== itemIds.length ||
+    templateItems.some((item) => !itemIds.includes(item.id))
+  ) {
+    throw new Error("Invalid checklist template item order");
+  }
+
+  const results = await Promise.all(
+    itemIds.map((id, index) =>
+      supabase
+        .from("checklist_template_items")
+        .update({ sort_order: index + 1 })
+        .eq("id", id)
+        .eq("template_id", templateId),
+    ),
+  );
+  const failedUpdate = results.find((result) => result.error);
+  if (failedUpdate?.error) throw failedUpdate.error;
+
+  revalidatePath("/admin/checklists");
+}
+
 export async function updateTemplateItem(itemId: string, formData: FormData) {
   await requireAdmin();
   const label = String(formData.get("label") ?? "").trim();

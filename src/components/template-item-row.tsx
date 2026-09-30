@@ -10,9 +10,22 @@ import {
 import { AutosizeTextarea } from "@/components/autosize-textarea";
 import type { ChecklistTemplateItemRow } from "@/lib/types";
 
-export function TemplateItemRow({ item }: { item: ChecklistTemplateItemRow }) {
+export function TemplateItemRow({
+  item,
+  isDragging,
+  onDragStart,
+  onDragEnd,
+  onDrop,
+}: {
+  item: ChecklistTemplateItemRow;
+  isDragging: boolean;
+  onDragStart: (itemId: string) => void;
+  onDragEnd: () => void;
+  onDrop: (itemId: string) => void;
+}) {
   const common = useTranslations("common");
   const t = useTranslations("event");
+  const admin = useTranslations("admin");
   const [editing, setEditing] = useState(false);
 
   if (editing) {
@@ -78,7 +91,30 @@ export function TemplateItemRow({ item }: { item: ChecklistTemplateItemRow }) {
   }
 
   return (
-    <li className="flex items-center gap-2 rounded bg-black/5 px-2 py-1 text-sm">
+    <li
+      onDragOver={(event) => event.preventDefault()}
+      onDrop={(event) => {
+        event.preventDefault();
+        onDrop(item.id);
+      }}
+      className={`flex items-center gap-2 rounded bg-black/5 px-2 py-1 text-sm ${
+        isDragging ? "opacity-40" : ""
+      }`}
+    >
+      <button
+        type="button"
+        draggable
+        onDragStart={(event) => {
+          event.dataTransfer.effectAllowed = "move";
+          onDragStart(item.id);
+        }}
+        onDragEnd={onDragEnd}
+        aria-label={admin("dragTemplateItem")}
+        title={admin("dragTemplateItem")}
+        className="no-print cursor-grab touch-none text-lg leading-none text-black/50 active:cursor-grabbing"
+      >
+        ⋮⋮
+      </button>
       <input
         type="checkbox"
         checked={!item.active}

@@ -135,6 +135,8 @@
   },
   "admin": {
     "checklistsTitle": "Checklist-templates beheren",
+    "exportTemplatePdf": "Template opslaan als pdf",
+    "dragTemplateItem": "Sleep om de volgorde te wijzigen",
     "teamTitle": "Team beheren",
     "role": "Rol",
     "roleAdmin": "Admin",

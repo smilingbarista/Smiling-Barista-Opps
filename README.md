@@ -12,9 +12,9 @@ beschikbaarheid, briefings per event, en digitale checklists voor medewerkers.
    - `NEXT_PUBLIC_SUPABASE_URL`
    - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
    - `SUPABASE_SERVICE_ROLE_KEY` (enkel server-side gebruikt, nooit committen)
-3. **Database opzetten**: voer de SQL uit `supabase/migrations/0001_init.sql`
-   uit in de Supabase SQL editor, gevolgd door `supabase/seed.sql` (de 5
-   checklist-templates).
+3. **Database opzetten**: voer de migraties uit `supabase/migrations/` op
+   volgorde uit in de Supabase SQL editor, gevolgd door `supabase/seed.sql`
+   (de 5 checklist-templates).
 4. **2FA**: in het Supabase-dashboard onder *Authentication → Providers →
    Multi-factor authentication*, zet TOTP aan.
 5. **Eerste gebruikers**: maak accounts aan via *Authentication → Users* (of
@@ -38,6 +38,25 @@ beschikbaarheid, briefings per event, en digitale checklists voor medewerkers.
 - `supabase/migrations/` — databaseschema + Row Level Security
 - `supabase/seed.sql` — de 5 checklist-templates (Veloprep-uitrusting,
   Velopresso-opbouw, Menu, Bienvenue Santé & Bonne Route, Teambuilding Latte Art)
+
+## Sales / Gmail
+
+De adminpagina Leads zoekt rechtstreeks in Gmail naar e-mails met `offerte`,
+`event`, `koffie`, `velopresso`, `workshop`, `teambuilding`, `coffee & smiles`
+of `latte art` in onderwerp of inhoud. De app toont maximaal 25 gesprekken en
+stuurt of wijzigt geen e-mails. Er is geen Notion-koppeling nodig.
+
+Voor toegang: activeer de Gmail API in Google Cloud, maak OAuth-gegevens aan en
+genereer met OAuth Playground een refresh token met de scope
+`https://www.googleapis.com/auth/gmail.readonly`. Vul de client-ID, clientsecret
+en refresh token server-side in als `GMAIL_CLIENT_ID`, `GMAIL_CLIENT_SECRET` en
+`GMAIL_REFRESH_TOKEN` (in `.env.local` en de Vercel environment variables). Houd
+de refresh token geheim; zet de OAuth-toestemmingsstatus niet op "Testing" voor
+blijvende toegang, omdat Google testtokens na zeven dagen kan laten verlopen.
+Voer ook `supabase/migrations/0014_customer_contacts.sql` uit om de contacten
+op te slaan. In Leads kun je de afzendergegevens eerst controleren en aanpassen;
+alleen naam en e-mailadres komen rechtstreeks uit de mailheader. Bedrijf en
+telefoon worden waar mogelijk uit de handtekening voorgesteld.
 
 ## Vercel deploy (publieke URL)
 

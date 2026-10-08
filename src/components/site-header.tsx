@@ -23,6 +23,7 @@ const MAIN_LINKS = [
 ] as const;
 
 const ADMIN_LINKS = [
+  { href: "/sales", key: "sales" },
   { href: "/admin/checklists", key: "adminChecklists" },
   { href: "/admin/team", key: "adminTeam" },
   { href: "/admin/backup", key: "adminBackup" },

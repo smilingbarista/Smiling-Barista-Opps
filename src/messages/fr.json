@@ -16,6 +16,7 @@
     "checklists": "Checklists",
     "briefings": "Briefings et checklists",
     "inventory": "Stock",
+    "sales": "Prospects",
     "adminChecklists": "Modèles de checklists",
     "adminTeam": "Équipe",
     "adminBackup": "Sauvegarde",
@@ -200,9 +201,9 @@
   },
   "privacy": {
     "title": "Déclaration de confidentialité",
-    "intro": "Veloprep ne traite que les données nécessaires à la gestion des événements, des disponibilités et des checklists des employés.",
-    "dataCollected": "Données collectées : nom, adresse e-mail, numéro de téléphone, disponibilités et checklists soumises.",
-    "retention": "Durée de conservation : les données sont conservées pendant la durée de votre emploi et peuvent être supprimées ou exportées sur demande.",
+    "intro": "Veloprep traite les données nécessaires aux événements, aux disponibilités, aux checklists et à la gestion des contacts clients.",
+    "dataCollected": "Données collectées : noms, entreprises, adresses e-mail et numéros de téléphone des contacts clients, ainsi que les données des employés et les checklists soumises.",
+    "retention": "Conservation : les données des employés sont gardées pendant leur emploi ; celles des contacts clients tant que la relation commerciale le nécessite. Contactez l'admin pour les supprimer ou les exporter.",
     "rights": "Vous avez le droit d'accéder à vos données, de les corriger et de les supprimer. Contactez l'admin pour exercer ces droits."
   },
   "workshops": {
@@ -212,5 +213,30 @@
     "refresh": "Actualiser les ateliers",
     "refreshing": "Actualisation…",
     "refreshed": "Actualisé ✓"
+  },
+  "sales": {
+    "title": "Suivi des offres",
+    "salesTabs": "Navigation commerciale",
+    "leadsTab": "Suivi des offres",
+    "contactsTab": "Clients et contacts",
+    "contactsTitle": "Clients et contacts",
+    "contactsEmpty": "Aucun contact client n'a encore été enregistré.",
+    "contactsLoadError": "Impossible de charger les contacts. Vérifiez que la migration des contacts clients a été appliquée.",
+    "notConfigured": "Gmail n'est pas encore configuré pour cet environnement.",
+    "loadError": "Impossible de lire Gmail. Vérifiez la configuration OAuth.",
+    "empty": "Aucune conversation correspondant aux critères.",
+    "subject": "Objet et dernier message",
+    "from": "Expéditeur",
+    "lastMessage": "Dernier contact",
+    "open": "Ouvrir dans Gmail",
+    "noSubject": "Sans objet",
+    "contactSave": "Enregistrer le contact",
+    "reviewSave": "Vérifier et enregistrer",
+    "contactName": "Nom",
+    "contactCompany": "Entreprise",
+    "contactEmail": "Adresse e-mail",
+    "contactPhone": "Téléphone",
+    "saveContact": "Enregistrer le contact",
+    "noExternalSender": "Aucun expéditeur externe"
   }
 }

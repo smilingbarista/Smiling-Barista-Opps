@@ -16,6 +16,7 @@
     "checklists": "Checklists",
     "briefings": "Briefings & checklists",
     "inventory": "Voorraad",
+    "sales": "Leads",
     "adminChecklists": "Checklist-templates",
     "adminTeam": "Team",
     "adminBackup": "Backup",
@@ -200,9 +201,9 @@
   },
   "privacy": {
     "title": "Privacyverklaring",
-    "intro": "Veloprep verwerkt enkel gegevens die nodig zijn om events, beschikbaarheid en checklists van medewerkers te beheren.",
-    "dataCollected": "Verzamelde gegevens: naam, e-mailadres, telefoonnummer, beschikbaarheid en ingevulde checklists.",
-    "retention": "Bewaartermijn: gegevens worden bewaard zolang je in dienst bent, en kunnen op verzoek verwijderd of geëxporteerd worden.",
+    "intro": "Veloprep verwerkt gegevens die nodig zijn voor events, beschikbaarheid, checklists en het beheren van klantcontacten.",
+    "dataCollected": "Verzamelde gegevens: naam, bedrijfsnaam, e-mailadres en telefoonnummer van klantcontacten, plus medewerkersgegevens en ingevulde checklists.",
+    "retention": "Bewaartermijn: medewerkersgegevens zolang je in dienst bent; klantcontactgegevens zolang nodig voor de zakelijke relatie. Verwijderen of exporteren kan op verzoek via de admin.",
     "rights": "Je hebt recht op inzage, correctie en verwijdering van je gegevens. Neem hiervoor contact op met de admin."
   },
   "workshops": {
@@ -212,5 +213,30 @@
     "refresh": "Workshops nu inlezen",
     "refreshing": "Bezig met inlezen…",
     "refreshed": "Ingelezen ✓"
+  },
+  "sales": {
+    "title": "Offerteopvolging",
+    "salesTabs": "Salesnavigatie",
+    "leadsTab": "Offerteopvolging",
+    "contactsTab": "Klanten & contacten",
+    "contactsTitle": "Klanten & contacten",
+    "contactsEmpty": "Er zijn nog geen klantcontacten opgeslagen.",
+    "contactsLoadError": "Contacten konden niet worden geladen. Controleer of de klantcontactenmigratie is uitgevoerd.",
+    "notConfigured": "Gmail is nog niet geconfigureerd voor deze omgeving.",
+    "loadError": "Gmail kon niet worden gelezen. Controleer de OAuth-configuratie.",
+    "empty": "Geen overeenkomende e-mailgesprekken gevonden.",
+    "subject": "Onderwerp en laatste bericht",
+    "from": "Afzender",
+    "lastMessage": "Laatste contact",
+    "open": "Open in Gmail",
+    "noSubject": "Geen onderwerp",
+    "contactSave": "Contact opslaan",
+    "reviewSave": "Controleren en opslaan",
+    "contactName": "Naam",
+    "contactCompany": "Bedrijf",
+    "contactEmail": "E-mailadres",
+    "contactPhone": "Telefoonnummer",
+    "saveContact": "Contact opslaan",
+    "noExternalSender": "Geen externe afzender"
   }
 }

@@ -16,6 +16,7 @@
     "checklists": "Checklisten",
     "briefings": "Briefings & Checklisten",
     "inventory": "Lagerbestand",
+    "sales": "Leads",
     "adminChecklists": "Checklisten-Vorlagen",
     "adminTeam": "Team",
     "adminBackup": "Backup",
@@ -200,9 +201,9 @@
   },
   "privacy": {
     "title": "Datenschutzerklärung",
-    "intro": "Veloprep verarbeitet nur Daten, die zur Verwaltung von Events, Verfügbarkeiten und Mitarbeiter-Checklisten erforderlich sind.",
-    "dataCollected": "Erhobene Daten: Name, E-Mail-Adresse, Telefonnummer, Verfügbarkeit und eingereichte Checklisten.",
-    "retention": "Aufbewahrung: Daten werden für die Dauer Ihres Arbeitsverhältnisses gespeichert und können auf Anfrage gelöscht oder exportiert werden.",
+    "intro": "Veloprep verarbeitet Daten, die für Events, Verfügbarkeiten, Checklisten und die Verwaltung von Kundenkontakten erforderlich sind.",
+    "dataCollected": "Erhobene Daten: Namen, Unternehmen, E-Mail-Adressen und Telefonnummern von Kundenkontakten sowie Mitarbeiterdaten und eingereichte Checklisten.",
+    "retention": "Aufbewahrung: Mitarbeiterdaten werden während des Arbeitsverhältnisses gespeichert; Kundendaten solange sie für die Geschäftsbeziehung erforderlich sind. Admins können Daten auf Anfrage löschen oder exportieren.",
     "rights": "Sie haben das Recht auf Auskunft, Berichtigung und Löschung Ihrer Daten. Wenden Sie sich dazu an den Admin."
   },
   "workshops": {
@@ -212,5 +213,30 @@
     "refresh": "Workshops jetzt laden",
     "refreshing": "Wird geladen…",
     "refreshed": "Geladen ✓"
+  },
+  "sales": {
+    "title": "Angebotsnachverfolgung",
+    "salesTabs": "Vertriebsnavigation",
+    "leadsTab": "Angebotsnachverfolgung",
+    "contactsTab": "Kunden & Kontakte",
+    "contactsTitle": "Kunden & Kontakte",
+    "contactsEmpty": "Es wurden noch keine Kundenkontakte gespeichert.",
+    "contactsLoadError": "Kontakte konnten nicht geladen werden. Prüfen Sie, ob die Kundenkontakt-Migration ausgeführt wurde.",
+    "notConfigured": "Gmail ist für diese Umgebung noch nicht konfiguriert.",
+    "loadError": "Gmail konnte nicht gelesen werden. OAuth-Konfiguration prüfen.",
+    "empty": "Keine passenden E-Mail-Unterhaltungen gefunden.",
+    "subject": "Betreff und letzte Nachricht",
+    "from": "Absender",
+    "lastMessage": "Letzter Kontakt",
+    "open": "In Gmail öffnen",
+    "noSubject": "Ohne Betreff",
+    "contactSave": "Kontakt speichern",
+    "reviewSave": "Prüfen und speichern",
+    "contactName": "Name",
+    "contactCompany": "Unternehmen",
+    "contactEmail": "E-Mail-Adresse",
+    "contactPhone": "Telefonnummer",
+    "saveContact": "Kontakt speichern",
+    "noExternalSender": "Kein externer Absender"
   }
 }

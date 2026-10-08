@@ -16,6 +16,7 @@
     "checklists": "Checklists",
     "briefings": "Briefings & checklists",
     "inventory": "Inventory",
+    "sales": "Leads",
     "adminChecklists": "Checklist templates",
     "adminTeam": "Team",
     "adminBackup": "Backup",
@@ -200,9 +201,9 @@
   },
   "privacy": {
     "title": "Privacy notice",
-    "intro": "Veloprep only processes data needed to manage events, availability, and employee checklists.",
-    "dataCollected": "Data collected: name, email address, phone number, availability, and submitted checklists.",
-    "retention": "Retention: data is kept for the duration of your employment and can be deleted or exported on request.",
+    "intro": "Veloprep processes data needed for events, availability, checklists, and customer contact management.",
+    "dataCollected": "Data collected: customer contact names, company names, email addresses and phone numbers, as well as employee details and submitted checklists.",
+    "retention": "Retention: employee data is kept for the duration of employment; customer contact data while needed for the business relationship. Ask an admin to delete or export it.",
     "rights": "You have the right to access, correct, and delete your data. Contact the admin to exercise these rights."
   },
   "workshops": {
@@ -212,5 +213,30 @@
     "refresh": "Refresh workshops now",
     "refreshing": "Refreshing…",
     "refreshed": "Refreshed ✓"
+  },
+  "sales": {
+    "title": "Quote follow-up",
+    "salesTabs": "Sales navigation",
+    "leadsTab": "Quote follow-up",
+    "contactsTab": "Customers & contacts",
+    "contactsTitle": "Customers & contacts",
+    "contactsEmpty": "No customer contacts have been saved yet.",
+    "contactsLoadError": "Contacts could not be loaded. Check that the customer contacts migration has been applied.",
+    "notConfigured": "Gmail has not been configured for this environment.",
+    "loadError": "Gmail could not be read. Check the OAuth configuration.",
+    "empty": "No matching email conversations found.",
+    "subject": "Subject and latest message",
+    "from": "From",
+    "lastMessage": "Last contact",
+    "open": "Open in Gmail",
+    "noSubject": "No subject",
+    "contactSave": "Save contact",
+    "reviewSave": "Review and save",
+    "contactName": "Name",
+    "contactCompany": "Company",
+    "contactEmail": "Email address",
+    "contactPhone": "Phone number",
+    "saveContact": "Save contact",
+    "noExternalSender": "No external sender"
   }
 }

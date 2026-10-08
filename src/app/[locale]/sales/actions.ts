@@ -45,3 +45,39 @@ export async function saveCustomerContact(formData: FormData) {
   revalidatePath(`/${locale}/sales/contacts`);
   redirect(`/${locale}/sales/contacts?saved=1`);
 }
+
+export async function saveProjectName(formData: FormData) {
+  const profile = await getCurrentProfile();
+  if (profile?.role !== "admin") {
+    throw new Error("Only admins can rename projects");
+  }
+
+  const threadId = String(formData.get("thread_id") ?? "").trim();
+  const projectName = String(formData.get("project_name") ?? "").trim();
+  const originalSubject = String(formData.get("original_subject") ?? "").trim();
+
+  if (!threadId || threadId.length > 200 || !projectName || projectName.length > 200) {
+    throw new Error("A project name and valid Gmail thread are required");
+  }
+  if (originalSubject.length > 1000) {
+    throw new Error("The original email subject is too long");
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.from("sales_projects").upsert(
+    {
+      gmail_thread_id: threadId,
+      project_name: projectName,
+      original_subject: originalSubject || null,
+      updated_by: profile.id,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: "gmail_thread_id" },
+  );
+  if (error) throw error;
+
+  const locale = await getLocale();
+  revalidatePath(`/${locale}/sales`);
+  revalidatePath(`/${locale}/sales/projects`);
+  redirect(`/${locale}/sales/projects`);
+}

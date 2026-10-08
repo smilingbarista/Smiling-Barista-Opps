@@ -16,6 +16,7 @@ const LOCALE_LABELS: Record<string, string> = {
 
 const MAIN_LINKS = [
   { href: "/dashboard", key: "dashboard" },
+  { href: "/taken", key: "tasks" },
   { href: "/kalender", key: "calendar" },
   { href: "/checklists", key: "checklists" },
   { href: "/briefings", key: "briefings" },

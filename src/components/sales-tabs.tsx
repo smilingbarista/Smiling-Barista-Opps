@@ -1,7 +1,11 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 
-export async function SalesTabs({ active }: { active: "leads" | "contacts" }) {
+export async function SalesTabs({
+  active,
+}: {
+  active: "leads" | "projects" | "contacts";
+}) {
   const t = await getTranslations("sales");
 
   return (
@@ -16,6 +20,17 @@ export async function SalesTabs({ active }: { active: "leads" | "contacts" }) {
         }`}
       >
         {t("leadsTab")}
+      </Link>
+      <Link
+        href="/sales/projects"
+        aria-current={active === "projects" ? "page" : undefined}
+        className={`border-b-2 px-1 pb-2 text-sm ${
+          active === "projects"
+            ? "border-brand font-medium text-brand"
+            : "border-transparent text-black/60 hover:text-black"
+        }`}
+      >
+        {t("projectsTab")}
       </Link>
       <Link
         href="/sales/contacts"

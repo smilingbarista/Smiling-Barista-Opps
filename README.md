@@ -53,10 +53,20 @@ en refresh token server-side in als `GMAIL_CLIENT_ID`, `GMAIL_CLIENT_SECRET` en
 `GMAIL_REFRESH_TOKEN` (in `.env.local` en de Vercel environment variables). Houd
 de refresh token geheim; zet de OAuth-toestemmingsstatus niet op "Testing" voor
 blijvende toegang, omdat Google testtokens na zeven dagen kan laten verlopen.
-Voer ook `supabase/migrations/0014_customer_contacts.sql` uit om de contacten
-op te slaan. In Leads kun je de afzendergegevens eerst controleren en aanpassen;
-alleen naam en e-mailadres komen rechtstreeks uit de mailheader. Bedrijf en
-telefoon worden waar mogelijk uit de handtekening voorgesteld.
+Voer ook `supabase/migrations/0014_customer_contacts.sql` en
+`supabase/migrations/0015_sales_projects.sql` uit om contacten en aangepaste
+projectnamen op te slaan. In Leads kun je afzendergegevens controleren; in
+Projecten kun je de projectnaam wijzigen. De oorspronkelijke e-mail blijft
+ongewijzigd.
+
+Dagelijkse, wekelijkse en maandelijkse teamtaken zijn beschikbaar onder **Taken**.
+Admins kiezen voor wekelijkse taken een weekdag en voor maandelijkse taken een
+dag van de maand. Takenlijsten kunnen op eerstvolgende uitvoerdatum of in een
+handmatige volgorde worden getoond; admins kunnen de handmatige volgorde aanpassen.
+Afvinkstatus is gedeeld: dagelijks opent opnieuw om 05:00, wekelijks op maandag
+om 05:00 en maandelijks op de gekozen dag om 05:00 in `Europe/Brussels`. Voer
+`supabase/migrations/0016_recurring_tasks.sql` en
+`supabase/migrations/0017_recurring_task_schedule.sql` uit.
 
 ## Vercel deploy (publieke URL)
 

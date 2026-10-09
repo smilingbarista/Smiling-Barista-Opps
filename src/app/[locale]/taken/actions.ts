@@ -37,7 +37,8 @@ async function refreshTasks() {
 }
 
 export async function createRecurringTask(formData: FormData) {
-  const profile = await requireAdmin();
+  const profile = await getCurrentProfile();
+  if (!profile) throw new Error("Not authenticated");
   const title = String(formData.get("title") ?? "").trim();
   const schedule = getSchedule(String(formData.get("frequency") ?? ""), formData);
   if (!title || title.length > 200) throw new Error("Enter a valid task name");

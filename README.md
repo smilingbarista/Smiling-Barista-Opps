@@ -60,13 +60,16 @@ Projecten kun je de projectnaam wijzigen. De oorspronkelijke e-mail blijft
 ongewijzigd.
 
 Dagelijkse, wekelijkse en maandelijkse teamtaken zijn beschikbaar onder **Taken**.
-Admins kiezen voor wekelijkse taken een weekdag en voor maandelijkse taken een
-dag van de maand. Takenlijsten kunnen op eerstvolgende uitvoerdatum of in een
-handmatige volgorde worden getoond; admins kunnen de handmatige volgorde aanpassen.
+Ingelogde medewerkers kunnen taken toevoegen; admins kunnen taken aanpassen,
+activeren, pauzeren en verwijderen. Admins kiezen voor wekelijkse taken een
+weekdag en voor maandelijkse taken een dag van de maand. Takenlijsten kunnen op
+eerstvolgende uitvoerdatum of in een handmatige volgorde worden getoond; admins
+kunnen de handmatige volgorde aanpassen.
 Afvinkstatus is gedeeld: dagelijks opent opnieuw om 05:00, wekelijks op maandag
 om 05:00 en maandelijks op de gekozen dag om 05:00 in `Europe/Brussels`. Voer
 `supabase/migrations/0016_recurring_tasks.sql` en
-`supabase/migrations/0017_recurring_task_schedule.sql` uit.
+`supabase/migrations/0017_recurring_task_schedule.sql` en
+`supabase/migrations/0018_recurring_tasks_member_insert.sql` op volgorde uit.
 
 ## Vercel deploy (publieke URL)
 

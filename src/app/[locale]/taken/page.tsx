@@ -155,9 +155,9 @@ export default async function TasksPage({
         </div>
       )}
 
-      {isAdmin && (
+      {profile && (
         <section className="flex flex-col gap-4 border-t border-black/10 pt-6">
-          <h2 className="font-medium">{t("manage")}</h2>
+          <h2 className="font-medium">{t("addTask")}</h2>
           <form action={createRecurringTask} className="flex flex-wrap items-end gap-3">
             <label className="flex min-w-56 flex-1 flex-col gap-1 text-sm">
               {t("taskName")}
@@ -202,7 +202,9 @@ export default async function TasksPage({
                 className="rounded border border-black/20 bg-white px-3 py-2"
               >
                 {Array.from({ length: 31 }, (_, index) => (
-                  <option key={index + 1} value={index + 1}>{index + 1}</option>
+                  <option key={index + 1} value={index + 1}>
+                    {index + 1}
+                  </option>
                 ))}
               </select>
             </label>
@@ -214,7 +216,12 @@ export default async function TasksPage({
               {t("addTask")}
             </button>
           </form>
+        </section>
+      )}
 
+      {isAdmin && (
+        <section className="flex flex-col gap-4 border-t border-black/10 pt-6">
+          <h2 className="font-medium">{t("manage")}</h2>
           {tasks.length > 0 && (
             <ul className="divide-y divide-black/10">
               {tasks.map((task) => (

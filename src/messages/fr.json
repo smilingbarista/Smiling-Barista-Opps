@@ -274,6 +274,8 @@
     "sortManually": "Ordre manuel",
     "moveUp": "Déplacer la tâche vers le haut",
     "moveDown": "Déplacer la tâche vers le bas",
+    "dragTask": "Glisser pour modifier l'ordre des tâches",
+    "reorderError": "Impossible d'enregistrer l'ordre. Actualisez la page et réessayez.",
     "addTask": "Ajouter une tâche",
     "save": "Enregistrer",
     "activate": "Activer",

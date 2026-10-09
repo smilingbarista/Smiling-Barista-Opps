@@ -274,6 +274,8 @@
     "sortManually": "Manual order",
     "moveUp": "Move task up",
     "moveDown": "Move task down",
+    "dragTask": "Drag to change task order",
+    "reorderError": "The order could not be saved. Refresh and try again.",
     "addTask": "Add task",
     "save": "Save",
     "activate": "Activate",

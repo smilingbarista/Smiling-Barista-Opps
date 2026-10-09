@@ -274,6 +274,8 @@
     "sortManually": "Handmatige volgorde",
     "moveUp": "Taak omhoog verplaatsen",
     "moveDown": "Taak omlaag verplaatsen",
+    "dragTask": "Sleep om de volgorde aan te passen",
+    "reorderError": "De volgorde kon niet worden opgeslagen. Vernieuw de pagina en probeer opnieuw.",
     "addTask": "Taak toevoegen",
     "save": "Opslaan",
     "activate": "Activeren",

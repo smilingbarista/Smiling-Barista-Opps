@@ -117,51 +117,49 @@ export async function deleteRecurringTask(formData: FormData) {
   await refreshTasks();
 }
 
-export async function moveRecurringTask(formData: FormData) {
+export async function reorderRecurringTasks(
+  frequency: string,
+  taskIds: string[],
+) {
   await requireAdmin();
-  const id = String(formData.get("task_id") ?? "");
-  const direction = String(formData.get("direction") ?? "");
-  if (!/^[0-9a-f-]{36}$/i.test(id)) throw new Error("Invalid task");
-  if (direction !== "up" && direction !== "down") {
-    throw new Error("Invalid sort direction");
+  if (frequency !== "daily" && frequency !== "weekly" && frequency !== "monthly") {
+    throw new Error("Invalid task frequency");
+  }
+  if (
+    taskIds.length > 500 ||
+    new Set(taskIds).size !== taskIds.length ||
+    taskIds.some((id) => !/^[0-9a-f-]{36}$/i.test(id))
+  ) {
+    throw new Error("Invalid task order");
   }
 
   const supabase = await createClient();
-  const { data: task, error: taskError } = await supabase
-    .from("recurring_tasks")
-    .select("frequency")
-    .eq("id", id)
-    .single();
-  if (taskError) throw taskError;
-
   const { data: tasks, error } = await supabase
     .from("recurring_tasks")
-    .select("id, title, sort_order")
-    .eq("frequency", task.frequency)
-    .eq("active", true)
-    .order("sort_order")
-    .order("title");
+    .select("id")
+    .eq("frequency", frequency)
+    .eq("active", true);
   if (error) throw error;
-
-  const ordered = [...(tasks ?? [])];
-  const currentIndex = ordered.findIndex((item) => item.id === id);
-  const targetIndex = currentIndex + (direction === "up" ? -1 : 1);
-  if (currentIndex >= 0 && targetIndex >= 0 && targetIndex < ordered.length) {
-    [ordered[currentIndex], ordered[targetIndex]] = [
-      ordered[targetIndex],
-      ordered[currentIndex],
-    ];
-    const results = await Promise.all(
-      ordered.map((item, index) =>
-        supabase
-          .from("recurring_tasks")
-          .update({ sort_order: index + 1 })
-          .eq("id", item.id),
-      ),
-    );
-    const updateError = results.find((result) => result.error)?.error;
-    if (updateError) throw updateError;
+  if (
+    !tasks ||
+    tasks.length !== taskIds.length ||
+    tasks.some((task) => !taskIds.includes(task.id))
+  ) {
+    throw new Error("Task list changed; refresh and try again");
   }
+
+  const results = await Promise.all(
+    taskIds.map((id, index) =>
+      supabase
+        .from("recurring_tasks")
+        .update({ sort_order: index + 1 })
+        .eq("id", id)
+        .eq("frequency", frequency)
+        .eq("active", true),
+    ),
+  );
+  const failedUpdate = results.find((result) => result.error);
+  if (failedUpdate?.error) throw failedUpdate.error;
   await refreshTasks();
 }
 

@@ -274,6 +274,8 @@
     "sortManually": "Manuelle Reihenfolge",
     "moveUp": "Aufgabe nach oben verschieben",
     "moveDown": "Aufgabe nach unten verschieben",
+    "dragTask": "Ziehen, um die Reihenfolge zu ändern",
+    "reorderError": "Die Reihenfolge konnte nicht gespeichert werden. Seite neu laden und erneut versuchen.",
     "addTask": "Aufgabe hinzufügen",
     "save": "Speichern",
     "activate": "Aktivieren",

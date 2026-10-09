@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { RecurringTaskList } from "@/components/recurring-task-list";
 import { getCurrentProfile } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import {
@@ -10,9 +11,7 @@ import {
 import {
   createRecurringTask,
   deleteRecurringTask,
-  moveRecurringTask,
   setRecurringTaskActive,
-  setRecurringTaskCompletion,
   updateRecurringTask,
 } from "./actions";
 
@@ -90,86 +89,24 @@ export default async function TasksPage({
         }
         return first.sort_order - second.sort_order || first.title.localeCompare(second.title);
       });
-    if (list.length === 0) {
-      return <p className="text-sm text-black/50">{t("noTasks")}</p>;
-    }
-
     return (
-      <ul className="divide-y divide-black/10">
-        {list.map((task, index) => {
-          const completed = completedTasks.has(
+      <RecurringTaskList
+        key={`${frequency}-${sortMode}-${list.map((task) => task.id).join(",")}`}
+        frequency={frequency}
+        sortMode={sortMode}
+        canReorder={isAdmin && sortMode === "manual"}
+        tasks={list.map((task) => ({
+          id: task.id,
+          title: task.title,
+          frequency,
+          completed: completedTasks.has(
             `${task.id}:${periodsByTask.get(task.id)}`,
-          );
-          const dueDate = getNextRecurringTaskDueDate(
-            frequency,
-            task.schedule_day ?? 1,
-          );
-          return (
-            <li key={task.id} className="flex items-center gap-3 py-3">
-              <form action={setRecurringTaskCompletion} className="flex min-w-0 flex-1">
-                <input type="hidden" name="task_id" value={task.id} />
-                <input type="hidden" name="frequency" value={frequency} />
-                <button
-                  type="submit"
-                  name="completed"
-                  value={String(!completed)}
-                  aria-pressed={completed}
-                  className="flex min-w-0 flex-1 items-center gap-3 text-left"
-                >
-                  <span
-                    aria-hidden="true"
-                    className={`grid size-5 shrink-0 place-items-center rounded border ${
-                      completed
-                        ? "border-green-700 bg-green-700 text-white"
-                        : "border-black/30 bg-white"
-                    }`}
-                  >
-                    {completed ? "✓" : ""}
-                  </span>
-                  <span className="flex min-w-0 flex-col">
-                    <span className={completed ? "text-black/45 line-through" : ""}>
-                      {task.title}
-                    </span>
-                    {sortMode === "date" && (
-                      <span className="text-xs text-black/50">{formatDate(dueDate)}</span>
-                    )}
-                  </span>
-                </button>
-              </form>
-              {isAdmin && sortMode === "manual" && (
-                <div className="flex shrink-0 gap-1">
-                  <form action={moveRecurringTask}>
-                    <input type="hidden" name="task_id" value={task.id} />
-                    <input type="hidden" name="direction" value="up" />
-                    <button
-                      type="submit"
-                      disabled={index === 0}
-                      aria-label={t("moveUp")}
-                      title={t("moveUp")}
-                      className="rounded border border-black/15 px-2 py-1 disabled:cursor-not-allowed disabled:opacity-30"
-                    >
-                      ↑
-                    </button>
-                  </form>
-                  <form action={moveRecurringTask}>
-                    <input type="hidden" name="task_id" value={task.id} />
-                    <input type="hidden" name="direction" value="down" />
-                    <button
-                      type="submit"
-                      disabled={index === list.length - 1}
-                      aria-label={t("moveDown")}
-                      title={t("moveDown")}
-                      className="rounded border border-black/15 px-2 py-1 disabled:cursor-not-allowed disabled:opacity-30"
-                    >
-                      ↓
-                    </button>
-                  </form>
-                </div>
-              )}
-            </li>
-          );
-        })}
-      </ul>
+          ),
+          dueDate: formatDate(
+            getNextRecurringTaskDueDate(frequency, task.schedule_day ?? 1),
+          ),
+        }))}
+      />
     );
   }
 
@@ -182,14 +119,14 @@ export default async function TasksPage({
 
       <nav aria-label={t("sorting")} className="flex gap-4 text-sm">
         <Link
-          href="/taken?sort=date"
+          href={{ pathname: "/taken", query: { sort: "date" } }}
           aria-current={sortMode === "date" ? "page" : undefined}
           className={sortMode === "date" ? "font-medium text-brand" : "text-black/60 hover:text-black"}
         >
           {t("sortByDate")}
         </Link>
         <Link
-          href="/taken?sort=manual"
+          href={{ pathname: "/taken", query: { sort: "manual" } }}
           aria-current={sortMode === "manual" ? "page" : undefined}
           className={sortMode === "manual" ? "font-medium text-brand" : "text-black/60 hover:text-black"}
         >

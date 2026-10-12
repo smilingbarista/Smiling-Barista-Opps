@@ -128,7 +128,12 @@ export function EventDetailsForm({
           <Field label={t("address")} name="address" defaultValue={event.address} readOnly={readOnly} />
           <Field label={t("descriptionDetails")} name="description" defaultValue={event.description} readOnly={readOnly} />
           <Field label={t("guestCount")} name="guest_count" defaultValue={event.guest_count} readOnly={readOnly} />
-          <Field label={t("contactPerson")} name="contact_name" defaultValue={event.contact_name} readOnly={readOnly} />
+          <div className="flex flex-col gap-2">
+            <Field label={t("contactPerson")} name="contact_name" defaultValue={event.contact_name} readOnly={readOnly} />
+            <p className="font-heading text-xl font-bold">
+              Bel deze persoon bij aankomst als je haar of hem niet meteen ziet
+            </p>
+          </div>
           <Field label={t("contactPhone")} name="contact_phone" defaultValue={event.contact_phone} readOnly={readOnly} />
         </div>
       </fieldset>

@@ -22,6 +22,24 @@ function getSchedule(frequency: string, formData: FormData) {
     }
     return { frequency, schedule_day: day };
   }
+  if (frequency === "quarterly" || frequency === "yearly") {
+    const day = Number(formData.get("schedule_monthday"));
+    const month = Number(
+      formData.get(
+        frequency === "quarterly"
+          ? "schedule_quarter_month"
+          : "schedule_year_month",
+      ),
+    );
+    const maxMonth = frequency === "quarterly" ? 3 : 12;
+    if (!Number.isInteger(day) || day < 1 || day > 31) {
+      throw new Error("Choose a valid day of the month");
+    }
+    if (!Number.isInteger(month) || month < 1 || month > maxMonth) {
+      throw new Error("Choose a valid month for the task");
+    }
+    return { frequency, schedule_day: day, schedule_month: month };
+  }
   throw new Error("Choose a valid task frequency");
 }
 
@@ -64,14 +82,16 @@ export async function updateRecurringTask(formData: FormData) {
   const supabase = await createClient();
   const { data: currentTask, error: currentTaskError } = await supabase
     .from("recurring_tasks")
-    .select("frequency, schedule_day")
+    .select("frequency, schedule_day, schedule_month")
     .eq("id", id)
     .single();
   if (currentTaskError) throw currentTaskError;
 
   if (
     currentTask.frequency !== schedule.frequency ||
-    currentTask.schedule_day !== schedule.schedule_day
+    currentTask.schedule_day !== schedule.schedule_day ||
+    currentTask.schedule_month !==
+      ("schedule_month" in schedule ? schedule.schedule_month : null)
   ) {
     const { error } = await supabase
       .from("recurring_task_completions")
@@ -123,7 +143,13 @@ export async function reorderRecurringTasks(
   taskIds: string[],
 ) {
   await requireAdmin();
-  if (frequency !== "daily" && frequency !== "weekly" && frequency !== "monthly") {
+  if (
+    frequency !== "daily" &&
+    frequency !== "weekly" &&
+    frequency !== "monthly" &&
+    frequency !== "quarterly" &&
+    frequency !== "yearly"
+  ) {
     throw new Error("Invalid task frequency");
   }
   if (
@@ -172,14 +198,20 @@ export async function setRecurringTaskCompletion(formData: FormData) {
   const frequency = String(formData.get("frequency") ?? "");
   const completed = String(formData.get("completed") ?? "") === "true";
   if (!/^[0-9a-f-]{36}$/i.test(taskId)) throw new Error("Invalid task");
-  if (frequency !== "daily" && frequency !== "weekly" && frequency !== "monthly") {
+  if (
+    frequency !== "daily" &&
+    frequency !== "weekly" &&
+    frequency !== "monthly" &&
+    frequency !== "quarterly" &&
+    frequency !== "yearly"
+  ) {
     throw new Error("Invalid task frequency");
   }
 
   const supabase = await createClient();
   const { data: task, error: taskError } = await supabase
     .from("recurring_tasks")
-    .select("frequency, schedule_day")
+    .select("frequency, schedule_day, schedule_month")
     .eq("id", taskId)
     .eq("active", true)
     .single();
@@ -189,6 +221,7 @@ export async function setRecurringTaskCompletion(formData: FormData) {
     frequency,
     new Date(),
     task.schedule_day ?? 1,
+    task.schedule_month ?? 1,
   );
   if (completed) {
     const { error } = await supabase.from("recurring_task_completions").upsert(

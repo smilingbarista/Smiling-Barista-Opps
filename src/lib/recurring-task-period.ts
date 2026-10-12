@@ -1,4 +1,9 @@
-export type RecurringTaskFrequency = "daily" | "weekly" | "monthly";
+export type RecurringTaskFrequency =
+  | "daily"
+  | "weekly"
+  | "monthly"
+  | "quarterly"
+  | "yearly";
 
 const TIME_ZONE = "Europe/Brussels";
 
@@ -6,6 +11,7 @@ export function getRecurringTaskPeriodStart(
   frequency: RecurringTaskFrequency,
   now = new Date(),
   scheduleDay = 1,
+  scheduleMonth = 1,
 ) {
   const parts = getLocalParts(now);
 
@@ -23,7 +29,7 @@ export function getRecurringTaskPeriodStart(
   } else if (frequency === "weekly") {
     localDate.setUTCDate(localDate.getUTCDate() - weekday);
     if (weekday === 0 && hour < 5) localDate.setUTCDate(localDate.getUTCDate() - 7);
-  } else {
+  } else if (frequency === "monthly") {
     let dueDay = Math.min(scheduleDay, daysInMonth(year, month));
     if (day < dueDay || (day === dueDay && hour < 5)) {
       localDate.setUTCDate(1);
@@ -34,6 +40,31 @@ export function getRecurringTaskPeriodStart(
       );
     }
     localDate.setUTCDate(dueDay);
+  } else if (frequency === "quarterly") {
+    const currentQuarterStartMonth = Math.floor((month - 1) / 3) * 3 + 1;
+    let dueMonth = currentQuarterStartMonth + scheduleMonth - 1;
+    let dueDay = Math.min(scheduleDay, daysInMonth(year, dueMonth));
+    if (month < dueMonth || (month === dueMonth && (day < dueDay || (day === dueDay && hour < 5)))) {
+      dueMonth -= 3;
+      if (dueMonth < 1) {
+        dueMonth += 12;
+        localDate.setUTCFullYear(year - 1);
+      }
+      dueDay = Math.min(scheduleDay, daysInMonth(localDate.getUTCFullYear(), dueMonth));
+    }
+    localDate.setUTCMonth(dueMonth - 1, 1);
+    localDate.setUTCDate(dueDay);
+  } else {
+    let dueMonth = scheduleMonth;
+    let dueDay = Math.min(scheduleDay, daysInMonth(year, dueMonth));
+    if (month < dueMonth || (month === dueMonth && (day < dueDay || (day === dueDay && hour < 5)))) {
+      dueMonth -= 12;
+      localDate.setUTCFullYear(year - 1);
+      dueMonth += 12;
+      dueDay = Math.min(scheduleDay, daysInMonth(year - 1, dueMonth));
+    }
+    localDate.setUTCMonth(dueMonth - 1, 1);
+    localDate.setUTCDate(dueDay);
   }
 
   return localDate.toISOString().slice(0, 10);
@@ -43,6 +74,7 @@ export function getNextRecurringTaskDueDate(
   frequency: RecurringTaskFrequency,
   scheduleDay = 1,
   now = new Date(),
+  scheduleMonth = 1,
 ) {
   const parts = getLocalParts(now);
   const year = Number(parts.year);
@@ -57,13 +89,36 @@ export function getNextRecurringTaskDueDate(
       parts.weekday,
     );
     localDate.setUTCDate(localDate.getUTCDate() + ((scheduleDay - 1 - weekday + 7) % 7));
-  } else {
+  } else if (frequency === "monthly") {
     const dueDay = Math.min(scheduleDay, daysInMonth(year, month));
     if (day > dueDay) localDate.setUTCMonth(localDate.getUTCMonth() + 1, 1);
     localDate.setUTCDate(Math.min(scheduleDay, daysInMonth(
       localDate.getUTCFullYear(),
       localDate.getUTCMonth() + 1,
     )));
+  } else if (frequency === "quarterly") {
+    const quarterStartMonth = Math.floor((month - 1) / 3) * 3 + 1;
+    let dueMonth = quarterStartMonth + scheduleMonth - 1;
+    let dueDay = Math.min(scheduleDay, daysInMonth(year, dueMonth));
+    if (month > dueMonth || (month === dueMonth && day > dueDay)) {
+      dueMonth += 3;
+      if (dueMonth > 12) {
+        dueMonth -= 12;
+        localDate.setUTCFullYear(year + 1);
+      }
+      dueDay = Math.min(scheduleDay, daysInMonth(localDate.getUTCFullYear(), dueMonth));
+    }
+    localDate.setUTCMonth(dueMonth - 1, 1);
+    localDate.setUTCDate(dueDay);
+  } else {
+    const dueMonth = scheduleMonth;
+    let dueDay = Math.min(scheduleDay, daysInMonth(year, dueMonth));
+    if (month > dueMonth || (month === dueMonth && day > dueDay)) {
+      localDate.setUTCFullYear(year + 1);
+      dueDay = Math.min(scheduleDay, daysInMonth(year + 1, dueMonth));
+    }
+    localDate.setUTCMonth(dueMonth - 1, 1);
+    localDate.setUTCDate(dueDay);
   }
 
   return localDate.toISOString().slice(0, 10);

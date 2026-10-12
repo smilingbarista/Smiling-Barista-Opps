@@ -20,6 +20,7 @@ type RecurringTask = {
   title: string;
   frequency: RecurringTaskFrequency;
   schedule_day: number | null;
+  schedule_month: number | null;
   active: boolean;
   sort_order: number;
 };
@@ -39,7 +40,7 @@ export default async function TasksPage({
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("recurring_tasks")
-    .select("id, title, frequency, schedule_day, active, sort_order")
+    .select("id, title, frequency, schedule_day, schedule_month, active, sort_order")
     .order("sort_order")
     .order("title");
   const allTasks = (data ?? []) as RecurringTask[];
@@ -52,6 +53,7 @@ export default async function TasksPage({
         task.frequency,
         new Date(),
         task.schedule_day ?? 1,
+        task.schedule_month ?? 1,
       ),
     ]),
   );
@@ -82,8 +84,15 @@ export default async function TasksPage({
           const dueDateDifference = getNextRecurringTaskDueDate(
             frequency,
             first.schedule_day ?? 1,
+            new Date(),
+            first.schedule_month ?? 1,
           ).localeCompare(
-            getNextRecurringTaskDueDate(frequency, second.schedule_day ?? 1),
+            getNextRecurringTaskDueDate(
+              frequency,
+              second.schedule_day ?? 1,
+              new Date(),
+              second.schedule_month ?? 1,
+            ),
           );
           if (dueDateDifference !== 0) return dueDateDifference;
         }
@@ -103,7 +112,12 @@ export default async function TasksPage({
             `${task.id}:${periodsByTask.get(task.id)}`,
           ),
           dueDate: formatDate(
-            getNextRecurringTaskDueDate(frequency, task.schedule_day ?? 1),
+            getNextRecurringTaskDueDate(
+              frequency,
+              task.schedule_day ?? 1,
+              new Date(),
+              task.schedule_month ?? 1,
+            ),
           ),
         }))}
       />
@@ -152,6 +166,14 @@ export default async function TasksPage({
             <h2 className="mb-2 font-medium">{t("monthly")}</h2>
             {renderTaskList("monthly")}
           </section>
+          <section>
+            <h2 className="mb-2 font-medium">{t("quarterly")}</h2>
+            {renderTaskList("quarterly")}
+          </section>
+          <section>
+            <h2 className="mb-2 font-medium">{t("yearly")}</h2>
+            {renderTaskList("yearly")}
+          </section>
         </div>
       )}
 
@@ -178,6 +200,8 @@ export default async function TasksPage({
                 <option value="daily">{t("daily")}</option>
                 <option value="weekly">{t("weekly")}</option>
                 <option value="monthly">{t("monthly")}</option>
+                <option value="quarterly">{t("quarterly")}</option>
+                <option value="yearly">{t("yearly")}</option>
               </select>
             </label>
             <label className="flex flex-col gap-1 text-sm">
@@ -204,6 +228,32 @@ export default async function TasksPage({
                 {Array.from({ length: 31 }, (_, index) => (
                   <option key={index + 1} value={index + 1}>
                     {index + 1}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="flex flex-col gap-1 text-sm">
+              {t("scheduleQuarterMonth")}
+              <select
+                name="schedule_quarter_month"
+                defaultValue="1"
+                className="rounded border border-black/20 bg-white px-3 py-2"
+              >
+                <option value="1">{t("quarterMonth1")}</option>
+                <option value="2">{t("quarterMonth2")}</option>
+                <option value="3">{t("quarterMonth3")}</option>
+              </select>
+            </label>
+            <label className="flex flex-col gap-1 text-sm">
+              {t("scheduleYearMonth")}
+              <select
+                name="schedule_year_month"
+                defaultValue="1"
+                className="rounded border border-black/20 bg-white px-3 py-2"
+              >
+                {Array.from({ length: 12 }, (_, index) => (
+                  <option key={index + 1} value={index + 1}>
+                    {t(`month${index + 1}`)}
                   </option>
                 ))}
               </select>
@@ -245,6 +295,8 @@ export default async function TasksPage({
                       <option value="daily">{t("daily")}</option>
                       <option value="weekly">{t("weekly")}</option>
                       <option value="monthly">{t("monthly")}</option>
+                      <option value="quarterly">{t("quarterly")}</option>
+                      <option value="yearly">{t("yearly")}</option>
                     </select>
                     <select
                       name="schedule_weekday"
@@ -260,12 +312,42 @@ export default async function TasksPage({
                     </select>
                     <select
                       name="schedule_monthday"
-                      defaultValue={String(task.frequency === "monthly" ? task.schedule_day ?? 1 : 1)}
+                      defaultValue={String(
+                        ["monthly", "quarterly", "yearly"].includes(task.frequency)
+                          ? task.schedule_day ?? 1
+                          : 1,
+                      )}
                       aria-label={t("scheduleMonthday")}
                       className="rounded border border-black/20 bg-white px-3 py-2 text-sm"
                     >
                       {Array.from({ length: 31 }, (_, index) => (
                         <option key={index + 1} value={index + 1}>{index + 1}</option>
+                      ))}
+                    </select>
+                    <select
+                      name="schedule_quarter_month"
+                      defaultValue={String(
+                        task.frequency === "quarterly" ? task.schedule_month ?? 1 : 1,
+                      )}
+                      aria-label={t("scheduleQuarterMonth")}
+                      className="rounded border border-black/20 bg-white px-3 py-2 text-sm"
+                    >
+                      <option value="1">{t("quarterMonth1")}</option>
+                      <option value="2">{t("quarterMonth2")}</option>
+                      <option value="3">{t("quarterMonth3")}</option>
+                    </select>
+                    <select
+                      name="schedule_year_month"
+                      defaultValue={String(
+                        task.frequency === "yearly" ? task.schedule_month ?? 1 : 1,
+                      )}
+                      aria-label={t("scheduleYearMonth")}
+                      className="rounded border border-black/20 bg-white px-3 py-2 text-sm"
+                    >
+                      {Array.from({ length: 12 }, (_, index) => (
+                        <option key={index + 1} value={index + 1}>
+                          {t(`month${index + 1}`)}
+                        </option>
                       ))}
                     </select>
                     <button type="submit" className="rounded border border-black/20 px-3 py-2 text-sm">

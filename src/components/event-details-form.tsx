@@ -130,7 +130,13 @@ export function EventDetailsForm({
           <Field label={t("guestCount")} name="guest_count" defaultValue={event.guest_count} readOnly={readOnly} />
           <div className="flex flex-col gap-2">
             <Field label={t("contactPerson")} name="contact_name" defaultValue={event.contact_name} readOnly={readOnly} />
-            <p className="font-heading text-xl font-bold">
+            <p
+              style={{
+                fontFamily: "var(--font-jellee)",
+                fontSize: "20px",
+                fontWeight: 700,
+              }}
+            >
               Bel deze persoon bij aankomst als je haar of hem niet meteen ziet
             </p>
           </div>
